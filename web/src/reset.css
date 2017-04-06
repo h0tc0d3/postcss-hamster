@@ -1,7 +1,5 @@
 @reset;
 
-@baseline html;
-
 body {
 	font-family: @font-family;
   color: @font-color;
