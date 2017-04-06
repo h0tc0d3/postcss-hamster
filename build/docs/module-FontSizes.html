@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>FontSizes - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-FontSizes.html">FontSizes</a><ul class='methods'><li data-type='method'><a href="module-FontSizes.html#.FontSizes">FontSizes</a></li><li data-type='method'><a href="module-FontSizes.html#.FontSizes#addFontSizes">FontSizes#addFontSizes</a></li><li data-type='method'><a href="module-FontSizes.html#.FontSizes#genSize">FontSizes#genSize</a></li><li data-type='method'><a href="module-FontSizes.html#.FontSizes#getSize">FontSizes#getSize</a></li><li data-type='method'><a href="module-FontSizes.html#.FontSizes#setSize">FontSizes#setSize</a></li></ul></li><li><a href="module-Hamster.html">Hamster</a></li><li><a href="module-PngImage.html">PngImage</a><ul class='methods'><li data-type='method'><a href="module-PngImage.html#.PngImage">PngImage</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#adler32">PngImage#adler32</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#base64">PngImage#base64</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#byte">PngImage#byte</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#byte2">PngImage#byte2</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#byte2lsb">PngImage#byte2lsb</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#byte4">PngImage#byte4</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#color">PngImage#color</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#crc32">PngImage#crc32</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#fromBase64">PngImage#fromBase64</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#fromHex">PngImage#fromHex</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#getBase64">PngImage#getBase64</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#getFile">PngImage#getFile</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#hex">PngImage#hex</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#makeIDAT">PngImage#makeIDAT</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#makeImage">PngImage#makeImage</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#parseColor">PngImage#parseColor</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#rulerMatrix">PngImage#rulerMatrix</a></li><li data-type='method'><a href="module-PngImage.html#.PngImage#setIHDR">PngImage#setIHDR</a></li></ul></li><li><a href="module-VerticalRhythm.html">VerticalRhythm</a><ul class='methods'><li data-type='method'><a href="module-VerticalRhythm.html#.VerticalRhythm">VerticalRhythm</a></li><li data-type='method'><a href="module-VerticalRhythm.html#.VerticalRhythm#convert">VerticalRhythm#convert</a></li><li data-type='method'><a href="module-VerticalRhythm.html#.VerticalRhythm#leading">VerticalRhythm#leading</a></li><li data-type='method'><a href="module-VerticalRhythm.html#.VerticalRhythm#lineHeight">VerticalRhythm#lineHeight</a></li><li data-type='method'><a href="module-VerticalRhythm.html#.VerticalRhythm#lines">VerticalRhythm#lines</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#formatInt">formatInt</a></li><li><a href="global.html#formatValue">formatValue</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">FontSizes</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Font size collection manager and generator proportional fonts sizes with aliases.</p></div>
+        
+
+        
+            
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Grigory Vasilyev &lt;postcss.hamster@gmail.com> https://github.com/h0tc0d3</li>
+        </ul>
+    </dd>
+    
+
+    
+    <dt class="tag-copyright">Copyright:</dt>
+    <dd class="tag-copyright"><ul class="dummy"><li>Copyright (c) 2017, Grigory Vasilyev</li></ul></dd>
+    
+
+    
+    <dt class="tag-license">License:</dt>
+    <dd class="tag-license"><ul class="dummy"><li>Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".default"><span class="type-signature">(static) </span>default<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line294">line 294</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Export FontSizes Class.</p>
+</div>
+
+
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".FontSizes"><span class="type-signature">(static) </span>FontSizes<span class="signature">(settings)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Constructor for font size collection manager.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>settings.</p>
+<p>Use settings[&quot;font-ratio&quot;] - font scale ratio and settings[&quot;font-size&quot;] - base font size(will be 0 size).
+All sizes will be generated from base font size * ratio.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="addFontSizes"><span class="type-signature">(static) </span>FontSizes#addFontSizes<span class="signature">(sizes, rhythmCalculator)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line266">line 266</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Add Font Sizes to Font Size Collection.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sizes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>string like &quot;name1 21px 1.5, name2 18px, name3 1.5&quot;. format: name pixelSize relativeSize.
+Separator for font sizes is &quot;,&quot;.
+If pixel or relative size it's present then it can be generated.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rhythmCalculator</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>instance of VerticalRhythm Class.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="genSize"><span class="type-signature">(static) </span>FontSizes#genSize<span class="signature">(size, scale)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line177">line 177</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Generate font sizes for relative proportional size.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Proportional size like -2, 0, 1, 3 etc.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>scale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>scale base font size.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>HashMap. px: value in pixels, rel: relative value</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getSize"><span class="type-signature">(static) </span>FontSizes#getSize<span class="signature">(size)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line217">line 217</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Get font size by name.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>font size name.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>HashMap. px: value in pixels, rel: relative value</li>
+</ul>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setSize"><span class="type-signature">(static) </span>FontSizes#setSize<span class="signature">(size, value)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="FontSizes.js.html">FontSizes.js</a>, <a href="FontSizes.js.html#line246">line 246</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Set font size to name.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>font size name.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>HashMap. px: value in pixels, rel: relative value</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
