@@ -37,7 +37,7 @@
 
 /* Blocks source code. */
 
-$block-font-size: small;
+$block-font-size: base;
 
 %block {
 	adjust-font-size: fontSize $block-font-size;
