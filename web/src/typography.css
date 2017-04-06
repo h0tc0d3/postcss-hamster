@@ -1,0 +1,167 @@
+%text-ultrastrong {
+	font-weight: 900;
+}
+
+%text-strong {
+	font-weight: 700
+}
+
+%text-regular {
+	font-weight: 400;
+}
+
+%text-light {
+	font-weight: 300;
+}
+
+%text-ultralight {
+	font-weight: 200;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: @header-color;
+	/*font-family: "Varela Round";*/
+}
+
+h1 {
+	/*font-family: "Varela Round";*/
+	text-align: center;
+	@extend %text-strong;
+	adjust-font-size: fontSize xxl;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+h2 {
+	@extend %text-strong;
+	adjust-font-size: fontSize xl;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+h3 {
+	@extend %text-strong;
+	adjust-font-size: fontSize l;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+h4 {
+	@extend %text-strong;
+	adjust-font-size: fontSize m;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+h5 {
+	@extend %text-strong;
+	adjust-font-size: fontSize b;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+h6 {
+	@extend %text-strong;
+	adjust-font-size: fontSize s;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+strong {
+	@extend %text-strong;
+}
+
+p {
+	adjust-font-size: fontSize base;
+	text-align: justify;
+	margin-top: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+a {
+	font-weight: 500;
+	color: @header-color;
+	&:hover {
+		color: @hover-color;
+	}
+}
+
+ul,
+ol {
+	adjust-font-size: fontSize base;
+	list-style-position: inside;
+	margin-bottom: spacing(1);
+}
+
+ul {
+	list-style: disc;
+	list-style-position: inside;
+}
+
+ol {
+	list-style: decimal;
+	list-style-position: inside;
+}
+
+img, iframe {
+	border: 0;
+}
+/*img,
+iframe {
+	margin-left: spacing(1);
+	margin-right: spacing(1);
+	margin-bottom: spacing(1);
+}*/
+
+/*
+reset table styles if using normalize
+table, th, td, tr {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}*/
+
+table {
+	font: inherit;
+	display: inline;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: spacing(1);
+}
+
+td {
+	padding-left: spacing(1);
+	padding-right: spacing(1);
+	text-align: center;
+}
+
+tr:nth-child(2n+1){
+	background: @block-color;
+}
+
+tr:first-child {
+	color: @header-color;
+	font-weight: 600;
+	line-height: lineheight(2);
+}
+
+/*tr:not(:first-child) {
+	adjust-font-size: fontsize small;
+}*/
+
+code[class*="language-"],
+pre[class*="language-"] {
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	tab-size: 4;
+	hyphens: none;
+	@forcewrap;
+}

@@ -1,0 +1,27 @@
+.DS_Store
+*~
+node_modules/
+npm-debug.log
+src/
+web/
+.babelrc
+.eslintrc.json
+.gitignore
+.gitattributes
+.happypack/
+jsdoc.json
+webpack.js
+webpack.config.js
+gulpfile.babel.js
+.npmignore
+
+# JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc

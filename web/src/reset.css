@@ -1,0 +1,13 @@
+@reset;
+
+@baseline html;
+
+body {
+	font-family: @font-family;
+  color: @font-color;
+  font-weight: @font-weight;
+	height: 100%;
+  position: relative;
+}
+
+@ruler;

@@ -1,0 +1,13 @@
+{
+  "opts": {
+    "template": "node_modules/docdash",
+    "destination": "./build/docs"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "default": {
+      "layoutFile": "node_modules/docdash/tmpl/layout.tmpl",
+      "includeDate": false
+    }
+  }
+}

@@ -1,0 +1,119 @@
+/* htest html, font-size: 14px; line-height: 1.5; unit: px; */
+
+* html {
+  line-height: 21px;
+}
+
+html {
+  font-size: 87.5%;
+  line-height: 21px;
+}
+
+/* htest html and local settings, font-size: 32px; unit: px; legacy-browsers: false; */
+
+html {
+  font-size: 32px;
+  line-height: 48px;
+}
+
+/* htest html tag and end of local settings, use global settings + px-fallback: false */
+
+* html {
+  line-height: 1.5;
+}
+
+html {
+  font-size: 87.5%;
+  line-height: 1.5;
+}
+
+/* htest selector .test1, font-size: 14px; line-height: 1.5; unit: px; */
+
+.test1 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 87.5%;
+  line-height: 1.5;
+}
+
+/* htest selector .test2, font-size: 21px; line-height: 28px; */
+
+.test2 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 131.25%;
+  line-height: 1.3333;
+}
+
+/* htest selector .test3, font-size: 14px; line-height: 3; */
+
+.test3 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 87.5%;
+  line-height: 3;
+}
+
+/* htest selector .test4,	font-size: 14px; line-height: 3; unit: em; */
+
+.test4 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 87.5%;
+  line-height: 3em;
+}
+
+/* htest selector .test5, font-size: 14px; line-height: 3; unit: rem; px-fallback: true; */
+
+.test5 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 87.5%;
+  line-height: 42px;
+  line-height: 3rem;
+}
+
+/* htest html, font-size, 14px; line-height: 3; unit: rem; px-fallback: true; */
+
+html {
+  font-size: 87.5%;
+  line-height: 42px;
+  line-height: 3rem;
+}
+
+/* htest selector .test6, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; */
+
+.test6 {
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #303030;
+  font-weight: 400;
+  font-size: 87.5%;
+  line-height: 1.5rem;
+}
+
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; */
+
+html {
+  font-size: 87.5%;
+  line-height: 1.5rem;
+}
+
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; px-baseline: true; */
+
+html {
+  font-size: 14px;
+  line-height: 1.5rem;
+}
+
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: true; px-baseline: true; */
+
+html {
+  font-size: 14px;
+  line-height: 21px;
+  line-height: 1.5rem;
+}

@@ -1,0 +1,17 @@
+.DS_Store
+*~
+node_modules/
+npm-debug.log
+build/
+.happypack/
+
+# JetBrains
+.idea/
+*.sln.iml
+
+# Visual Studio Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc

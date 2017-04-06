@@ -1,0 +1,159 @@
+/* htest selector .test1, font-size: fontSize xxlarge; { font-size: 16px; line-height: 1.5; font-ratio: minor-third; unit: em; px-fallback: true; } */
+
+.test1 {
+  font-size: 2.0736em;
+}
+
+/* htest selector .test2, adjust-font-size: fontSize base; */
+
+.test2 {
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+/* htest selector .test3, double font size, adjust-font-size: fontSize l@x2 */
+
+.test3 {
+  font-size: 1.44em;
+  line-height: 1.0417em;
+}
+
+/* htest selector .test4, adjust-font-size: 2em */
+
+.test4 {
+  font-size: 2em;
+  line-height: 1.5em;
+}
+
+/* htest selector .test5, adjust-font-size: 3rem */
+
+.test5 {
+  font-size: 3em;
+  line-height: 1em;
+}
+
+/* htest selector .test6, adjust-font-size: 25px */
+
+.test6 {
+  font-size: 1.5625em;
+  line-height: 1.92em;
+}
+
+/* htest selector .test7, in functions, font-size: fontSize base; background: @text2svg "My best logo", "fontfile.ttf", fontSize xxxl, #fff; padding-top: spacing(1 fontSize small); padding-left: spacing(4); */
+
+.test7 {
+  font-size: 1em;
+  background: @text2svg "My best logo", "fontfile.ttf", 2.4883em, #fff;
+  padding-top: 1.8001em;
+  padding-left: 6em;
+}
+
+/* htest selector .test8, font-size: fontSize xxlarge; { font-size: 16px; line-height: 1.5; font-ratio: 1.5; unit: rem; px-fallback: true; } */
+
+.test8 {
+  font-size: 5.0625em;
+}
+
+/* htest selector .test9, adjust-font-size: fontSize base; */
+
+.test9 {
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 24px;
+  line-height: 1.5rem;
+}
+
+/* htest selector .test10, double font size, adjust-font-size: fontSize l@x2 */
+
+.test10 {
+  font-size: 36px;
+  font-size: 2.25rem;
+  line-height: 48px;
+  line-height: 3rem;
+}
+
+/* htest selector .test11, adjust-font-size: 2em; px-fallback: false; */
+
+.test11 {
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+/* htest selector .test12, adjust-font-size: 3rem */
+
+.test12 {
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+/* htest selector .test13, adjust-font-size: 2em */
+
+.test13 {
+  font-size: 1.5625rem;
+  line-height: 3rem;
+}
+
+/* htest selector .test14, in functions and output unit, font-size: fontSize base; background: @text2svg "My best logo", "fontfile.ttf", fontSize xxxl$px, #fff; padding-top: spacing(1 fontSize small); padding-left: spacing(4); */
+
+.test14 {
+  font-size: 1em;
+  background: @text2svg "My best logo", "fontfile.ttf", 122px, #fff;
+  padding-top: 1.5rem;
+  padding-left: 6rem;
+}
+
+/* htest selector .test15, font-size: fontSize xxlarge; @!hamster { font-size: 16px; line-height: 1.5; font-ratio: 1.5; unit: px; px-fallback: true; } */
+
+.test15 {
+  font-size: 5.0625em;
+}
+
+/* htest selector .test16, adjust-font-size: fontSize base; */
+
+.test16 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* htest selector .test17, double font size, adjust-font-size: fontSize l@x2 */
+
+.test17 {
+  font-size: 36px;
+  line-height: 48px;
+}
+
+/* htest selector .test18, adjust-font-size: 2em; px-fallback: false; */
+.test18 {
+  font-size: 32px;
+  line-height: 0.75;
+}
+
+/* htest selector .test19, adjust-font-size: 3rem */
+
+.test19 {
+  font-size: 48px;
+  line-height: 0.5;
+}
+
+/* htest selector .test20, adjust-font-size: 25px */
+
+.test20 {
+  font-size: 25px;
+  line-height: 0.96;
+}
+
+/* htest selector .test21, .test22, .test23 custom font-ssize collection, font-sizes: fsize1 24px 1.5, fsize2 18px, fsize3 1.78; */
+
+.test21 {
+  background: @text2svg "My best logo", "fontfile.ttf", 24px, #fff;
+}
+
+.test22 {
+  font-size: 18em;
+  line-height: 1em;
+}
+
+.test23 {
+  font-size: 1.78rem;
+  line-height: 3rem;
+}

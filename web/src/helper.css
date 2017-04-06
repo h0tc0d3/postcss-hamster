@@ -1,0 +1,88 @@
+.block-left {
+	display: block;
+	float: left;
+	text-align: left;
+	margin-right: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+.tblock-center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	overflow: hidden;
+}
+
+.block-center {
+		@extend .tblock-center;
+		margin-bottom: spacing(1);
+}
+
+
+.block-right {
+	display: block;
+	float: right;
+	text-align: right;
+	margin-left: spacing(1);
+	margin-bottom: spacing(1);
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: @font-color;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #006EA6;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: @header-color;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+	color: @font-color;
+}
+
+.token.function {
+	color: @hover-color;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+	color: #e90;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
