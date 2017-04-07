@@ -1,0 +1,12 @@
+/* htest @normalize; */
+
+@!hamster {
+    font-size: 16px;
+    line-height: 1.5;
+    unit: px;
+    remove-comments: true;
+}
+
+@normalize;
+
+@hamster end;

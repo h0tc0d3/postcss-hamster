@@ -1,4 +1,5 @@
 //const fs = require("fs");
+require("colors");
 const run = require("gulp-run");
 const runSequence = require("run-sequence");
 const gulp = require("gulp");
@@ -71,16 +72,16 @@ gulp.task("build-web", () => {
     runSequence("css", "clean-web", "compile-web");
 });
 
-gulp.task("htest", function () {
-    return run("mocha ./tests/index.js").exec();
-});
+// gulp.task("htest", function () {
+//     return run("mocha ./tests/index.js").exec();
+// });
 
-gulp.task("test", function () {
-    runSequence("clean", "compile", "htest");
-});
+// gulp.task("test", function () {
+//     runSequence("clean", "compile", "htest");
+// });
 
 gulp.task("build", function () {
-    runSequence("clean", "compile", "htest", "build:docs", "css", "compile-web");
+    runSequence("clean", "compile", "build:docs", "css", "compile-web");
 });
 
 //gulp.watch('./src/*.css', ['css']);

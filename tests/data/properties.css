@@ -1,0 +1,84 @@
+/* htest properties: inline; @nowrap; */
+
+@!hamster {
+    font-size: 14px;
+	line-height: 1.5;
+	unit: px;
+    properties: inline;
+    px-fallback: false;
+    round-to-half-line: false;
+}
+
+test1 {
+    @nowrap;
+}
+
+test2 {
+    @nowrap;
+    font-size: 16px;
+}
+
+/* htest properties: inline; @forcewrap; */
+
+test3 {
+    @forcewrap;
+}
+
+test4 {
+    @forcewrap;
+    font-size: 16px;
+}
+
+/* htest properties: inline; @ellipsis; */
+
+test5 {
+    @ellipsis;
+}
+
+test6 {
+    @ellipsis;
+    font-size: 16px;
+}
+
+/* htest properties: extend; @nowrap; */
+
+@!hamster {
+    properties: extend;
+}
+
+test7 {
+    @nowrap;
+}
+
+test8 {
+    @nowrap;
+    font-size: 16px;
+}
+
+/* htest properties: extend; @forcewrap; */
+
+test9 {
+    @forcewrap;
+}
+
+test10 {
+    @forcewrap;
+}
+
+/* htest properties: extend; @ellipsis; */
+
+test11 {
+    @ellipsis;
+}
+
+test12 {
+    @ellipsis;
+    font-size: 16px;
+}
+
+test13 {
+    @ellipsis true;
+    font-size: 16px;
+}
+
+@hamster end;

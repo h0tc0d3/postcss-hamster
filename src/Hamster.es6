@@ -492,8 +492,8 @@ const hamster = () => {
                     
                     if (currentSettings["properties"] == "inline") {
 
-                        let decls = postcss.parse(decls);
-                        rule.parent.insertBefore(rule, decls);
+                        let idecls = postcss.parse(decls);
+                        rule.parent.insertBefore(rule, idecls);
 
                     } else if (currentSettings["properties"] == "extend") {
 
@@ -505,7 +505,7 @@ const hamster = () => {
                             extendNodes[extendName] = {
                                 selector: rule.parent.selector,
                                 decls: decls,
-                                parent: rule.parent,
+                                parents: [rule.parent],
                                 prev: rule.prev(),
                                 source: rule.source,
                                 count: 1
@@ -515,6 +515,7 @@ const hamster = () => {
 
                             //Append selector and update counter
                             extendNodes[extendName].selector = extendNodes[extendName].selector + ", " + rule.parent.selector;
+                            extendNodes[extendName].parents.push(rule.parent);
                             extendNodes[extendName].count++;
 
                         }
@@ -567,14 +568,23 @@ const hamster = () => {
                 let rule = postcss.parse(extendNodes[key].selector + "{" + extendNodes[key].decls + "}");
                 rule.source = extendNodes[key].source;
 
-                css.append(rule);
-                css.last.moveBefore(extendNodes[key].parent);
+                css.insertBefore(extendNodes[key].parents[0], rule);
+
             } else {
                 let decls = postcss.parse(extendNodes[key].decls);
                 decls.source = extendNodes[key].source;
-                extendNodes[key].parent.insertAfter(extendNodes[key].prev, decls);
+                extendNodes[key].parents[0].insertAfter(extendNodes[key].prev, decls);
             }
+
+            // Remove unused parent nodes.
+            for (let j = 0, parents = extendNodes[key].parents.length; j < parents; j++) {
+                if (extendNodes[key].parents[j].nodes.length == 0) {
+                    extendNodes[key].parents[j].remove();
+                }
+            }
+
         }
+
     };
 };
 

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node webpack.js",
     "build": "gulp build",
-    "test": "mocha tests/index.js"
+    "test": "mocha ./tests/index.js"
   },
   "keywords": [
     "css",
@@ -13,7 +13,8 @@
     "vertical rhythm",
     "typography",
     "sass",
-    "compass"
+    "compass",
+    "ruler"
   ],
   "author": {
     "name": "Grigory Vasilyev",
