@@ -1,5 +1,7 @@
 # PostCSS Hamster Framework
 
+Vertical rhythm, Typogrаphy, Modular scale functions for CSS. Flexible system with high perfomance.
+
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
 Russian Documentation: (https://h0tc0d3.github.io/postcss-hamster-ru.html)
 
