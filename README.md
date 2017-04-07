@@ -15,19 +15,23 @@ npm install postcss-hamster
 ## PostCSS
 
 ```
+
 var fs = require("fs"),
 		postcss = require("postcss"),
-		hamster = require("postcss-hamster"); 
+		hamster = require("postcss-hamster");
+
 fs.readFile("filename.css", "utf8", (err, css) => {
 		postcss([hamster]).process(css).then(result => {
 				fs.writeFileSync("outputfilename.css", result.css);
 		});
 });
+
 ```
 
 ## Gulp
 
 ```
+
 var gulp = require("gulp"),
 		sourcemaps = require("gulp-sourcemaps"),
 		postcssgulp = require("gulp-postcss"),
