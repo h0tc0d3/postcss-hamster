@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node webpack.js",
     "build": "gulp build",
-    "test": "mocha ./tests/index.js"
+    "test": "ava"
   },
   "keywords": [
     "css",
@@ -21,13 +21,14 @@
     "email": "postcss.hamster@gmail.com",
     "url": "https://github.com/h0tc0d3"
   },
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/h0tc0d3/postcss-hamster.git"
   },
   "license": "Apache 2.0",
   "devDependencies": {
     "autoprefixer": "^6.7.5",
+    "ava": "^0.19.0",
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.4.1",

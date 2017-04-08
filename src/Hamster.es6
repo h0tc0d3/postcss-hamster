@@ -61,6 +61,19 @@ const hamster = (options = null) => {
 
     };
 
+    let globalKeys = ["unit",
+        "px-fallback",
+        "px-baseline",
+        "font-ratio",
+        "properties",
+        "round-to-half-line",
+        "ruler",
+        "ruler-style",
+        "ruler-background",
+        "ruler-output",
+        "legacy-browsers",
+        "remove-comments"];
+
     let helpers = {
         "reset": fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
         "normalize": fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
@@ -88,7 +101,6 @@ const hamster = (options = null) => {
     // Vertical Rhythm Calculator
     let rhythmCalculator;
     // Last Css File
-    let extendNodes = {};
     // let lastFile;
 
     // let vm = new VirtualMachine();
@@ -130,6 +142,12 @@ const hamster = (options = null) => {
             currentFontSizes = currentFontSizes + ", " + currentSettings["font-sizes"];
         }
 
+        // ToLowerCase Current Settings
+        for (let i = 0, keysSize = globalKeys.length; i < keysSize; i++) {
+            let key = globalKeys[i];
+            currentSettings[key] = currentSettings[key].toLowerCase();
+        }
+
         fontSizesCollection = new FontSizes(currentSettings);
         rhythmCalculator = new VerticalRhythm(currentSettings);
         fontSizesCollection.addFontSizes(currentFontSizes, rhythmCalculator);
@@ -167,10 +185,9 @@ const hamster = (options = null) => {
 
                 } else {
 
-                    let unit = globalSettings["unit"].toLowerCase();
-                    let cfsize = (unit == "px") ? formatInt(size.px) : formatValue(size.rel);
+                    let cfsize = (currentSettings["unit"] == "px") ? formatInt(size.px) : formatValue(size.rel);
 
-                    decl.value = decl.value.replace(fontSizeRegexp, cfsize + unit);
+                    decl.value = decl.value.replace(fontSizeRegexp, cfsize + currentSettings["unit"]);
 
                 }
 
@@ -241,6 +258,9 @@ const hamster = (options = null) => {
 
     return (css) => {
 
+        // Extend Nodes
+        let extendNodes = {};
+
         css.walk(node => {
             // if (lastFile != node.source.input.file) {
             // 	lastFile = node.source.input.file;
@@ -290,17 +310,13 @@ const hamster = (options = null) => {
 
                     let fontSize = parseInt(currentSettings["font-size"]);
                     let browserFontSize = parseInt(currentSettings["browser-font-size"]);
-                    let legacyBrowsers = currentSettings["legacy-browsers"].toLowerCase();
-                    let pxBaseline = currentSettings["px-baseline"].toLowerCase();
-
-                    let rhythmUnit = currentSettings["unit"].toLowerCase();
 
                     let lineHeight = rhythmCalculator.lineHeight(fontSize + "px");
 
                     // baseline font size
                     let fontSizeDecl = null;
 
-                    if (pxBaseline == "true" || (rhythmUnit == "px" && legacyBrowsers != "true")) {
+                    if (currentSettings["px-baseline"] == "true" || (currentSettings["unit"] == "px" && currentSettings["legacy-browsers"] != "true")) {
 
                         fontSizeDecl = postcss.decl({
                             prop: "font-size",
@@ -339,7 +355,7 @@ const hamster = (options = null) => {
 
                         rule.parent.insertAfter(rule, htmlRule);
 
-                        if (rhythmUnit == "px" && legacyBrowsers == "true") {
+                        if (currentSettings["unit"] == "px" && currentSettings["legacy-browsers"] == "true") {
                             let asteriskHtmlRule = postcss.rule({
                                 selector: "* html",
                                 source: rule.source
@@ -353,7 +369,7 @@ const hamster = (options = null) => {
                         rule.parent.insertAfter(rule, lineHeightDecl);
                         rule.parent.insertAfter(rule, fontSizeDecl);
 
-                        if (rhythmUnit == "rem" && currentSettings["px-fallback"] == "true") {
+                        if (currentSettings["unit"] == "rem" && currentSettings["px-fallback"] == "true") {
 
                             rule.parent.insertBefore(lineHeightDecl, postcss.decl({
                                 prop: "line-height",
@@ -503,7 +519,7 @@ const hamster = (options = null) => {
 
                     } else if (currentSettings["properties"] == "extend") {
 
-                        let extendName = toCamelCase(rule.name.toLowerCase() + " " + rule.params);
+                        let extendName = toCamelCase(property + " " + rule.params);
 
                         if (extendNodes[extendName] == null) {
 

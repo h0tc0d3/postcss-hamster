@@ -51,7 +51,8 @@
 /* htest selector .test8, font-size: fontSize xxlarge; { font-size: 16px; line-height: 1.5; font-ratio: 1.5; unit: rem; px-fallback: true; } */
 
 .test8 {
-  font-size: 5.0625em;
+  font-size: 81px;
+  font-size: 5.0625rem;
 }
 
 /* htest selector .test9, adjust-font-size: fontSize base; */
@@ -96,7 +97,7 @@
 /* htest selector .test14, in functions and output unit, font-size: fontSize base; background: @text2svg "My best logo", "fontfile.ttf", fontSize xxxl$px, #fff; padding-top: spacing(1 fontSize small); padding-left: spacing(4); */
 
 .test14 {
-  font-size: 1em;
+  font-size: 1rem;
   background: @text2svg "My best logo", "fontfile.ttf", 122px, #fff;
   padding-top: 1.5rem;
   padding-left: 6rem;
@@ -105,7 +106,7 @@
 /* htest selector .test15, font-size: fontSize xxlarge; @!hamster { font-size: 16px; line-height: 1.5; font-ratio: 1.5; unit: px; px-fallback: true; } */
 
 .test15 {
-  font-size: 5.0625em;
+  font-size: 81px;
 }
 
 /* htest selector .test16, adjust-font-size: fontSize base; */
@@ -118,8 +119,8 @@
 /* htest selector .test17, double font size, adjust-font-size: fontSize l@x2 */
 
 .test17 {
-  font-size: 36px;
-  line-height: 48px;
+  font-size: 72px;
+  line-height: 84px;
 }
 
 /* htest selector .test18, adjust-font-size: 2em; px-fallback: false; */

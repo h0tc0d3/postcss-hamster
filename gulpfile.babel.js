@@ -72,16 +72,16 @@ gulp.task("build-web", () => {
     runSequence("css", "clean-web", "compile-web");
 });
 
-// gulp.task("htest", function () {
-//     return run("mocha ./tests/index.js").exec();
-// });
+gulp.task("htest", function () {
+    return run("ava").exec();
+});
 
-// gulp.task("test", function () {
-//     runSequence("clean", "compile", "htest");
-// });
+gulp.task("test", function () {
+    runSequence("clean", "compile", "htest");
+});
 
 gulp.task("build", function () {
-    runSequence("clean", "compile", "build:docs", "css", "compile-web");
+    runSequence("clean", "compile", "htest", "build:docs", "css", "compile-web");
 });
 
 //gulp.watch('./src/*.css', ['css']);

@@ -47,10 +47,10 @@ class VerticalRhythm {
      */
     constructor(settings) {
         this.baseFontSize = parseInt(settings["font-size"]);
-        this.rhythmUnit = settings["unit"].toLowerCase();
-        this.pxFallback = settings["px-fallback"].toLowerCase();
+        this.rhythmUnit = settings["unit"];
+        this.pxFallback = settings["px-fallback"];
         this.minLinePadding = parseInt(settings["min-line-padding"]);
-        this.roundToHalfLine = settings["round-to-half-line"].toLowerCase();
+        this.roundToHalfLine = settings["round-to-half-line"];
 
         // Base Line Height in Pixels
         this.baseLineHeight = (settings["line-height"].match(/px$/i)) ? parseFloat(settings["line-height"]) : parseFloat(settings["line-height"]) * this.baseFontSize;
