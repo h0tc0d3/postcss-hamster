@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&subset=cyrillic");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700&subset=cyrillic");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -46,7 +46,7 @@ html {
     line-height: 1.5em;
 }
 body {
-    font-family: "Open Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
+    font-family: Roboto, "Open Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
     color: #44576a;
     font-weight: 400;
     height: 100%;
