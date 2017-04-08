@@ -26,9 +26,9 @@ import path from "path";
 
 import postcss from "postcss";
 
-const hamster = () => {
+const hamster = (options = null) => {
 
-    //Default Global Variables
+    //Default Global Settings
     let globalSettings = {
 
         "font-size": "16px",
@@ -108,13 +108,19 @@ const hamster = () => {
         return object1;
     };
 
+    if(options != null){
+        extend(globalSettings, options);
+    }
+
     const toCamelCase = (value) => {
         return value.toLowerCase().replace(/^[^a-z0-9]*(.*)[^a-z0-9]*$/, "$1").replace(/[^a-z0-9]+([a-z0-9])/g, (match, letter) => {
             return letter.toUpperCase();
         });
     };
+
     // Init current Settings
     const initSettings = () => {
+
         // Add fontSizes
         if ("font-sizes" in globalSettings) {
             currentFontSizes = globalSettings["font-sizes"];
@@ -223,7 +229,7 @@ const hamster = () => {
                 }
                 decl.value = decl.value.replace(found[0], lineHeight.replace(/\s+$/, ""));
             }
-
+            // rem fallback
             if (currentSettings["px-fallback"] == "true" && decl.value.match(/[0-9\.]+rem/i)) {
                 decl.parent.insertBefore(decl, decl.clone({
                     value: rhythmCalculator.remFallback(decl.value),
