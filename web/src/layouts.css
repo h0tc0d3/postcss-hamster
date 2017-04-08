@@ -48,6 +48,7 @@
     /*background: #151F2A;*/
     width: 100%;
     color: #fff;
+    text-align: center;
     a {
       color: #fff;
       text-decoration: none;
@@ -55,25 +56,5 @@
         color: @header-color;
         text-decoration: underline;
       }
-    }
-    #copyright {
-      float: left;
-      @extend %footer_block;
-      @media screen and (max-width: 768px) {
-        display: block;
-        float: none;
-      }
-    }
-    #footer-nav {
-      float: right;
-      li {
-        display: inline;
-        padding-left: leading(1);
-      }
-      @extend %footer_block;
-      @media screen and (max-width: 768px) {
-        display: block;
-        float: none;
-      }
-    }
-  }
+    }   
+}

@@ -285,14 +285,6 @@ header {
 #logo .block-center {
     margin-top: 0.375em;
 }
-footer #copyright, footer #footer-nav {
-    margin-left: 1.5em;
-    margin-right: 1.5em;
-    margin-top: auto;
-    margin-bottom: auto;
-    display: inline-block;
-    text-align: center;
-}
 footer {
     overflow: hidden;
     padding-top: 3em;
@@ -300,6 +292,7 @@ footer {
     background: #1B2633;
     width: 100%;
     color: #fff;
+    text-align: center;
 }
 footer a {
     color: #fff;
@@ -308,28 +301,6 @@ footer a {
 footer a:hover {
     color: #1386BF;
     text-decoration: underline;
-}
-footer #copyright {
-    float: left;
-}
-footer #footer-nav {
-    float: right;
-}
-footer #footer-nav li {
-    display: inline;
-    padding-left: 0.5em;
-}
-@media screen and (max-width: 768px) {
-    footer #copyright {
-        display: block;
-        float: none;
-    }
-}
-@media screen and (max-width: 768px) {
-    footer #footer-nav {
-        display: block;
-        float: none;
-    }
 }
 .button-blue, .button-gray, .button-green {
     display: inline-block;
