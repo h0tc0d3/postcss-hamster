@@ -135,7 +135,10 @@ h6 {
 p {
     font-size: 1em;
     line-height: 1.5em;
-    text-align: justify;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+            hyphens: auto;
     margin-top: 1.5em;
     margin-bottom: 1.5em;
 }
@@ -366,7 +369,10 @@ footer a:hover {
     overflow: hidden;
 }
 .block-info {
-    text-align: justify;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+            hyphens: auto;
     font-style: italic;
     color: #1386BF;
     padding-top: 1.5em;

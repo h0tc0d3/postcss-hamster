@@ -77,7 +77,9 @@ strong {
 
 p {
 	adjust-font-size: fontSize base;
-	text-align: justify;
+	/*text-align: justify;*/
+	word-wrap: break-word;
+	hyphens: auto;
 	margin-top: spacing(1);
 	margin-bottom: spacing(1);
 }

@@ -56,7 +56,9 @@ $block-font-size: base;
 
 .block-info {
 	@extend %block;
-	text-align: justify;
+	/*text-align: justify;*/
+	word-wrap: break-word;
+	hyphens: auto;
 	font-style: italic;
 	color: @header-color;
 	padding-top: spacing(1 fontSize $block-font-size);
