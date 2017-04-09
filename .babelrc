@@ -4,5 +4,5 @@
       "loose": true
     }]
   ],
-  "plugins": ["add-module-exports", "precompile-charcodes"]
+  "plugins": ["add-module-exports", "precompile-charcodes", "transform-string-join"]
 }
