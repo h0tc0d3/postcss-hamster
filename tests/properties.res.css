@@ -14,10 +14,6 @@ test2 {
 test3 {
   white-space: pre;
   white-space: pre-line;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -hp-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -25,10 +21,6 @@ test3 {
 test4 {
   white-space: pre;
   white-space: pre-line;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -hp-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
   font-size: 16px;
@@ -64,10 +56,6 @@ test9,
 test10 {
   white-space: pre;
   white-space: pre-line;
-  white-space: -pre-wrap;
-  white-space: -o-pre-wrap;
-  white-space: -moz-pre-wrap;
-  white-space: -hp-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -89,4 +77,27 @@ test13 {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 16px;
+}
+
+/* htest properties: extend; @hyphens; */
+
+test14 {
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* htest properties: extend; @hyphens true; */
+
+test15 {
+  word-break: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* htest properties: extend; @break-word; */
+
+test16 {
+  word-break: break-word;
+  word-break: break-all;
 }

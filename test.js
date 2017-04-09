@@ -2,8 +2,6 @@ import "colors";
 
 import test from "ava";
 import fs from "fs";
-import path from "path";
-// import diff from "diff";
 import postcss from "postcss";
 import stylefmt from "stylefmt";
 import hamster from "./index.js";
@@ -19,27 +17,6 @@ const parseCssTests = (src) => {
     return tests;
 
 };
-
-const fileHandle = (src) => {
-
-    let dest = "./tests/" + path.basename(src, ".css") + ".res.css";
-
-    fs.readFile("./tests/" + src, "utf8", (err, css) => {
-
-        if (err) throw err;
-
-        postcss([hamster, stylefmt]).process(css).then(
-
-            result => fs.writeFileSync(dest, result.css),
-
-            error => console.log(error.message + "\n" + error.stack)
-
-        );
-
-    });
-
-};
-
 
 const viewDiff = (diff) => {
 
@@ -58,7 +35,6 @@ const viewDiff = (diff) => {
 
     return output;
 };
-
 
 const compare = (tcss, tres, res) => {
 
@@ -80,7 +56,6 @@ const compare = (tcss, tres, res) => {
 
     return result;
 };
-
 
 let htest = (name, css) => {
 

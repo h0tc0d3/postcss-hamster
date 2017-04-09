@@ -73,7 +73,9 @@ gulp.task("build-web", () => {
 });
 
 gulp.task("htest", function () {
-    return run("ava").exec();
+    let ava = require("gulp-ava");
+    return gulp.src("test.js")
+		.pipe(ava({verbose: true}));
 });
 
 gulp.task("test", function () {

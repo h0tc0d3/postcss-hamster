@@ -75,19 +75,33 @@ const hamster = (options = null) => {
         "remove-comments"];
 
     let helpers = {
+        
         "reset": fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
+        
         "normalize": fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
-        "nowrap": "white-space: nowrap;",
-        "forcewrap": "white-space: pre;" +
+        
+        "nowrap":
+            "white-space: nowrap;",
+
+        "forcewrap":
+            "white-space: pre;" +
             "white-space: pre-line;" +
-            "white-space: -pre-wrap;" +
-            "white-space: -o-pre-wrap;" +
-            "white-space: -moz-pre-wrap;" +
-            "white-space: -hp-pre-wrap;" +
             "white-space: pre-wrap;" +
             "word-wrap: break-word;",
-        "ellipsis": "overflow: hidden;" +
-            "text-overflow: ellipsis;"
+        
+        "ellipsis":
+            "overflow: hidden;" +
+            "text-overflow: ellipsis;",
+
+        "hyphens":
+            "word-wrap: break-word;" +
+            "hyphens: auto;",
+
+        "break-word":
+            /* Non standard for webkit */
+            "word-break: break-word;" +
+            /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
+            "word-break: break-all;"
     };
 
 
@@ -145,7 +159,9 @@ const hamster = (options = null) => {
         // ToLowerCase Current Settings
         for (let i = 0, keysSize = globalKeys.length; i < keysSize; i++) {
             let key = globalKeys[i];
-            currentSettings[key] = currentSettings[key].toLowerCase();
+            if (key in currentSettings) {
+                currentSettings[key] = currentSettings[key].toLowerCase();
+            }
         }
 
         fontSizesCollection = new FontSizes(currentSettings);
@@ -502,16 +518,20 @@ const hamster = (options = null) => {
                     }
 
                     rule.remove();
-                } else if (rule.name.match(/^(ellipsis|nowrap|forcewrap)$/i)) {
+                } else if (rule.name.match(/^(ellipsis|nowrap|forcewrap|hyphens|break\-word)$/i)) {
 
                     let property = rule.name.toLowerCase();
 
                     let decls = helpers[property];
 
+                    if (property == "hyphens" && rule.params == "true") {
+                        decls = helpers["break-word"] + decls;
+                    }
+                    
                     if (property == "ellipsis" && rule.params == "true") {
                         decls = helpers["nowrap"] + decls;
                     }
-                    
+
                     if (currentSettings["properties"] == "inline") {
 
                         let idecls = postcss.parse(decls);

@@ -132,13 +132,15 @@ h6 {
     margin-top: 1.8001em;
     margin-bottom: 1.8001em;
 }
-p {
-    font-size: 1em;
-    line-height: 1.5em;
+p, .block-info {
     word-wrap: break-word;
     -webkit-hyphens: auto;
         -ms-hyphens: auto;
             hyphens: auto;
+}
+p {
+    font-size: 1em;
+    line-height: 1.5em;
     margin-top: 1.5em;
     margin-bottom: 1.5em;
 }
@@ -198,10 +200,6 @@ code[class*="language-"], pre[class*="language-"] {
             hyphens: none;
     white-space: pre;
     white-space: pre-line;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -hp-pre-wrap;
     white-space: pre-wrap;
     word-wrap: break-word;
 }
@@ -369,10 +367,6 @@ footer a:hover {
     overflow: hidden;
 }
 .block-info {
-    word-wrap: break-word;
-    -webkit-hyphens: auto;
-        -ms-hyphens: auto;
-            hyphens: auto;
     font-style: italic;
     color: #1386BF;
     padding-top: 1.5em;

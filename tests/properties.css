@@ -81,4 +81,22 @@ test13 {
     font-size: 16px;
 }
 
+/* htest properties: extend; @hyphens; */
+
+test14 {
+    @hyphens;
+}
+
+/* htest properties: extend; @hyphens true; */
+
+test15 {
+    @hyphens true;
+}
+
+/* htest properties: extend; @break-word; */
+
+test16 {
+    @break-word;
+}
+
 @hamster end;

@@ -47,6 +47,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "gulp": "^3.9.1",
+    "gulp-ava": "^0.16.0",
     "gulp-babel": "^6.1.2",
     "gulp-copy": "^1.0.0",
     "gulp-eslint": "^3.0.1",
