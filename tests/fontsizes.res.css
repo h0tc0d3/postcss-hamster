@@ -14,7 +14,7 @@
 /* htest selector .test3, double font size, adjust-font-size: fontSize l@x2 */
 
 .test3 {
-  font-size: 1.44em;
+  font-size: 2.88em;
   line-height: 1.0417em;
 }
 
@@ -67,10 +67,10 @@
 /* htest selector .test10, double font size, adjust-font-size: fontSize l@x2 */
 
 .test10 {
-  font-size: 36px;
-  font-size: 2.25rem;
-  line-height: 48px;
-  line-height: 3rem;
+  font-size: 72px;
+  font-size: 4.5rem;
+  line-height: 72px;
+  line-height: 4.5rem;
 }
 
 /* htest selector .test11, adjust-font-size: 2em; px-fallback: false; */

@@ -200,8 +200,7 @@
 				обрабатывать ваши файлы. Содержимое скрипта находится ниже, и в нем необходимо заменить filename.css на имя вашего css
 				файл, который будет обрабатываться, а outputfilename.css на имя выходного css файла. Это должны быть разные файлы!</p>
 			<div class="block-code">
-				<pre><code class="language-js">
-var fs = require("fs"),
+				<pre><code class="language-js">var fs = require("fs"),
 		postcss = require("postcss"),
 		hamster = require("postcss-hamster"); 
 fs.readFile("filename.css", "utf8", (err, css) => {
@@ -221,8 +220,7 @@ fs.readFile("filename.css", "utf8", (err, css) => {
 				этих модулей и расширит ее!</div>
 			<p>Если вы используете gulp для сборки проекта, то содержимое <strong>gulpfile.js</strong> будет примерно как ниже:</p>
 			<div class="block-code">
-				<pre><code class="language-js">
-var gulp = require("gulp"),
+				<pre><code class="language-js">var gulp = require("gulp"),
 		sourcemaps = require("gulp-sourcemaps"),
 		postcssgulp = require("gulp-postcss"),
 		precss = require("precss"),
@@ -273,8 +271,7 @@ gulp.task("default", ["css"]);</code></pre>
 			ниже в документации.
 
 			<div class="block-code">
-				<pre><code class="language-css">
-@hamster {
+				<pre><code class="language-css">@hamster {
 
     /*  Base settings */
     font-size: 16px;
@@ -536,8 +533,7 @@ gulp.task("default", ["css"]);</code></pre>
 						Для получения значения константы перед ее именем надо добавить <strong>@</strong>. Пример использования констант представлен
 						ниже. </p>
 					<div class="block-code">
-						<pre><code class="language-css">
-html {
+						<pre><code class="language-css">html {
     font-family: @font-family;
     color: @font-color;
     font-weight: @font-weight;
@@ -545,8 +541,7 @@ html {
 					</div>
 					<h3>Значения глобальных настроек по умолчанию</h3>
 					<div class="block-code">
-						<pre><code class="language-css">
-font-size: 16px;
+						<pre><code class="language-css">font-size: 16px;
 line-height: 1.5;
 unit: em;
 px-fallback: true;
@@ -582,19 +577,16 @@ remove-comments: false;</code></pre>
 					</p>
 					<p>Для <strong>ruler-style: switch</strong> html код будет таким:</p>
 					<div class="block-code">
-						<pre><code class="language-html">
-&lt;div&gt;
-		&lt;input type="checkbox" id="ruler-debug" /&gt;
-		&lt;label for="ruler-debug">&lt;/label&gt;
-		&lt;div class="ruler-debug">&lt;/div&gt;
+						<pre><code class="language-html">&lt;div&gt;
+    &lt;input type="checkbox" id="ruler-debug" /&gt;
+    &lt;label for="ruler-debug">&lt;/label&gt;
+    &lt;div class="ruler-debug">&lt;/div&gt;
 &lt;/div>
 </code></pre>
 					</div>
 					<p>В остальных случаях:</p>
 					<div class="block-code">
-						<pre><code class="language-html">
-&lt;div class="ruler-debug">&lt;/div&gt;
-</code></pre>
+						<pre><code class="language-html">&lt;div class="ruler-debug">&lt;/div&gt;</code></pre>
 					</div>
 
 					<p>В html коде необходимо заменить <strong>ruler-debug</strong> на имя вашего класса линейки, который вы указали в настройках
@@ -617,8 +609,7 @@ remove-comments: false;</code></pre>
 					</div>
 					<p>После всех действий и настроек, CSS файл должен принять вид примерно как ниже:</p>
 					<div class="block-code">
-						<pre><code class="language-css">
-@hamster {
+						<pre><code class="language-css">@hamster {
 
     /*  Base settings */
     font-size: 16px;
@@ -679,8 +670,7 @@ body {
 						ниже.</p>
 
 					<div class="block-code">
-						<pre><code class="language-css">
-body {
+						<pre><code class="language-css">body {
 	font-family: @font-family;
 	color: @font-color;
 	font-weight: @font-weight;
@@ -714,14 +704,14 @@ body {
 						Будьте внимательны, @break-word может ломать слова где угодно. @hyphens; делает перенос на следущую строку более мягко.</p>
 						<p><strong>@hyphens true;</strong> - То же самое, что @break-word;, а затем @hyphens;.</p>
 						<p><strong>fontsize</strong> - Записывает размер шрифта в unit(единицы измерения установленные в настройках) вместо буквенного
-							алиаса. Синтаксис: <strong>fontsize alias[$unit][@x2]</strong>. Например:
+							алиаса. Синтаксис: <strong>fontsize alias[$unit][@x2, @d2 ]</strong>. <strong>@x2</strong> - считает размер относительно увеличенного в двое базового шрифта. 
+							<strong>@d2</strong> - считает размер относительно уменьшенного в двое базового шрифта. Например:
 							<strong>fontsize xxxl</strong>, <strong>fontsize xxxl$px</strong> - принудительно запишет размер шрифта в пикселях,
 							что удобно например использовать в сторонних функциях, <strong>fontsize 3$em@x2</strong> - запишет 3 размер шрифта
 							относительно увеличенного в двое базового размера. Так же можно указывать относительный размер, например: <strong>fontsize -2</strong>,
 							<strong>fontsize 0</strong> - базовый размер, <strong>fontsize 3</strong>. Примеры использования смотрите ниже.</p>
 						<div class="block-code">
-							<pre><code class="language-css">
-font-size: fontsize base;
+							<pre><code class="language-css">font-size: fontsize base;
 
 background: @text2svg "My best logo", "fontfile.ttf", fontSize fsize1$px, #fff;</code></pre>
 						</div>
@@ -754,8 +744,7 @@ background: @text2svg "My best logo", "fontfile.ttf", fontSize fsize1$px, #fff;<
 											в блоке кода, расположенного чуть ниже.</div>
 										<img src="images/line-height.png" alt="line height" width="500" class="block-center" />
 										<div class="block-code">
-											<pre><code class="language-css">
-/* Variables. */
+											<pre><code class="language-css">/* Variables. */
 
 @hamster {
 	font-color: #44576a;
@@ -901,8 +890,7 @@ $block-font-size: small;
 											не указаны, то вместо них будут использоваться значение по умолчанию.</p>
 
 										<div class="block-code">
-											<pre><code class="language-js">
-var settings = {
+											<pre><code class="language-js">var settings = {
 	// Property for compensation. height, margin, padding, margin-bottom, margin-top, padding-bottom, padding-top
 	"property": "padding",
 	// Rhythm base font size, without "px".
@@ -950,8 +938,7 @@ var irhythm = new Rhythm(settings);
 											библиотеки представлен ниже в блоке кода.
 										</div>
 										<div class="block-code">
-											<pre><code class="language-js">
-var settings = {
+											<pre><code class="language-js">var settings = {
     "property": "height-down",
     "base": 16,
     "lineHeight": 1.5,
@@ -994,8 +981,7 @@ irhythm.ready(function() {
 											изменении размера экрана. Все будет строго по сетке.
 										</p>
 										<div class="block-code">
-											<pre><code class="language-css">
-.block {
+											<pre><code class="language-css">.block {
     font-size: 0.8333em;
     line-height: 1.8001em;
     margin-top: 1.8001em;
@@ -1007,8 +993,7 @@ irhythm.ready(function() {
 										<h3>Пример использования</h3>
 										<div class="block-info">Метод <strong>fixRelative</strong> желательно использовать перед методом <strong>fixRhythm</strong>.</div>
 										<div class="block-code">
-											<pre><code class="language-js">
-var settings = {
+											<pre><code class="language-js">var settings = {
     "property": "height-down",
     "base": 16,
     "lineHeight": 1.5,

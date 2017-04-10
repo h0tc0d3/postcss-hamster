@@ -159,6 +159,7 @@ tr:first-child {
 
 code[class*="language-"],
 pre[class*="language-"] {
+	font-family: Inconsolata, monospace;
 	margin: 0;
 	padding: 0;
 	text-align: left;

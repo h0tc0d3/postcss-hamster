@@ -126,7 +126,24 @@ class FontSizes {
             "xxlarge@x2": "4@x2",
             "xxl@x2": "4@x2",
             "xxxlarge@x2": "5@x2",
-            "xxxl@x2": "5@x2"
+            "xxxl@x2": "5@x2",
+            //Double divided sizes
+            "tiny@d2": "-2@d2",
+            "t@d2": "-2@d2",
+            "small@d2": "-1@d2",
+            "s@d2": "-1@d2",
+            "base@d2": "0@d2",
+            "b@d2": "0@d2",
+            "medium@d2": "1@d2",
+            "m@d2": "1@d2",
+            "large@d2": "2@d2",
+            "l@d2": "2@d2",
+            "xlarge@d2": "3@d2",
+            "xl@d2": "3@d2",
+            "xxlarge@d2": "4@d2",
+            "xxl@d2": "4@d2",
+            "xxxlarge@d2": "5@d2",
+            "xxxl@d2": "5@d2"
         };
 
         if (settings["font-ratio"] in fontRatio) {
@@ -153,9 +170,11 @@ class FontSizes {
                 this.fontSizes[i] = this.genSize(i);
                 // Make double size from -2 to 5
                 this.fontSizes[i + "@x2"] = this.genSize(i, 2);
+                // Make double divided size from -2 to 5
+                this.fontSizes[i + "@d2"] = this.genSize(i, 0.5);
             }
         }
-
+        //console.log(JSON.stringify(this.fontSizes, null, 2));
     }
 
     /**
@@ -187,10 +206,18 @@ class FontSizes {
             value.rel = Math.pow(this.ratio, size);
             value.px = baseFontSize * value.rel;
 
+            if (scale > 0) {
+                value.rel = value.rel * scale;
+            }
+
         } else {
 
             value.rel = 1 / Math.pow(this.ratio, Math.abs(size));
             value.px = baseFontSize * value.rel;
+
+            if (scale > 0) {
+                value.rel = value.rel * scale;
+            }
 
         }
 
@@ -223,6 +250,7 @@ class FontSizes {
                 result = this.genSize(size);
             }
         }
+        //console.log(size + ": " + JSON.stringify(result, null , 2) + " " + (size in this.fontSizes).toString());
         return result;
     }
 

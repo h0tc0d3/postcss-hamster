@@ -36,7 +36,7 @@ irhythm.ready(() => {
 
     let fix = () => {
         //Fix relative rounding bugs.
-        irhythm.fixRelative("h1, h2, h3, h4, h5, h6, p, ul, .block-code, .block-info, .button-blue, .button-gray, .button-green");
+        irhythm.fixRelative("h1, h2, h3, h4, h5, h6, p, ul, .block-code, .block-command, .block-info, .button-blue, .button-gray, .button-green");
         // Fix Vertical Rhythm
         irhythm.fixRhythm("#content img, #content iframe");
     };

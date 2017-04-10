@@ -1,6 +1,6 @@
 {
   "name": "postcss-hamster",
-  "version": "1.0.0-rc4",
+  "version": "1.0.0-rc5",
   "description": "PostCSS Hamster",
   "scripts": {
     "dev": "node webpack.js",
@@ -9,6 +9,7 @@
   },
   "keywords": [
     "css",
+    "postcss",
     "baseline grid",
     "vertical rhythm",
     "typography",
