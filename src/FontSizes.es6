@@ -206,19 +206,16 @@ class FontSizes {
             value.rel = Math.pow(this.ratio, size);
             value.px = baseFontSize * value.rel;
 
-            if (scale > 0) {
-                value.rel = value.rel * scale;
-            }
 
         } else {
 
             value.rel = 1 / Math.pow(this.ratio, Math.abs(size));
             value.px = baseFontSize * value.rel;
 
-            if (scale > 0) {
-                value.rel = value.rel * scale;
-            }
+        }
 
+        if (scale > 0) {
+            value.rel = value.rel * scale;
         }
 
         return value;
