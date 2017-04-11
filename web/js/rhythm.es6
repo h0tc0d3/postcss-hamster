@@ -287,7 +287,7 @@ class Rhythm {
 
             if (property === "height-down" || property === "height-up" || property === "!height-down" || property === "!height-up") {
 
-                if ((property == "height-down" || property == "!height-down") && lines > 2) {
+                if ((property == "height-down" || property == "!height-down") && (height < (lines * this.settings.lineHeight))) {
                     lines -= 1;
                 }
 

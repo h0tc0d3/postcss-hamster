@@ -271,7 +271,7 @@ code[class*="language-"], pre[class*="language-"] {
 }
 #wrapper {
     position: relative;
-    max-width: 73.5em;
+    max-width: 75em;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;

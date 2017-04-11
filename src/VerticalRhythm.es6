@@ -315,8 +315,8 @@ class VerticalRhythm {
 
         let lines = this.lines(value),
             result = 0;
-        
-        if (!increase) {
+    
+        if (!increase && (value < (lines * fontSize * this.baseLineHeightRatio))) {
             lines = lines - 1;
         }
 
