@@ -32,21 +32,21 @@ h1 {
 	text-align: center;
 	@extend %text-strong;
 	adjust-font-size: fontSize xxl;
-	margin-top: spacing(1);
+	margin-top: spacing(4);
 	margin-bottom: spacing(1);
 }
 
 h2 {
 	@extend %text-strong;
 	adjust-font-size: fontSize xl;
-	margin-top: spacing(1);
+	margin-top: spacing(3);
 	margin-bottom: spacing(1);
 }
 
 h3 {
 	@extend %text-strong;
 	adjust-font-size: fontSize l;
-	margin-top: spacing(1);
+	margin-top: spacing(2);
 	margin-bottom: spacing(1);
 }
 

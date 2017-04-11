@@ -170,6 +170,10 @@ class VerticalRhythm {
      * @return {number} - line height in rhythm unit.
      */
     lineHeight(fontSize, value, baseFontSize = null, pxFallback = false) {
+        
+        if(fontSize == null){
+            fontSize = this.baseFontSize + "px";
+        }
 
         if (fontSize != null && (this.rhythmUnit == "em" || value == null)) {
 
@@ -221,8 +225,12 @@ class VerticalRhythm {
      * 
      * @return {number} - leading in rhythm unit.
      */
-    leading(value, fontSize = null) {
-
+    leading(value, fontSize) {
+        
+        if(fontSize == null){
+            fontSize = this.baseFontSize + "px";
+        }
+        
         let fontSizeUnit = fontSize.match(/(px|em|rem)$/i)[0].toLowerCase();
 
         if (fontSizeUnit != this.rhythmUnit) {
@@ -248,6 +256,81 @@ class VerticalRhythm {
         } else if (this.rhythmUnit == "rem") {
 
             result = formatValue((lines * this.baseLineHeightRatio - fontSize) * value) + "rem";
+
+        }
+
+        return result;
+
+    }
+    
+    /**
+     * Calculate rhythm value in rhythm unit. It used for height values, etc. 
+     *
+     * @memberOf module:VerticalRhythm
+     * 
+     * @description
+     * 
+     * If value 450px, and base font size 16, line-height 1.5, increase = false then return 432px.
+     * If value 450px, and base font size 16, line-height 1.5, increase = true then return 456px.
+     * 
+     * @param value - input value like 450px; 10em; 100rem;.
+     * @param fontSize - font size in pixels, em, rem like 1.5em.
+     * @param increase - increase or decrease size. Default decrease. increase = false.
+     * @param outputUnit - output value unit. 
+     * 
+     * @return {number} - rhythmd value rhythm unit.
+     */
+
+    rhythm(value, fontSize, increase = false, outputUnit) {
+        
+        if(fontSize == null){
+            fontSize = this.baseFontSize + "px";
+        }
+
+        if(outputUnit == null){
+            outputUnit = this.rhythmUnit;
+        }
+
+        let fontSizeUnit = fontSize.match(/(px|em|rem)$/i)[0].toLowerCase();
+
+        if (fontSizeUnit != this.rhythmUnit) {
+
+            fontSize = this.convert(fontSize, fontSizeUnit, this.rhythmUnit);
+
+        } else {
+
+            fontSize = parseFloat(fontSize);
+        }
+
+        let valueUnit = value.match(/(px|em|rem)$/i)[0].toLowerCase();
+
+        if (valueUnit != this.rhythmUnit) {
+
+            value = this.convert(value, valueUnit, this.rhythmUnit);
+
+        } else {
+
+            value = parseFloat(value);
+        }
+
+        let lines = this.lines(value),
+            result = 0;
+        
+        if (!increase) {
+            lines = lines - 1;
+        }
+
+        if (outputUnit == "px") {
+
+            result = formatInt(lines * this.baseLineHeight) + "px";
+
+        } else if (outputUnit == "em") {
+
+            result = formatValue(this.baseLineHeightRatio * lines / fontSize) + "em";
+
+        } else if (outputUnit == "rem") {
+
+            result = formatValue(this.baseLineHeightRatio * lines) + "rem";
 
         }
 

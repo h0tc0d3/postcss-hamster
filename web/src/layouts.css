@@ -1,6 +1,6 @@
   #wrapper {
     position: relative;
-    max-width: 1200px;
+    max-width: rhythm(1200px);
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -15,7 +15,8 @@
   header {
     margin-top: auto;
     margin-bottom: auto;
-    height: 264px;
+    height: rhythm(270px);
+    /*height: 264px;*/
     background-image: url("../images/header.jpg");
     background-position: center center;
     /*border-radius: leading(1);*/

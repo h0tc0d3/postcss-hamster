@@ -100,19 +100,19 @@ h1 {
     text-align: center;
     font-size: 2.0736em;
     line-height: 1.4468em;
-    margin-top: 0.7234em;
+    margin-top: 2.8935em;
     margin-bottom: 0.7234em;
 }
 h2 {
     font-size: 1.728em;
     line-height: 1.7361em;
-    margin-top: 0.8681em;
+    margin-top: 2.6042em;
     margin-bottom: 0.8681em;
 }
 h3 {
     font-size: 1.44em;
     line-height: 1.0417em;
-    margin-top: 1.0417em;
+    margin-top: 2.0833em;
     margin-bottom: 1.0417em;
 }
 h4 {
@@ -270,7 +270,7 @@ code[class*="language-"], pre[class*="language-"] {
 }
 #wrapper {
     position: relative;
-    max-width: 1200px;
+    max-width: 73.5em;
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
@@ -284,7 +284,7 @@ code[class*="language-"], pre[class*="language-"] {
 header {
     margin-top: auto;
     margin-bottom: auto;
-    height: 264px;
+    height: 16.5em;
     background-image: url("../images/header.jpg");
     background-position: center center;
 }

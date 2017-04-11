@@ -72,29 +72,26 @@ const hamster = (options = null) => {
         "ruler-background",
         "ruler-output",
         "legacy-browsers",
-        "remove-comments"];
+        "remove-comments"
+    ];
 
     let helpers = {
-        
-        "reset": fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
-        
-        "normalize": fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
-        
-        "nowrap":
-            "white-space: nowrap;",
 
-        "forcewrap":
-            "white-space: pre;" +
+        "reset": fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
+
+        "normalize": fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
+
+        "nowrap": "white-space: nowrap;",
+
+        "forcewrap": "white-space: pre;" +
             "white-space: pre-line;" +
             "white-space: pre-wrap;" +
             "word-wrap: break-word;",
-        
-        "ellipsis":
-            "overflow: hidden;" +
+
+        "ellipsis": "overflow: hidden;" +
             "text-overflow: ellipsis;",
 
-        "hyphens":
-            "word-wrap: break-word;" +
+        "hyphens": "word-wrap: break-word;" +
             "hyphens: auto;",
 
         "break-word":
@@ -121,8 +118,8 @@ const hamster = (options = null) => {
     // fontSize property Regexp
     const fontSizeRegexp = new RegExp("fontSize\\s+([\\-\\$\\@0-9a-zA-Z]+)", "i");
 
-    // lineHeight property Regexp
-    const lineRegexp = new RegExp("(lineHeight|spacing|leading)\\((.*?)\\)", "i");
+    // rhythm properties Regexp
+    const rhythmRegexp = new RegExp("(lineHeight|spacing|leading|\!rhythm|rhythm)\\((.*?)\\)", "i");
 
     // Copy Values from object 2 to object 1;
     const extend = (object1, object2) => {
@@ -134,7 +131,7 @@ const hamster = (options = null) => {
         return object1;
     };
 
-    if(options != null){
+    if (options != null) {
         extend(globalSettings, options);
     }
 
@@ -231,14 +228,14 @@ const hamster = (options = null) => {
                 decl.parent.insertAfter(decl, lineHeightDecl);
 
             }
-            // lineHeight, spacing, leading
-            while ((found = decl.value.match(lineRegexp))) {
+            // lineHeight, spacing, leading, rhythm, !rhythm
+            while ((found = decl.value.match(rhythmRegexp))) {
 
-                let property = found[1].toLowerCase(); // spacing or lineHeight
+                let property = found[1].toLowerCase(); // lineHeight, spacing, leading, rhythm, !rhythm
                 let parameters = found[2].split(/\s*\,\s*/);
-                let lineHeight = "";
+                let outputValue = "";
                 for (let i = 0, parametersSize = parameters.length; i < parametersSize; i++) {
-                    
+
                     let [value, fontSize] = parameters[i].split(/\s+/);
 
                     if (fontSize == null) {
@@ -247,21 +244,23 @@ const hamster = (options = null) => {
                         });
                     }
 
-                    if (fontSize == null) {
-                        fontSize = currentSettings["font-size"];
-                    }
-
                     if (property == "lineheight") {
-                        lineHeight += rhythmCalculator.lineHeight(fontSize, value) + " ";
+                        outputValue += rhythmCalculator.lineHeight(fontSize, value) + " ";
                     } else if (property == "spacing") {
-                        lineHeight += rhythmCalculator.lineHeight(fontSize, value, null, true) + " ";
+                        outputValue += rhythmCalculator.lineHeight(fontSize, value, null, true) + " ";
                     } else if (property == "leading") {
-                        lineHeight += rhythmCalculator.leading(value, fontSize) + " ";
+                        outputValue += rhythmCalculator.leading(value, fontSize) + " ";
+                    } else if (property == "!rhythm") {
+                        let [inValue, outputUnit] = value.split(/\$/);
+                        outputValue += rhythmCalculator.rhythm(inValue, fontSize, true, outputUnit) + " ";
+                    } else if (property == "rhythm") {
+                        let [inValue, outputUnit] = value.split(/\$/);
+                        outputValue += rhythmCalculator.rhythm(inValue, fontSize, false, outputUnit) + " ";
                     }
-
                 }
-                decl.value = decl.value.replace(found[0], lineHeight.replace(/\s+$/, ""));
+                decl.value = decl.value.replace(found[0], outputValue.replace(/\s+$/, ""));
             }
+
             // rem fallback
             if (currentSettings["px-fallback"] == "true" && decl.value.match(/[0-9\.]+rem/i)) {
                 decl.parent.insertBefore(decl, decl.clone({
@@ -527,7 +526,7 @@ const hamster = (options = null) => {
                     if (property == "hyphens" && rule.params == "true") {
                         decls = helpers["break-word"] + decls;
                     }
-                    
+
                     if (property == "ellipsis" && rule.params == "true") {
                         decls = helpers["nowrap"] + decls;
                     }

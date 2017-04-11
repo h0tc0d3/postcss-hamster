@@ -1,6 +1,6 @@
 {
   "name": "postcss-hamster",
-  "version": "1.0.0-rc5",
+  "version": "1.0.0-rc6",
   "description": "PostCSS Hamster",
   "scripts": {
     "dev": "node webpack.js",
