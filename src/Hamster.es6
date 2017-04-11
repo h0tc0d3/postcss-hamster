@@ -45,7 +45,7 @@ const hamster = (options = null) => {
 
         "ruler": "true",
         "ruler-style": "always ruler-debug",
-        "ruler-icon-position": "top: 1.5em;left: 1.5em;",
+        "ruler-icon-position": "position: fixed;top: 1.5em;left: 1.5em;",
         "ruler-icon-colors": "#cccccc #44576a",
         "ruler-icon-size": "24px",
         "ruler-color": "rgba(19, 134, 191, .8)",
@@ -450,7 +450,8 @@ const hamster = (options = null) => {
                         "padding: 0;" +
                         "width: 100%;" +
                         "height: 100%;" +
-                        "z-index: 9900;" + background;
+                        "z-index: 9900;" +
+                        "pointer-events: none;" + background;
 
                     let iconSize = currentSettings["ruler-icon-size"];
 
@@ -471,7 +472,7 @@ const hamster = (options = null) => {
                             "input[id=\"" + rulerClass + "\"] + label {" +
                             "z-index: 9999;" +
                             "display: inline-block;" +
-                            "position: absolute;" + rulerIconPosition +
+                            rulerIconPosition +
                             "margin: 0;" +
                             "padding: 0;" +
                             "width: " + iconSize + ";" +
@@ -492,7 +493,6 @@ const hamster = (options = null) => {
                     } else if (style == "hover") {
 
                         rulerRule = postcss.parse("." + rulerClass + "{" +
-                            "position: absolute;" +
                             rulerIconPosition +
                             "margin: 0;" +
                             "padding: 0;" +

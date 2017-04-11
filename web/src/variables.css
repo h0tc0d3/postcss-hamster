@@ -18,8 +18,9 @@ $icons: ../icons;
     properties: extend;
     ruler-style: switch ruler-debug;
     ruler-color: rgba(19, 134, 191, .8);
-    ruler-icon-colors: #F0FAFF #ACFF0D;
-    ruler-icon-position: "top: 1.5em;left: 1.5em;";
+    /*ruler-icon-colors: #F0FAFF #ACFF0D;
+    ruler-icon-colors: #cccccc #44576a;*/
+    ruler-icon-position: "position:fixed;top: 1.5em;left: 1.5em;";
     /*ruler-color: #21BF13;*/
     ruler-background: png;
     /*ruler-output: images/ruler.png;*/
