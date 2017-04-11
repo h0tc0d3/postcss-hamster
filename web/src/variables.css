@@ -39,7 +39,8 @@ $icons: ../icons;
     background-color: #FAFDFF;
     block-color: #F0FAFF;
     hover-color: #1BBA13;
-    footer-color: #1B2633;
+    /*footer-color: #1B2633;*/
+    footer-color: #2C3945;
     code-color: #2C3945;
     font-family: Roboto, "Open Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
 

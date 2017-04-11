@@ -62,6 +62,18 @@ plugins.push(
     }),
     new HTMLWebpackPlugin({
         chunks: ["app"],
+        filename: "index.html",
+        template: "./web/index.html",
+        minify: {
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true
+        }
+    }),
+    new HTMLWebpackPlugin({
+        chunks: ["app"],
         filename: "postcss-hamster-en.html",
         template: "./web/postcss-hamster-en.html",
         minify: {
