@@ -1,19 +1,18 @@
-//const fs = require("fs");
-require("colors");
-const run = require("gulp-run");
-const runSequence = require("run-sequence");
-const gulp = require("gulp");
-const babel = require("gulp-babel");
-const sourcemaps = require("gulp-sourcemaps");
-const postcssgulp = require("gulp-postcss");
-const precss = require("precss");
-const cssnext = require("postcss-cssnext");
+//var fs = require("fs");
+var run = require("gulp-run");
+var runSequence = require("run-sequence");
+var gulp = require("gulp");
+var babel = require("gulp-babel");
+var sourcemaps = require("gulp-sourcemaps");
+var postcssgulp = require("gulp-postcss");
+var precss = require("precss");
+var cssnext = require("postcss-cssnext");
 
-//const lost = require("lost");
-//const cssnano = require("gulp-cssnano");
+//var lost = require("lost");
+//var cssnano = require("gulp-cssnano");
 
 gulp.task("clean", () => {
-    let del = require("del");
+    var del = require("del");
     return del(["build/"]);
 });
 
@@ -27,16 +26,16 @@ gulp.task("compile", () => {
 });
 
 gulp.task("build:docs", () => {
-    let jsdoc = require("gulp-jsdoc3");
-    let config = require("./jsdoc.json");
+    var jsdoc = require("gulp-jsdoc3");
+    var config = require("./jsdoc.json");
     gulp.src("./build/*.js", {
         read: false
     }).pipe(jsdoc(config, "./build/docs"));
 });
 
 gulp.task("css", function () {
-    let hamster = require("./index.js");
-    let processors = [precss({
+    var hamster = require("./index.js");
+    var processors = [precss({
         "lookup": false
     }), hamster, cssnext({
         browsers: ["> 0.5%"],
@@ -55,7 +54,7 @@ gulp.task("css", function () {
 
 
 gulp.task("clean-web", () => {
-    let del = require("del");
+    var del = require("del");
     return del(["build/web"]);
 });
 
@@ -73,7 +72,7 @@ gulp.task("build-web", () => {
 });
 
 gulp.task("htest", function () {
-    let ava = require("gulp-ava");
+    var ava = require("gulp-ava");
     return gulp.src("test.js")
 		.pipe(ava({verbose: true}));
 });

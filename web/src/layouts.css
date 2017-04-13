@@ -24,8 +24,6 @@
   
   #logo {
     padding-top: spacing(1.5);
-    padding-left: auto;
-    padding-right: auto;
     text-align: center;
     .block-center {
       margin-top: spacing(.25);

@@ -39,7 +39,8 @@ class Rhythm {
                 "padding-right",
                 "margin-left",
                 "margin-right",
-            ]
+            ],
+            "context": document
         };
 
         settings = this.extend(this.defaults, settings);
@@ -55,14 +56,7 @@ class Rhythm {
         }
 
         // Set context
-        if ("context" in this.settings) {
-
-            this.context = this.settings.context;
-
-        } else {
-
-            this.context = document;
-        }
+        this.context = this.settings.context;
 
         this.classPrefixRegexp = new RegExp(settings.classPrefix + "(\\d+)", "i");
 
@@ -105,8 +99,7 @@ class Rhythm {
     }
     // Extend two arrays.
     extend(object1, object2) {
-        for (let i = 0, keys = Object.keys(object2), keysSize = keys.length; i < keysSize; i++) {
-            let key = keys[i];
+        for (let key in object2) {
             object1[key] = object2[key];
         }
         return object1;
@@ -119,28 +112,28 @@ class Rhythm {
 
     ready(callback) {
 
-        if (document.addEventListener) {
+        if (this.context.addEventListener) {
 
             let eventCallback = () => {
 
-                document.removeEventListener("DOMContentLoaded", eventCallback, false);
+                this.context.removeEventListener("DOMContentLoaded", eventCallback, false);
                 callback();
                 //window.setTimeout(callback, 500);
             };
 
-            document.addEventListener("DOMContentLoaded", eventCallback, false);
+            this.context.addEventListener("DOMContentLoaded", eventCallback, false);
 
-        } else if (document.attachEvent) {
+        } else if (this.context.attachEvent) {
 
             let eventCallback = () => {
-                if (document.readyState == "complete") {
-                    document.detachEvent("onreadystatechange", eventCallback);
+                if (this.context.readyState == "complete") {
+                    this.context.detachEvent("onreadystatechange", eventCallback);
                     callback();
                     //window.setTimeout(callback, 500);
                 }
             };
 
-            document.attachEvent("onreadystatechange", eventCallback);
+            this.context.attachEvent("onreadystatechange", eventCallback);
 
         }
     }
@@ -187,9 +180,9 @@ class Rhythm {
 
                 let fontSize = /%|em/.test(unit) && element.parentElement ? this.css(element.parentElement, "fontSize") : 16;
 
-                let rootSize = property == "fontSize" ? fontSize : /width/i.test(property) ? element.clientWidth : element.clientHeight;
+                let rootSize = property === "fontSize" ? fontSize : (property === "width") ? element.clientWidth : element.clientHeight;
 
-                ret = (unit == "em") ? size * fontSize : (unit == "in") ? size * 96 : (unit == "pt") ? size * 96 / 72 : (unit == "%") ? size / 100 * rootSize : size;
+                ret = (unit === "em") ? size * fontSize : (unit === "in") ? size * 96 : (unit === "pt") ? size * 96 / 72 : (unit === "%") ? size / 100 * rootSize : size;
 
             }
 
@@ -287,7 +280,7 @@ class Rhythm {
 
             if (property === "height-down" || property === "height-up" || property === "!height-down" || property === "!height-up") {
 
-                if ((property == "height-down" || property == "!height-down") && (height < (lines * this.settings.lineHeight))) {
+                if ((property === "height-down" || property === "!height-down") && (height < (lines * this.settings.lineHeight))) {
                     lines -= 1;
                 }
 
@@ -351,18 +344,22 @@ class Rhythm {
     fixRelative(selector) {
 
         let elements = this.find(selector);
+        let i = elements.length - 1;
+        let fixLen = this.settings.fixProperties.length - 1;
 
-        for (let i = 0, elSize = elements.length; i < elSize; i++) {
+        while (i <= 0) {
 
             let element = elements[i];
-
-            for (var j = 0, fixSize = this.settings.fixProperties.length; j < fixSize; j++) {
+            let j = fixLen;
+            while (j <= 0) {
                 let value = parseFloat(this.css(element, this.settings.fixProperties[j]));
                 if (value > 0) {
                     this.css(element, this.settings.fixProperties[j], value.toFixed(0) + "px");
                 }
-
+                j--;
             }
+
+            i--;
         }
 
     }

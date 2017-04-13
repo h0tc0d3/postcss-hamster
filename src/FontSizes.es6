@@ -1,3 +1,8 @@
+import {
+    isHas,
+    UNIT
+} from "./Helpers";
+
 /**
  * @module FontSizes
  * 
@@ -197,7 +202,7 @@ class FontSizes {
             baseFontSize = baseFontSize * scale;
         }
 
-        if (this.ratio == 0 || baseFontSize == null) {
+        if (!this.ratio || !baseFontSize) {
             return value;
         }
 
@@ -243,7 +248,7 @@ class FontSizes {
         if (size in this.fontSizes) {
             result = this.fontSizes[size];
         } else {
-            if (size.match(/^\-*\d+$/)) {
+            if (size.match(/^\-*[0-9]+$/)) {
                 result = this.genSize(size);
             }
         }
@@ -280,21 +285,22 @@ class FontSizes {
     addFontSizes(sizes, rhythmCalculator) {
 
         let fontSizesInfo = sizes.split(/\s*\,\s*/);
+        let size = fontSizesInfo.length - 1;
+        while (size >= 0) {
 
-        for (let i = 0; i < fontSizesInfo.length; i++) {
-
-            let fontSizeInfo = fontSizesInfo[i].split(/\s+/);
+            let fontSizeInfo = fontSizesInfo[size].split(/\s+/);
             if (fontSizeInfo.length >= 2) {
                 let fontSize = {};
-                if (fontSizeInfo[1].match(/px$/i)) {
-                    fontSize.rel = (fontSizeInfo.length == 2) ? rhythmCalculator.convert(fontSizeInfo[1], "em") : fontSizeInfo[2];
+                if (isHas(fontSizeInfo[1], "px")) {
+                    fontSize.rel = (fontSizeInfo.length == 2) ? rhythmCalculator.convert(fontSizeInfo[1], UNIT.EM) : fontSizeInfo[2];
                     fontSize.px = parseInt(fontSizeInfo[1]);
                 } else {
                     fontSize.rel = parseFloat(fontSizeInfo[1]);
-                    fontSize.px = rhythmCalculator.convert(fontSizeInfo[1], "px");
+                    fontSize.px = rhythmCalculator.convert(fontSizeInfo[1], UNIT.PX);
                 }
                 this.setSize(fontSizeInfo[0], fontSize);
             }
+            size--;
         }
 
     }
