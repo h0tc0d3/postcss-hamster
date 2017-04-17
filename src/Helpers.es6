@@ -198,11 +198,11 @@ function toCamelCase(value) {
         }
         prev = code;
     }
-    // let ret = new safeUint8Array(count);
-    // for (let j = 0; j < count; j++) {
-    //     ret[j] = buffer[j];
-    // }
-    return String.fromCharCode.apply(null, buffer.subarray(0, count));
+    let ret = new safeUint8Array(count);
+    for (let j = 0; j < count; j++) {
+        ret[j] = buffer[j];
+    }
+    return String.fromCharCode.apply(null, ret);
 }
 
 /**
@@ -256,6 +256,7 @@ function hasNumber(value) {
  */
 function cmpStr(str, refStr) {
 
+    //return str == refStr;
     let len = refStr.length;
 
     if (len !== str.length) {
@@ -284,6 +285,7 @@ function cmpStr(str, refStr) {
  * @param refStr - reference string
  */
 function scmpStr(str, refStr) {
+    //return str === refStr;
     let len = refStr.length;
 
     if (len !== str.length) {

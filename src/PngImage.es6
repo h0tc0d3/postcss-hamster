@@ -144,7 +144,12 @@ class PngImage {
         this.ihdr.set(this.byte4(this.width), 8);
         this.ihdr.set(this.byte4(this.height), 12);
         this.ihdr.set([this.depth, this.colortype, 0, 0, 0], 16);
-        this.ihdr.set(this.crc32(this.ihdr.subarray(4, 21)), 21);
+
+        let tmp = new safeUint8Array(17);
+        for (let j = 0; j < 17; j++) {
+            tmp[j] = this.ihdr[j + 4];
+        }
+        this.ihdr.set(this.crc32(tmp), 21);
     }
 
     /**
@@ -262,7 +267,12 @@ class PngImage {
             this.idat.set(this.byte4(mlen), 0);
             this.idat.set([73, 68, 65, 84], 4);
             this.idat.set(matrix, 8);
-            this.idat.set(this.crc32(this.idat.subarray(4, mlen + 8)), mlen + 8);
+            let tsize = mlen + 4;
+            let tmp = new safeUint8Array(tsize);
+            for (let j = 0; j < tsize; j++) {
+                tmp[j] = this.idat[j + 4];
+            }
+            this.idat.set(this.crc32(tmp), mlen + 8);
         }
 
     }
