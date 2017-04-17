@@ -1,10 +1,9 @@
-import "colors";
+require("colors");
 
-import test from "ava";
-import fs from "fs";
-import postcss from "postcss";
-import stylefmt from "stylefmt";
-import hamster from "./index.js";
+var fs = require("fs");
+var postcss = require("postcss");
+var stylefmt = require("stylefmt");
+var hamster = require("./index.js");
 
 const jsdiff = require("diff");
 
@@ -36,26 +35,44 @@ const viewDiff = (diff) => {
     return output;
 };
 
+function scmpStr(str, refStr) {
+
+    let len = refStr.length;
+
+    if (len !== str.length) {
+        return false;
+    }
+
+    for (var i = 0; i < len; i++) {
+
+        if (str.charCodeAt(i) !== refStr.charCodeAt(i)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 const compare = (tcss, tres, res) => {
 
-    let result = {};
+    let result = {
+        identical: false,
+        diff: ""
+    };
 
     tres = tres.replace(/\n\n$/, "\r\n\r\n");
 
-    result.identical = tres == res;
+    result.identical = scmpStr(tres, res);
 
     if (!result.identical) {
         //console.log(new Buffer(src, "binary").toString("hex") + "\n" + new Buffer(res, "binary").toString("hex"));
         //result.diff = "--------- CSS ---------\n" + tcss + "\n--------- RESULT ---------\n" + tres + "\n--------- TRESULT ---------\n" + res + "\n--------- END ---------";
         result.diff = viewDiff(jsdiff.diffCss(tres, res));
-    } else {
-
-        result.diff = "";
-
     }
 
     return result;
 };
+
 
 let htest = (name, css) => {
 
@@ -64,29 +81,24 @@ let htest = (name, css) => {
 
     let ctest = (description, tcss, tres) => {
 
-        test(name + ": " + description, async t => {
-
+        test(name + ": " + description, done => {
+            let errHandle = error => {
+                done.fail(error.message + "\n" + error.stack);
+            };
             return postcss([hamster, stylefmt]).process(tcss).then(
-
                 result => {
-
                     let tresult = result.css.replace(/^\s*([\S\s]+)\s*$/m, "$1");
-
                     let tcompare = compare(tcss, tres, tresult);
 
-                    let pass = tcompare.identical;
-                    let diff = tcompare.diff;
-
-                    t.true(pass, diff);
-
+                    if (tcompare.identical) {
+                        expect(tcompare.identical).toBeTruthy();
+                    } else {
+                        done.fail(tcompare.diff);
+                    }
+                    done();
                 },
-
-                error => {
-
-                    t.fail(error.message + "\n" + error.stack);
-
-                }
-            );
+                errHandle
+            ).catch(errHandle);
         });
     };
 
@@ -104,12 +116,12 @@ let htest = (name, css) => {
     }
 };
 
-htest("Baseline", "baseline");
+// htest("Baseline", "baseline");
 
 htest("Font Sizes", "fontsizes");
 
-htest("Reset", "reset");
+// htest("Reset", "reset");
 
-htest("Normalize", "normalize");
+// htest("Normalize", "normalize");
 
-htest("Properties", "properties");
+// htest("Properties", "properties");

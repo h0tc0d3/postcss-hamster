@@ -126,21 +126,21 @@
 /* htest selector .test18, adjust-font-size: 2em; px-fallback: false; */
 .test18 {
   font-size: 32px;
-  line-height: 0.75;
+  line-height: 1.5;
 }
 
 /* htest selector .test19, adjust-font-size: 3rem */
 
 .test19 {
   font-size: 48px;
-  line-height: 0.5;
+  line-height: 1.5;
 }
 
 /* htest selector .test20, adjust-font-size: 25px */
 
 .test20 {
   font-size: 25px;
-  line-height: 0.96;
+  line-height: 1.92;
 }
 
 /* htest selector .test21, .test22, .test23 custom font-ssize collection, font-sizes: fsize1 24px 1.5, fsize2 18px, fsize3 1.78; */
