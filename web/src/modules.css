@@ -4,9 +4,9 @@
 	display: inline-block;
 	adjust-font-size: fontSize t;
 	/*Padding minus border size*/
-	padding: leading(.4, 2.4);
-	margin-top: leading(.5);
-	margin-bottom: leading(.5);
+	padding: spacing(.25, 1.5);
+	margin-top: spacing(.25);
+	margin-bottom: spacing(.25);
 	border-radius: leading(.25);
 	font-weight: 500;
 	text-align: center;
@@ -21,7 +21,7 @@
 		@extend %button;
 		background-color: $color;
 		color: #fff;
-		border: leading(.1) solid $color;
+		/*border: leading(.1) solid $color;*/
 		&:hover {
 			background-color: @background-color;
 			color: $color;

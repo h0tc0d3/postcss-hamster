@@ -317,9 +317,9 @@ footer a:hover {
     display: inline-block;
     font-size: 0.6944em;
     line-height: 2.1601em;
-    padding: 0.4641em 2.7843em;
-    margin-top: 0.5801em;
-    margin-bottom: 0.5801em;
+    padding: 0.54em 3.2402em;
+    margin-top: 0.54em;
+    margin-bottom: 0.54em;
     border-radius: 0.29em;
     font-weight: 500;
     text-align: center;
@@ -332,7 +332,6 @@ footer a:hover {
 .button-blue {
     background-color: #1386BF;
     color: #fff;
-    border: 0.05em solid #1386BF;
 }
 .button-blue:hover {
     background-color: #FAFDFF;
@@ -343,7 +342,6 @@ footer a:hover {
 .button-gray {
     background-color: #44576a;
     color: #fff;
-    border: 0.05em solid #44576a;
 }
 .button-gray:hover {
     background-color: #FAFDFF;
@@ -354,7 +352,6 @@ footer a:hover {
 .button-green {
     background-color: #1BBA13;
     color: #fff;
-    border: 0.05em solid #1BBA13;
 }
 .button-green:hover {
     background-color: #FAFDFF;
