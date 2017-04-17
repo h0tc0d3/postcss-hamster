@@ -84,7 +84,7 @@ class Rhythm {
         this.style.rel = "stylesheet";
         this.head.appendChild(this.style);
 
-        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ? Uint8Array : Array;
+        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ?  Array : Uint8Array;
 
         this.UNIT = {
             PX: 1,
