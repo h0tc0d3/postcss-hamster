@@ -34,22 +34,30 @@ let SvgAnimation = (elements, duration = 3000, easing, callback) => {
         };
     }
 
-    let length = [];
-
+    
+    var safeUint32Array = typeof Uint32Array !== "undefined" ? Uint32Array : Array;
     // Set initial styles
-    for (let i = 0, elSize = elements.length; i < elSize; i++) {
-        let len = elements[i].getTotalLength();
-        length[i] = len;
-        elements[i].style.strokeDasharray = len + " " + len;
-        elements[i].style.strokeDashoffset = len;
+    let elSize = elements.length - 1;
+    let length = new safeUint32Array(elSize);
+
+    while (elSize >= 0) {
+        let len = elements[elSize].getTotalLength();
+        length[elSize] = len;
+        elements[elSize].style.strokeDasharray = len + " " + len;
+        elements[elSize].style.strokeDashoffset = len;
+        elSize--;
     }
 
     let animate = (progress) => {
-        for (let i = 0, elSize = elements.length; i < elSize; i++) {
+        let i = elements.length - 1;
+        while(i >= 0) {
             let value = Math.ceil(length[i] * (1 - progress));
-            elements[i].style.strokeDashoffset = value < 0 ? 0 : Math.abs(value);
+            let strokeDashoffset = value < 0 ? 0 : Math.abs(value);
+            let strokeOpacity = 1 - progress;
+            elements[i].style.strokeDashoffset = strokeDashoffset;
             elements[i].style.fillOpacity = progress;
-            elements[i].style.strokeOpacity = (1 - progress);
+            elements[i].style.strokeOpacity = strokeOpacity;
+            i--;
         }
     };
 
@@ -71,7 +79,8 @@ let SvgAnimation = (elements, duration = 3000, easing, callback) => {
         }
     };
 
-    window.requestAnimationFrame(update);
+    update();
+    // window.requestAnimationFrame(update);
 };
 
 export default SvgAnimation;

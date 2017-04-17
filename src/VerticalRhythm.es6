@@ -29,22 +29,24 @@ class VerticalRhythm {
      * 
      * <p>
      * Use:
-     * settings["font-size"] - base font size in pixels.
-     * settings["px-fallback"] - boolean pixel fallback. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
+     * settings.fontSize - base font size in pixels.
+     * settings.pxFallback - boolean pixel fallback. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
      * If rhythm unit px and option will be set then in line height will be pixels like 24px, else relative size like 1.45(without em or rem)
-     * settings["line-height"] - base line height in pixels or relative value(without em or rem).
+     * settings.lineHeight - base line height in pixels or relative value(without em or rem).
      * </p>
      */
     constructor(settings) {
-        this.baseFontSize = parseInt(settings["font-size"]);
-        this.rhythmUnit = getUnit(settings["unit"]);
-        this.pxFallback = (settings["px-fallback"] === "true") ? 1 : 0;
-        this.minLinePadding = parseInt(settings["min-line-padding"]);
-        this.roundToHalfLine = (settings["round-to-half-line"] === "true") ? 1 : 0;
+        this.baseFontSize = settings.fontSize;
+        this.rhythmUnit = settings.unit;
+        this.pxFallback = settings.pxFallback;
+        this.minLinePadding = settings.minLinePadding;
+        this.roundToHalfLine = settings.roundToHalfLine;
 
         // Base Line Height in Pixels
-        this.baseLineHeight = isHas(settings["line-height"], "px") ? parseFloat(settings["line-height"]) : parseFloat(settings["line-height"]) * this.baseFontSize;
-        this.baseLineHeightRatio = isHas(settings["line-height"], "px") ? parseFloat(settings["line-height"]) / parseInt(this.baseFontSize) : parseFloat(settings["line-height"]);
+        this.baseLineHeight = settings.lineHeight >= settings.fontSize ?
+            settings.lineHeight :
+            (settings.lineHeight * settings.fontSize);
+        this.baseLineHeightRatio = settings.lineHeight >= settings.fontSize ? settings.lineHeight / this.baseFontSize : settings.lineHeight;
         this.baseLeading = this.convert(this.baseLineHeight - this.baseFontSize, UNIT.PX, this.rhythmUnit);
     }
 
@@ -125,8 +127,6 @@ class VerticalRhythm {
      */
     lines(fontSize) {
 
-        fontSize = parseFloat(fontSize);
-
         let lines = 0;
 
         if (this.rhythmUnit === UNIT.PX) {
@@ -139,7 +139,7 @@ class VerticalRhythm {
 
         }
         //If lines are cramped include some extra lead.
-        if ((lines * this.baseLineHeight - fontSize) < (this.minLinePadding * 2)){
+        if ((lines * this.baseLineHeight - fontSize) < (this.minLinePadding * 2)) {
             lines = (this.roundToHalfLine) ? lines + 0.5 : lines + 1;
         }
 
@@ -154,14 +154,14 @@ class VerticalRhythm {
      * @param fontSize - font size in pixels, em, rem like 1.5em.
      * @param value - input lines, before output 1 line height will be multiply with value.
      * @param baseFontSize - base font size for calculation relative sizes for px or em.
-     * @param pxFallback - boolean pixel fallback option. Ignore settings["px-fallback"] option. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
+     * @param pxFallback - boolean pixel fallback option. Ignore settings.pxFallback option. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
      * If rhythm unit px and option will be set then in line height will be pixels like 24px, else relative size like 1.45(without em or rem).
      * 
      * @return {number} - line height in rhythm unit.
      */
     lineHeight(fontSize, value, baseFontSize, pxFallback = false) {
-        
-        if(!fontSize){
+
+        if (!fontSize) {
             fontSize = this.baseFontSize + "px";
         }
 
@@ -169,7 +169,7 @@ class VerticalRhythm {
 
             let fontSizeUnit = getUnit(fontSize);
 
-            if (fontSizeUnit != this.rhythmUnit || baseFontSize ) {
+            if (fontSizeUnit != this.rhythmUnit || baseFontSize) {
 
                 fontSize = (baseFontSize) ? this.convert(fontSize, fontSizeUnit, this.rhythmUnit, baseFontSize) : this.convert(fontSize, fontSizeUnit, this.rhythmUnit);
 
@@ -186,7 +186,7 @@ class VerticalRhythm {
 
         if (this.rhythmUnit === UNIT.PX) {
 
-            result = (fontSize && !this.pxFallback && !pxFallback) ? formatValue(this.baseLineHeight / fontSize) : formatInt(this.baseLineHeight * value) + "px";
+            result = (fontSize && !this.pxFallback && !pxFallback) ? formatValue(this.baseLineHeight * value / fontSize) : formatInt(this.baseLineHeight * value) + "px";
 
         } else if (this.rhythmUnit === UNIT.EM) {
 
@@ -216,11 +216,11 @@ class VerticalRhythm {
      * @return {number} - leading in rhythm unit.
      */
     leading(value, fontSize) {
-        
-        if(!fontSize){
+
+        if (!fontSize) {
             fontSize = this.baseFontSize + "px";
         }
-        
+
         let fontSizeUnit = getUnit(fontSize);
 
         if (fontSizeUnit != this.rhythmUnit) {
@@ -252,7 +252,7 @@ class VerticalRhythm {
         return result;
 
     }
-    
+
     /**
      * Calculate rhythm value in rhythm unit. It used for height values, etc. 
      *
@@ -272,12 +272,12 @@ class VerticalRhythm {
      */
 
     rhythm(value, fontSize, increase = false, outputUnit) {
-        
-        if(fontSize == null){
+
+        if (fontSize == null) {
             fontSize = this.baseFontSize + "px";
         }
 
-        if(outputUnit == null){
+        if (outputUnit == null) {
             outputUnit = this.rhythmUnit;
         }
 
@@ -305,7 +305,7 @@ class VerticalRhythm {
 
         let lines = this.lines(value),
             result = 0;
-    
+
         if (!increase && (value < (lines * fontSize * this.baseLineHeightRatio))) {
             lines = lines - 1;
         }

@@ -1,5 +1,7 @@
 import {
     isHas,
+    toCamelCase,
+    hasNumber,
     UNIT
 } from "./Helpers";
 
@@ -22,7 +24,7 @@ class FontSizes {
      * 
      * @param settings - settings.
      * 
-     * Use settings["font-ratio"] - font scale ratio and settings["font-size"] - base font size(will be 0 size).
+     * Use settings.fontRatio"] - font scale ratio and settings.fontSize - base font size(will be 0 size).
      * All sizes will be generated from base font size * ratio.
      */
     constructor(settings) {
@@ -32,19 +34,19 @@ class FontSizes {
                 "desc": "1:1.618",
                 "value": 1.618
             },
-            "double-octave": {
+            "doubleOctave": {
                 "desc": "1:4",
                 "value": 4
             },
-            "major-twelfth": {
+            "majorTwelfth": {
                 "desc": "1:3",
                 "value": 3
             },
-            "major-eleventh": {
+            "majorEleventh": {
                 "desc": "3:8",
                 "value": 2.667
             },
-            "major-tenth": {
+            "majorTenth": {
                 "desc": "2:5",
                 "value": 2.5
             },
@@ -52,47 +54,47 @@ class FontSizes {
                 "desc": "1:2",
                 "value": 2
             },
-            "major-seventh": {
+            "majorSeventh": {
                 "desc": "8:15",
                 "value": 1.875
             },
-            "minor-seventh": {
+            "minorSeventh": {
                 "desc": "9:16",
                 "value": 1.778
             },
-            "major-sixth": {
+            "majorSixth": {
                 "desc": "3:5",
                 "value": 1.667
             },
-            "minor-sixth": {
+            "minorSixth": {
                 "desc": "5:8",
                 "value": 1.6
             },
-            "perfect-fifth": {
+            "perfectFifth": {
                 "desc": "2:3",
                 "value": 1.5
             },
-            "augmented-fourth": {
+            "augmentedFourth": {
                 "desc": "1:√2",
                 "value": 1.414
             },
-            "perfect-fourth": {
+            "perfectFourth": {
                 "desc": "3:4",
                 "value": 1.333
             },
-            "major-third": {
+            "majorThird": {
                 "desc": "4:5",
                 "value": 1.25
             },
-            "minor-third": {
+            "minorThird": {
                 "desc": "5:6",
                 "value": 1.2
             },
-            "major-second": {
+            "majorSecond": {
                 "desc": "8:9",
                 "value": 1.125
             },
-            "minor-second": {
+            "minorSecond": {
                 "desc": "15:16",
                 "value": 1.067
             }
@@ -116,55 +118,53 @@ class FontSizes {
             "xxxlarge": "5",
             "xxxl": "5",
             //Double scaled sizes
-            "tiny@x2": "-2@x2",
-            "t@x2": "-2@x2",
-            "small@x2": "-1@x2",
-            "s@x2": "-1@x2",
-            "base@x2": "0@x2",
-            "b@x2": "0@x2",
-            "medium@x2": "1@x2",
-            "m@x2": "1@x2",
-            "large@x2": "2@x2",
-            "l@x2": "2@x2",
-            "xlarge@x2": "3@x2",
-            "xl@x2": "3@x2",
-            "xxlarge@x2": "4@x2",
-            "xxl@x2": "4@x2",
-            "xxxlarge@x2": "5@x2",
-            "xxxl@x2": "5@x2",
+            "tiny1": "-21",
+            "t1": "-21",
+            "small1": "-11",
+            "s1": "-11",
+            "base1": "01",
+            "b1": "01",
+            "medium1": "11",
+            "m1": "11",
+            "large1": "21",
+            "l1": "21",
+            "xlarge1": "31",
+            "xl1": "31",
+            "xxlarge1": "41",
+            "xxl1": "41",
+            "xxxlarge1": "51",
+            "xxxl1": "51",
             //Double divided sizes
-            "tiny@d2": "-2@d2",
-            "t@d2": "-2@d2",
-            "small@d2": "-1@d2",
-            "s@d2": "-1@d2",
-            "base@d2": "0@d2",
-            "b@d2": "0@d2",
-            "medium@d2": "1@d2",
-            "m@d2": "1@d2",
-            "large@d2": "2@d2",
-            "l@d2": "2@d2",
-            "xlarge@d2": "3@d2",
-            "xl@d2": "3@d2",
-            "xxlarge@d2": "4@d2",
-            "xxl@d2": "4@d2",
-            "xxxlarge@d2": "5@d2",
-            "xxxl@d2": "5@d2"
+            "tiny2": "-22",
+            "t2": "-22",
+            "small2": "-12",
+            "s2": "-12",
+            "base2": "02",
+            "b2": "02",
+            "medium2": "12",
+            "m2": "12",
+            "large2": "22",
+            "l2": "22",
+            "xlarge2": "32",
+            "xl2": "32",
+            "xxlarge2": "42",
+            "xxl2": "42",
+            "xxxlarge2": "52",
+            "xxxl2": "52"
         };
 
-        if (settings["font-ratio"] in fontRatio) {
-
-            this.ratio = fontRatio[settings["font-ratio"]].value;
-            this.desc = fontRatio[settings["font-ratio"]].desc;
-
-        } else {
-
-            this.ratio = parseFloat(settings["font-ratio"]);
+        if(hasNumber(settings.fontRatio)){
+            this.ratio = parseFloat(settings.fontRatio);
             this.desc = "Custom font ratio";
-
+        } else {
+            let fr = toCamelCase(settings.fontRatio);
+            this.ratio = fontRatio[fr].value;
+            this.desc = fontRatio[fr].desc;
         }
 
+
         // BaseFontSize
-        this.baseSize = parseInt(settings["font-size"]);
+        this.baseSize = settings.fontSize;
 
         // making fontsize collection
         if (this.ratio > 0 && this.baseSize > 0) {
@@ -174,9 +174,9 @@ class FontSizes {
                 // Make size from -2 to 5
                 this.fontSizes[i] = this.genSize(i);
                 // Make double size from -2 to 5
-                this.fontSizes[i + "@x2"] = this.genSize(i, 2);
+                this.fontSizes[i + "1"] = this.genSize(i, 2);
                 // Make double divided size from -2 to 5
-                this.fontSizes[i + "@d2"] = this.genSize(i, 0.5);
+                this.fontSizes[i + "2"] = this.genSize(i, 0.5);
             }
         }
         //console.log(JSON.stringify(this.fontSizes, null, 2));
@@ -194,7 +194,7 @@ class FontSizes {
      */
     genSize(size, scale = 0) {
 
-        let value = {};
+        let value =  {px: 0, rel: 0};
 
         let baseFontSize = this.baseSize;
 
@@ -239,6 +239,9 @@ class FontSizes {
     getSize(size) {
 
         // Check size is alias?
+        size = size.replace("@d2", "2");
+        size = size.replace("@x2", "1");
+
         if (size in this.aliases) {
             size = this.aliases[size];
         }
@@ -265,6 +268,8 @@ class FontSizes {
      * @param value - HashMap. px: value in pixels, rel: relative value
      */
     setSize(size, value) {
+        size = size.replace("@d2", "2");
+        size = size.replace("@x2", "1");
         // Check size is alias?
         if (size in this.aliases) {
             size = this.aliases[size];
@@ -284,13 +289,11 @@ class FontSizes {
      */
     addFontSizes(sizes, rhythmCalculator) {
 
-        let fontSizesInfo = sizes.split(/\s*\,\s*/);
-        let size = fontSizesInfo.length - 1;
-        while (size >= 0) {
-
-            let fontSizeInfo = fontSizesInfo[size].split(/\s+/);
+        let fontSizes = sizes.split(/\s*\,\s*/);
+        for(let i = 0, len = fontSizes.length; i < len; i++){
+            let fontSizeInfo = fontSizes[i].split(/\s+/);
             if (fontSizeInfo.length >= 2) {
-                let fontSize = {};
+                let fontSize = {px: 0, rel: 0};
                 if (isHas(fontSizeInfo[1], "px")) {
                     fontSize.rel = (fontSizeInfo.length == 2) ? rhythmCalculator.convert(fontSizeInfo[1], UNIT.EM) : fontSizeInfo[2];
                     fontSize.px = parseInt(fontSizeInfo[1]);
@@ -300,9 +303,7 @@ class FontSizes {
                 }
                 this.setSize(fontSizeInfo[0], fontSize);
             }
-            size--;
         }
-
     }
 
 }

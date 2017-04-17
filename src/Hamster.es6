@@ -17,8 +17,13 @@ import {
     formatValue,
     remRegexp,
     getUnit,
-    isHas,
+    extend,
+    toCamelCase,
+    toKebabCase,
+    cmpStr,
+    scmpStr,
     UNIT,
+    unitName
 } from "./Helpers";
 
 import VerticalRhythm from "./VerticalRhythm";
@@ -36,82 +41,93 @@ const hamster = (options = null) => {
     //Default Global Settings
     let globalSettings = {
 
-        "font-size": "16px",
-        "line-height": "1.5",
-        "unit": "em",
-        "px-fallback": "true",
-        "px-baseline": "false",
-        "font-ratio": "0",
+        fontSize: 16,
+        lineHeight: 1.5,
+        unit: UNIT.EM,
+        pxFallback: true,
+        pxBaseline: false,
+        fontRatio: "1.25",
 
-        "properties": "inline",
+        properties: "inline",
 
-        "min-line-padding": "2px",
-        "round-to-half-line": "false",
+        minLinePadding: 2,
+        roundToHalfLine: false,
 
-        "ruler": "true",
-        "ruler-style": "always ruler-debug",
-        "ruler-icon-position": "position: fixed;top: 1.5em;left: 1.5em;",
-        "ruler-icon-colors": "#cccccc #44576a",
-        "ruler-icon-size": "24px",
-        "ruler-color": "rgba(19, 134, 191, .8)",
-        "ruler-thickness": "1",
-        "ruler-background": "gradient",
-        "ruler-output": "base64",
-        "ruler-pattern": "1 0 0 0",
-        "ruler-scale": "1",
+        ruler: true,
+        rulerStyle: "always ruler-debug",
+        rulerIconPosition: "position: fixed;top: 1.5em;left: 1.5em;",
+        rulerIconColors: "#cccccc #44576a",
+        rulerIconSize: "24px",
+        rulerColor: "rgba(19, 134, 191, .8)",
+        rulerThickness: 1,
+        rulerBackground: "gradient",
+        rulerOutput: "base64",
+        rulerPattern: "1 0 0 0",
+        rulerScale: 1,
 
-        "browser-font-size": "16px",
-        "legacy-browsers": "true",
-        "remove-comments": "false"
-
+        browserFontSize: 16,
+        legacyBrowsers: true,
+        removeComments: false
     };
 
-    let globalKeys = ["unit",
-        "px-fallback",
-        "px-baseline",
-        "font-ratio",
+    // Value toLowerCase()
+    let toLowerCaseKeys = [
+        "unit",
+        "fontRatio",
         "properties",
-        "round-to-half-line",
-        "ruler",
-        "ruler-style",
-        "ruler-background",
-        "ruler-output",
-        "legacy-browsers",
-        "remove-comments"
+        "rulerStyle",
+        "rulerBackground",
+        "rulerOutput"
     ];
 
     let helpers = {
 
-        "reset": fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
+        reset: fs.readFileSync(path.resolve(__dirname, "../helpers/reset.css"), "utf8"),
 
-        "normalize": fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
+        normalize: fs.readFileSync(path.resolve(__dirname, "../helpers/normalize.css"), "utf8"),
 
-        "nowrap": "white-space: nowrap;",
+        nowrap: "white-space: nowrap;",
 
-        "forcewrap": "white-space: pre;" +
+        forcewrap: "white-space: pre;" +
             "white-space: pre-line;" +
             "white-space: pre-wrap;" +
             "word-wrap: break-word;",
 
-        "ellipsis": "overflow: hidden;" +
+        ellipsis: "overflow: hidden;" +
             "text-overflow: ellipsis;",
 
-        "hyphens": "word-wrap: break-word;" +
+        hyphens: "word-wrap: break-word;" +
             "hyphens: auto;",
 
-        "break-word":
+        breakWord:
             /* Non standard for webkit */
             "word-break: break-word;" +
             /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
             "word-break: break-all;"
     };
 
+    // fontSize property Regexp
+    const fontSizeRegexp = /fontSize\s+([\-\$\@0-9a-zA-Z]+)/i;
 
-    // Current Variables
+    // rhythm functions Regexp
+    const rhythmRegexp = /(lineHeight|spacing|leading|\!rhythm|rhythm)\((.*?)\)/i;
+
+    // Comma split regexp
+    const commaSplitRegexp = /\s*\,\s*/;
+
+    // Space split regexp
+    const spaceSplitRegexp = /\s+/;
+
+    if (options != null) {
+        extend(globalSettings, options);
+    }
+
+    // Current Settings extend({}, globalSettings)
     let currentSettings = {};
+
     let currentSettingsRegexp;
     //Current FontSizes
-    let currentFontSizes = "";
+    let currentFontSizes = null;
     // font Sizes
     let fontSizesCollection;
     // Vertical Rhythm Calculator
@@ -119,74 +135,75 @@ const hamster = (options = null) => {
     // Last Css File
     // let lastFile;
 
-    // let vm = new VirtualMachine();
-    // fontSize property Regexp
-    const fontSizeRegexp = /fontSize\s+([\-\$\@0-9a-zA-Z]+)/i;
+    /**
+     * Add Settings to settings table.
+     * @param rule - current rule.
+     * @param settings - settings tbale.
+     */
+    const addSettings = (rule, settings) => {
 
-    // rhythm functions Regexp
-    const rhythmRegexp = /(lineHeight|spacing|leading|\!rhythm|rhythm)\((.*?)\)/i;
+        rule.walkDecls(decl => {
 
-    // properties regexp
-    const propertiesRegexp = /^(ellipsis|nowrap|forcewrap|hyphens|break\-word)$/i;
+            let prop = toCamelCase(decl.prop);
 
-    // Comma split regexp
-    const commaSplitRegexp =/\s*\,\s*/;
+            if (scmpStr(prop, "pxFallback") || scmpStr(prop, "pxBaseline") ||
+                scmpStr(prop, "roundToHalfLine") || scmpStr(prop, "ruler") ||
+                scmpStr(prop, "legacyBrowsers") || scmpStr(prop, "removeComments")) {
 
-    // Space split regexp
-    const spaceSplitRegexp = /\s+/;
+                settings[prop] = cmpStr(decl.value, "true") ? true : false;
 
-    // Copy Values from object 2 to object 1;
-    const extend = (object1, object2) => {
+            } else if (scmpStr(prop, "unit")) {
 
-        for (let key in object2) {
-            // if(object2.hasOwnProperty(key)){
-            object1[key] = object2[key];
-            // }
-        }
+                settings.unit = getUnit(decl.value);
 
-        return object1;
+            } else if (scmpStr(prop, "lineHeight")) {
 
-    };
+                settings.lineHeight = parseFloat(decl.value);
 
-    if (options != null) {
-        extend(globalSettings, options);
-    }
+            } else if (scmpStr(prop, "fontSize") || scmpStr(prop, "minLinePadding") ||
+                scmpStr(prop, "rulerThickness") || scmpStr(prop, "rulerScale") ||
+                scmpStr(prop, "browserFontSize")) {
 
-    const beforeAfterWordRegexp = /^[^a-z0-9]*(.*)[^a-z0-9]*$/;
-    const camelRegexp = /[^a-z0-9]+([a-z0-9])/g;
+                settings[prop] = parseInt(decl.value);
 
-    const toCamelCase = (value) => {
-        return value.toLowerCase().replace(beforeAfterWordRegexp, "$1").replace(camelRegexp, (match, letter) => {
-            return letter.toUpperCase();
+            } else {
+
+                settings[prop] = decl.value;
+
+            }
+
         });
     };
-
-    // Init current Settings
+    var image = new PngImage();
+    /**
+     * Init current Settings
+     */
     const initSettings = () => {
-
+        currentFontSizes = null;
         // Add fontSizes
-        if ("font-sizes" in globalSettings) {
-            currentFontSizes = globalSettings["font-sizes"];
+        if (globalSettings.fontSizes) {
+            currentFontSizes = global.fontSizes;
         }
 
-        if ("font-sizes" in currentSettings) {
-            currentFontSizes = currentFontSizes + ", " + currentSettings["font-sizes"];
+        if (currentSettings.fontSizes) {
+            currentFontSizes = (currentFontSizes) ? currentFontSizes + ", " + currentSettings.fontSizes : currentSettings.fontSizes;
         }
 
         // ToLowerCase Current Settings
-        for (let key in globalKeys) {
+        for (let key in toLowerCaseKeys) {
             if (key in currentSettings) {
                 currentSettings[key] = currentSettings[key].toLowerCase();
             }
         }
-
+        //console.log(JSON.stringify(currentSettings, null ,2));
         fontSizesCollection = new FontSizes(currentSettings);
         rhythmCalculator = new VerticalRhythm(currentSettings);
-        fontSizesCollection.addFontSizes(currentFontSizes, rhythmCalculator);
-        let settingsKeys = Object.keys(currentSettings);
-        let settingsKeysString = settingsKeys.join("|").replace(/(\-|\_)/g, "\\$1");
+        if (currentFontSizes) {
+            fontSizesCollection.addFontSizes(currentFontSizes, rhythmCalculator);
+        }
+        let settingsKeys = Object.keys(currentSettings).join("|");
+        let settingsKeysString = toKebabCase(settingsKeys).replace(/([\-\_])/g, "\\$1");
         currentSettingsRegexp = new RegExp("\\@(" + settingsKeysString + ")", "i");
-
     };
 
     const walkDecls = (node) => {
@@ -197,8 +214,10 @@ const hamster = (options = null) => {
 
             let findRuleFontSize = () => {
                 if (ruleFontSize == null) {
-                    decl.parent.walkDecls("font-size", fsdecl => {
-                        ruleFontSize = fsdecl.value;
+                    decl.parent.walkDecls(fsdecl => {
+                        if (cmpStr(fsdecl.prop, "font-size")) {
+                            ruleFontSize = fsdecl.value;
+                        }
                     });
                 }
             };
@@ -207,43 +226,44 @@ const hamster = (options = null) => {
 
                 // Replace Variables with values
                 while ((found = decl.value.match(currentSettingsRegexp))) {
-                    let variable = found[1];
-                    decl.value = decl.value.replace(currentSettingsRegexp, currentSettings[variable]);
+                    let variable = toCamelCase(found[1]);
+                    decl.value = decl.value.replace(found[0], currentSettings[variable]);
 
                 }
 
                 // Replace Font Size
                 while ((found = decl.value.match(fontSizeRegexp))) {
 
-                    let [fontSize, sizeUnit] = found[1].split(/\$/i);
+                    let [fontSize, sizeUnit] = found[1].split("$");
 
                     sizeUnit = (sizeUnit) ? getUnit(sizeUnit) : 0;
+
                     let size = fontSizesCollection.getSize(fontSize);
                     // Write font size
-                    if (sizeUnit === UNIT.EM || sizeUnit == UNIT.REM) {
+                    if (sizeUnit === UNIT.EM || sizeUnit === UNIT.REM) {
 
-                        decl.value = decl.value.replace(fontSizeRegexp, formatValue(size.rel) + sizeUnit);
+                        decl.value = decl.value.replace(found[0], formatValue(size.rel) + unitName[sizeUnit]);
 
                     } else if (sizeUnit === UNIT.PX) {
 
-                        decl.value = decl.value.replace(fontSizeRegexp, formatInt(size.px) + "px");
+                        decl.value = decl.value.replace(found[0], formatInt(size.px) + "px");
 
                     } else {
 
-                        let cfsize = (currentSettings["unit"] === "px") ? formatInt(size.px) : formatValue(size.rel);
+                        let cfsize = currentSettings.unit === UNIT.PX ? formatInt(size.px) : formatValue(size.rel);
 
-                        decl.value = decl.value.replace(fontSizeRegexp, cfsize + currentSettings["unit"]);
+                        decl.value = decl.value.replace(found[0], cfsize + unitName[currentSettings.unit]);
 
                     }
 
                 }
 
                 // Adjust Font Size
-                if (decl.prop === "adjust-font-size") {
+                if (cmpStr(decl.prop, "adjust-font-size")) {
 
                     let [fontSize, lines, baseFontSize] = decl.value.split(spaceSplitRegexp);
                     let fontSizeUnit = getUnit(fontSize);
-                    fontSize = rhythmCalculator.convert(fontSize, fontSizeUnit, null, baseFontSize) + currentSettings["unit"];
+                    fontSize = rhythmCalculator.convert(fontSize, fontSizeUnit, null, baseFontSize) + unitName[currentSettings.unit];
                     decl.value = fontSize;
 
                     let lineHeight = rhythmCalculator.lineHeight(fontSize, lines, baseFontSize);
@@ -261,10 +281,9 @@ const hamster = (options = null) => {
                 // lineHeight, spacing, leading, rhythm, !rhythm
                 while ((found = decl.value.match(rhythmRegexp))) {
 
-                    let property = found[1].toLowerCase(); // lineHeight, spacing, leading, rhythm, !rhythm
+                    let property = found[1]; // lineHeight, spacing, leading, rhythm, !rhythm
                     let parameters = found[2].split(commaSplitRegexp);
-                    let outputValue = "";
-
+                    let ret = [];
                     for (let i in parameters) {
 
                         let [value, fontSize] = parameters[i].split(spaceSplitRegexp);
@@ -274,27 +293,27 @@ const hamster = (options = null) => {
                             fontSize = ruleFontSize;
                         }
 
-                        if (property === "lineheight") {
-                            outputValue += rhythmCalculator.lineHeight(fontSize, value) + " ";
-                        } else if (property === "spacing") {
-                            outputValue += rhythmCalculator.lineHeight(fontSize, value, null, true) + " ";
-                        } else if (property === "leading") {
-                            outputValue += rhythmCalculator.leading(value, fontSize) + " ";
-                        } else if (property === "!rhythm") {
-                            let [inValue, outputUnit] = value.split(/\$/);
+                        if (cmpStr(property, "lineheight")) {
+                            ret.push(rhythmCalculator.lineHeight(fontSize, value));
+                        } else if (cmpStr(property, "spacing")) {
+                            ret.push(rhythmCalculator.lineHeight(fontSize, value, null, true));
+                        } else if (cmpStr(property, "leading")) {
+                            ret.push(rhythmCalculator.leading(value, fontSize));
+                        } else if (cmpStr(property, "!rhythm")) {
+                            let [inValue, outputUnit] = value.split("$");
                             outputUnit = UNIT[outputUnit];
-                            outputValue += rhythmCalculator.rhythm(inValue, fontSize, true, outputUnit) + " ";
-                        } else if (property === "rhythm") {
-                            let [inValue, outputUnit] = value.split(/\$/);
+                            ret.push(rhythmCalculator.rhythm(inValue, fontSize, true, outputUnit));
+                        } else if (cmpStr(property, "rhythm")) {
+                            let [inValue, outputUnit] = value.split("$");
                             outputUnit = UNIT[outputUnit];
-                            outputValue += rhythmCalculator.rhythm(inValue, fontSize, false, outputUnit) + " ";
+                            ret.push(rhythmCalculator.rhythm(inValue, fontSize, false, outputUnit));
                         }
                     }
-                    decl.value = decl.value.replace(found[0], outputValue.replace(/\s+$/, ""));
+                    decl.value = decl.value.replace(found[0], ret.join(" "));
                 }
 
                 // rem fallback
-                if (currentSettings["px-fallback"] === "true" && decl.value.match(remRegexp)) {
+                if (currentSettings.pxFallback && decl.value.match(remRegexp)) {
                     decl.parent.insertBefore(decl, decl.clone({
                         value: rhythmCalculator.remFallback(decl.value),
                         source: decl.source
@@ -314,25 +333,18 @@ const hamster = (options = null) => {
             // 	lastFile = node.source.input.file;
             // }
 
-            if (node.type === "atrule") {
+            if (cmpStr(node.type, "atrule")) {
 
                 let rule = node;
 
-                if (rule.name === "hamster") {
+                if (cmpStr(rule.name, "hamster")) {
 
-                    if (rule.params !== "end") {
-                        // Add Global Variables
-                        rule.walkDecls(decl => {
-                            globalSettings[decl.prop] = decl.value;
-                        });
+                    if (!cmpStr(rule.params, "end")) {
+                    
+                        addSettings(rule, globalSettings);
 
                     }
-
-                    // Add fontSizes
-                    if ("font-sizes" in globalSettings) {
-                        currentFontSizes = globalSettings["font-sizes"];
-                    }
-                    // Reset current variables
+                    // Reset current settings
                     currentSettings = extend({}, globalSettings);
 
                     // Init current Settings
@@ -341,40 +353,33 @@ const hamster = (options = null) => {
                     // Remove Rule Hamster
                     rule.remove();
 
-                } else if (rule.name === "!hamster") {
+                } else if (cmpStr(rule.name, "!hamster")) {
 
-                    //currentSettings = extend({}, globalSettings);
-
-                    rule.walkDecls(decl => {
-                        currentSettings[decl.prop] = decl.value;
-                    });
+                    addSettings(rule, currentSettings);
 
                     // Init current Settings
                     initSettings();
 
                     rule.remove();
 
-                } else if (rule.name === "baseline") {
+                } else if (cmpStr(rule.name, "baseline")) {
 
-                    let fontSize = parseInt(currentSettings["font-size"]);
-                    let browserFontSize = parseInt(currentSettings["browser-font-size"]);
-
-                    let lineHeight = rhythmCalculator.lineHeight(fontSize + "px");
+                    let lineHeight = rhythmCalculator.lineHeight(currentSettings.fontSize + "px");
 
                     // baseline font size
                     let fontSizeDecl = null;
 
-                    if (currentSettings["px-baseline"] === "true" || (currentSettings["unit"] === "px" && currentSettings["legacy-browsers"] !== "true")) {
+                    if (currentSettings.pxBaseline || (currentSettings.unit === UNIT.PX && !currentSettings.legacyBrowsers)) {
 
                         fontSizeDecl = postcss.decl({
                             prop: "font-size",
-                            value: fontSize + "px",
+                            value: currentSettings.fontSize + "px",
                             source: rule.source
                         });
 
                     } else {
 
-                        let relativeSize = 100 * fontSize / browserFontSize;
+                        let relativeSize = 100 * currentSettings.fontSize / currentSettings.browserFontSize;
 
                         fontSizeDecl = postcss.decl({
                             prop: "font-size",
@@ -391,7 +396,7 @@ const hamster = (options = null) => {
                     });
 
 
-                    if (isHas(rule.params, "html"))  {
+                    if (cmpStr(rule.params, "html")) {
 
                         let htmlRule = postcss.rule({
                             selector: "html",
@@ -403,7 +408,7 @@ const hamster = (options = null) => {
 
                         rule.parent.insertAfter(rule, htmlRule);
 
-                        if (currentSettings["unit"] === "px" && currentSettings["legacy-browsers"] === "true") {
+                        if (currentSettings.unit === UNIT.PX && currentSettings.legacyBrowsers) {
                             let asteriskHtmlRule = postcss.rule({
                                 selector: "* html",
                                 source: rule.source
@@ -417,7 +422,7 @@ const hamster = (options = null) => {
                         rule.parent.insertAfter(rule, lineHeightDecl);
                         rule.parent.insertAfter(rule, fontSizeDecl);
 
-                        if (currentSettings["unit"] === "rem" && currentSettings["px-fallback"] === "true") {
+                        if (currentSettings.unit === UNIT.REM && currentSettings.pxFallback) {
 
                             rule.parent.insertBefore(lineHeightDecl, postcss.decl({
                                 prop: "line-height",
@@ -430,33 +435,32 @@ const hamster = (options = null) => {
 
                     rule.remove();
 
-                } else if (rule.name === "ruler") {
+                } else if (cmpStr(rule.name, "ruler")) {
 
-                    let rulerIconPosition = currentSettings["ruler-icon-position"].replace(/(\'|\")/g, "").replace(/\;/g, ";\n");
+                    let rulerIconPosition = currentSettings.rulerIconPosition.replace(/[\'\"]/g, "");
 
-                    let lineHeight = isHas(currentSettings["line-height"], "px") ? currentSettings["line-height"] : currentSettings["line-height"] + "em";
+                    let lineHeight = currentSettings.lineHeight >= currentSettings.fontSize ? currentSettings.lineHeight : currentSettings.lineHeight + "em";
 
                     //let svg = "data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27 viewBox%3D%270 0 24 24%27%3E%3Cpath fill%3D%27{color}%27 d%3D%27M18 24c-0.3 0-0.548-0.246-0.548-0.546V18c0-0.3 0.248-0.546 0.548-0.546h5.452  C23.754 17.454 24 17.7 24 18v5.454c0 0.3-0.246 0.546-0.548 0.546H18z M9.271 24c-0.298 0-0.543-0.246-0.543-0.546V18  c0-0.3 0.245-0.546 0.543-0.546h5.457c0.3 0 0.543 0.246 0.543 0.546v5.454c0 0.3-0.243 0.546-0.543 0.546H9.271z M0.548 24  C0.246 24 0 23.754 0 23.454V18c0-0.3 0.246-0.546 0.548-0.546H6c0.302 0 0.548 0.246 0.548 0.546v5.454C6.548 23.754 6.302 24 6 24  H0.548z M18 15.271c-0.3 0-0.548-0.244-0.548-0.542V9.272c0-0.299 0.248-0.545 0.548-0.545h5.452C23.754 8.727 24 8.973 24 9.272  v5.457c0 0.298-0.246 0.542-0.548 0.542H18z M9.271 15.271c-0.298 0-0.543-0.244-0.543-0.542V9.272c0-0.299 0.245-0.545 0.543-0.545  h5.457c0.3 0 0.543 0.246 0.543 0.545v5.457c0 0.298-0.243 0.542-0.543 0.542H9.271z M0.548 15.271C0.246 15.271 0 15.026 0 14.729  V9.272c0-0.299 0.246-0.545 0.548-0.545H6c0.302 0 0.548 0.246 0.548 0.545v5.457c0 0.298-0.246 0.542-0.548 0.542H0.548z M18 6.545  c-0.3 0-0.548-0.245-0.548-0.545V0.545C17.452 0.245 17.7 0 18 0h5.452C23.754 0 24 0.245 24 0.545V6c0 0.3-0.246 0.545-0.548 0.545  H18z M9.271 6.545C8.974 6.545 8.729 6.3 8.729 6V0.545C8.729 0.245 8.974 0 9.271 0h5.457c0.3 0 0.543 0.245 0.543 0.545V6  c0 0.3-0.243 0.545-0.543 0.545H9.271z M0.548 6.545C0.246 6.545 0 6.3 0 6V0.545C0 0.245 0.246 0 0.548 0H6  c0.302 0 0.548 0.245 0.548 0.545V6c0 0.3-0.246 0.545-0.548 0.545H0.548z%27%2F%3E%3C%2Fsvg%3E";
                     let svg = "data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27 viewBox%3D%270 0 24 24%27%3E%3Cpath fill%3D%27{color}%27 d%3D%27M0,6c0,0.301,0.246,0.545,0.549,0.545h22.906C23.756,6.545,24,6.301,24,6V2.73c0-0.305-0.244-0.549-0.545-0.549H0.549  C0.246,2.182,0,2.426,0,2.73V6z M0,13.637c0,0.297,0.246,0.545,0.549,0.545h22.906c0.301,0,0.545-0.248,0.545-0.545v-3.273  c0-0.297-0.244-0.545-0.545-0.545H0.549C0.246,9.818,0,10.066,0,10.363V13.637z M0,21.27c0,0.305,0.246,0.549,0.549,0.549h22.906  c0.301,0,0.545-0.244,0.545-0.549V18c0-0.301-0.244-0.545-0.545-0.545H0.549C0.246,17.455,0,17.699,0,18V21.27z%27%2F%3E%3C%2Fsvg%3E";
                     //let svg = "data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27 viewBox%3D%270 0 32 32%27%3E%3Cpath fill%3D%27{color}%27 d%3D%27M28,20h-4v-8h4c1.104,0,2-0.896,2-2s-0.896-2-2-2h-4V4c0-1.104-0.896-2-2-2s-2,0.896-2,2v4h-8V4c0-1.104-0.896-2-2-2  S8,2.896,8,4v4H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h4v8H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h4v4c0,1.104,0.896,2,2,2s2-0.896,2-2v-4  h8v4c0,1.104,0.896,2,2,2s2-0.896,2-2v-4h4c1.104,0,2-0.896,2-2S29.104,20,28,20z M12,20v-8h8v8H12z%27%2F%3E%3C%2Fsvg%3E";
-                    let gthickness = parseFloat(currentSettings["ruler-thickness"]);
+                    let gthickness = currentSettings.rulerThickness;
 
                     let background = "";
 
-                    if (currentSettings["ruler-background"] === "png") {
+                    if (cmpStr(currentSettings.rulerBackground, "png")) {
 
-                        let imageHeight = isHas(currentSettings["line-height"], "px") ?
-                            parseInt(currentSettings["line-height"]) :
-                            (parseFloat(currentSettings["line-height"]) * parseFloat(currentSettings["font-size"])).toFixed(0);
+                        let imageHeight = currentSettings.lineHeight >= currentSettings.fontSize ?
+                            currentSettings.lineHeight :
+                            Math.round((currentSettings.lineHeight * currentSettings.fontSize));
 
-                        let pattern = currentSettings["ruler-pattern"].split(spaceSplitRegexp);
+                        let pattern = currentSettings.rulerPattern.split(spaceSplitRegexp);
 
-                        let image = new PngImage();
-                        image.rulerMatrix(imageHeight, currentSettings["ruler-color"], pattern, gthickness, currentSettings["ruler-scale"]);
+                        image.rulerMatrix(imageHeight, currentSettings.rulerColor, pattern, currentSettings.rulerThickness, currentSettings.rulerScale);
 
-                        if (currentSettings["ruler-output"] != "base64") {
-                            image.getFile(currentSettings["ruler-output"]);
-                            background = "background-image: url(\"../" + currentSettings["ruler-output"] + "\");" +
+                        if (!cmpStr(currentSettings.rulerOutput, "base64")) {
+                            image.getFile(currentSettings.rulerOutput);
+                            background = "background-image: url(\"../" + currentSettings.rulerOutput + "\");" +
                                 "background-position: left top;" +
                                 "background-repeat: repeat;" +
                                 "background-size: " + pattern.length + "px " + imageHeight + "px;";
@@ -474,7 +478,7 @@ const hamster = (options = null) => {
                         gthickness = gthickness * 3;
 
                         background = "background-image: linear-gradient(to top, " +
-                            currentSettings["ruler-color"] + " " + gthickness + "%, transparent " +
+                            currentSettings.rulerColor + " " + gthickness + "%, transparent " +
                             gthickness + "%);" +
                             "background-size: 100% " + lineHeight + ";";
                     }
@@ -489,14 +493,14 @@ const hamster = (options = null) => {
                         "z-index: 9900;" +
                         "pointer-events: none;" + background;
 
-                    let iconSize = currentSettings["ruler-icon-size"];
+                    let iconSize = currentSettings.rulerIconSize;
 
-                    let [style, rulerClass] = currentSettings["ruler-style"].split(spaceSplitRegexp);
-                    let [color, hoverColor] = currentSettings["ruler-icon-colors"].split(spaceSplitRegexp);
+                    let [style, rulerClass] = currentSettings.rulerStyle.split(spaceSplitRegexp);
+                    let [color, hoverColor] = currentSettings.rulerIconColors.split(spaceSplitRegexp);
 
                     let rulerRule = null;
 
-                    if (style === "switch") {
+                    if (cmpStr(style, "switch")) {
 
                         rulerRule = postcss.parse("." + rulerClass + "{" +
                             "display: none;" +
@@ -526,7 +530,7 @@ const hamster = (options = null) => {
                             "display: block;" +
                             "}");
 
-                    } else if (style === "hover") {
+                    } else if (cmpStr(style, "hover")) {
 
                         rulerRule = postcss.parse("." + rulerClass + "{" +
                             rulerIconPosition +
@@ -534,14 +538,14 @@ const hamster = (options = null) => {
                             "padding: 0;" +
                             "width: " + iconSize + ";" +
                             "height: " + iconSize + ";" +
-                            "background-image: url(\"" + svg.replace(/\{color\}/, escape(color)) + "\");" +
+                            "background-image: url(\"" + svg.replace("{color}", escape(color)) + "\");" +
                             "transition: background-image 0.5s ease-in-out;" +
                             "}" +
                             "." + rulerClass + ":hover" + "{" +
                             "cursor: pointer;" + ruler +
                             "}");
 
-                    } else if (style === "always") {
+                    } else if (cmpStr(style, "always")) {
 
                         rulerRule = postcss.parse("." + rulerClass + "{\n" + ruler + "}\n");
 
@@ -553,27 +557,27 @@ const hamster = (options = null) => {
                     }
 
                     rule.remove();
+                } else if (cmpStr(rule.name, "ellipsis") || cmpStr(rule.name, "nowrap") ||
+                    cmpStr(rule.name, "forcewrap") || cmpStr(rule.name, "hyphens") || cmpStr(rule.name, "break-word")) {
 
-                } else if (rule.name.match(propertiesRegexp)) {
-
-                    let property = rule.name.toLowerCase();
+                    let property = toCamelCase(rule.name);
 
                     let decls = helpers[property];
 
-                    if (property === "hyphens" && rule.params === "true") {
-                        decls = helpers["break-word"] + decls;
-                    } else if (property === "ellipsis" && rule.params === "true") {
-                        decls = helpers["nowrap"] + decls;
+                    if (cmpStr(property, "hyphens") && cmpStr(rule.params, "true")) {
+                        decls = helpers.breakWord + decls;
+                    } else if (cmpStr(property, "ellipsis") && cmpStr(rule.params, "true")) {
+                        decls = helpers.nowrap + decls;
                     }
 
-                    if (currentSettings["properties"] === "inline") {
+                    if (cmpStr(currentSettings.properties, "inline")) {
 
                         let idecls = postcss.parse(decls);
                         rule.parent.insertBefore(rule, idecls);
 
-                    } else  {
+                    } else {
 
-                        let extendName = toCamelCase(property + " " + rule.params);
+                        let extendName = toCamelCase(property + rule.params);
 
                         if (extendNodes[extendName] == null) {
 
@@ -599,7 +603,7 @@ const hamster = (options = null) => {
 
                     rule.remove();
 
-                } else if (rule.name.match(/^(reset|normalize)$/i)) {
+                } else if (cmpStr(rule.name, "reset") | cmpStr(rule.name, "normalize")) {
                     let property = rule.name.toLowerCase();
                     let rules = postcss.parse(helpers[property]);
                     rules.source = rule.source;
@@ -609,7 +613,7 @@ const hamster = (options = null) => {
                 // Walk in media queries
                 node.walk(child => {
 
-                    if (child.type === "rule") {
+                    if (cmpStr(child.type, "rule")) {
                         // Walk decls in rule
                         walkDecls(child);
                     }
@@ -626,12 +630,12 @@ const hamster = (options = null) => {
                 //     rule.remove();
                 // }
 
-            } else if (node.type === "rule") {
+            } else if (cmpStr(node.type, "rule")) {
 
                 // Walk decls in rule
                 walkDecls(node);
 
-            } else if (currentSettings["remove-comments"] === "true" && node.type === "comment") {
+            } else if (currentSettings.removeComments && cmpStr(node.type, "comment")) {
                 node.remove();
             }
 
@@ -656,7 +660,7 @@ const hamster = (options = null) => {
 
             // Remove unused parent nodes.
             for (let i in node.parents) {
-                if (node.parents[i].nodes.length == 0) {
+                if (node.parents[i].nodes.length === 0) {
                     node.parents[i].remove();
                 }
             }

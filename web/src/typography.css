@@ -157,8 +157,8 @@ tr:first-child {
 	adjust-font-size: fontsize small;
 }*/
 
-code[class*="language-"],
-pre[class*="language-"] {
+code,
+pre {
 	font-family: Inconsolata, monospace;
 	margin: 0;
 	padding: 0;

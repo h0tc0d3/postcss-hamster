@@ -62,27 +62,26 @@ gulp.task("compile-web", () => {
     return run("cross-env NODE_ENV=production webpack").exec();
 });
 
-// gulp.task("web-images", () => {
-//     return gulp.src("./web/images/*")
-//         .pipe(gulp.dest("./build/web/images/"));
-// });
-
 gulp.task("build-web", () => {
     runSequence("css", "clean-web", "compile-web");
 });
 
-gulp.task("htest", function () {
-    var ava = require("gulp-ava");
-    return gulp.src("test.js")
-		.pipe(ava({verbose: true}));
+gulp.task("jtest", function () {
+    var jest = require("gulp-jest").default;
+    return gulp.src("./")
+		.pipe(jest());
 });
 
 gulp.task("test", function () {
-    runSequence("clean", "compile", "htest");
+    runSequence("compile", "jtest");
+});
+
+gulp.task("testcss", function () {
+    runSequence("compile", "css");
 });
 
 gulp.task("build", function () {
-    runSequence("clean", "compile", "htest", "build:docs", "css", "compile-web");
+    runSequence("clean", "compile", "jtest", "build:docs", "css", "compile-web");
 });
 
 //gulp.watch('./src/*.css', ['css']);

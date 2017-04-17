@@ -3,7 +3,7 @@
 node_modules/
 npm-debug.log
 .happypack/
-
+build/docs/
 # JetBrains
 .idea/
 *.sln.iml

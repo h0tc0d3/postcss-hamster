@@ -18,12 +18,13 @@ $icons: ../icons;
     properties: extend;
     ruler-style: switch ruler-debug;
     ruler-color: rgba(19, 134, 191, .8);
-    /*ruler-icon-colors: #F0FAFF #ACFF0D;
-    ruler-icon-colors: #cccccc #44576a;*/
+    /*ruler-icon-colors: #F0FAFF #ACFF0D;*/
+    ruler-icon-colors: #cccccc #394959;
     ruler-icon-position: "position:fixed;top: 1.5em;left: 1.5em;";
     /*ruler-color: #21BF13;*/
     ruler-background: png;
     /*ruler-output: images/ruler.png;*/
+    /*ruler-output: ../../ruler.png;*/
     ruler-pattern: 1 0 0 0;
     ruler-scale: 4;
     ruler-thickness: 1;
@@ -40,8 +41,8 @@ $icons: ../icons;
     block-color: #F0FAFF;
     hover-color: #1BBA13;
     /*footer-color: #1B2633;*/
-    footer-color: #2C3945;
-    code-color: #2C3945;
+    footer-color: #2C3845;
+    code-color: #2C3845;
     font-family: Roboto, "Open Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
 
 }
