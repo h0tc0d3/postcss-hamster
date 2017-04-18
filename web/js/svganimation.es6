@@ -39,25 +39,25 @@ let SvgAnimation = (elements, duration = 3000, easing, callback) => {
     // Set initial styles
     let elSize = elements.length - 1;
     let length = new safeUint32Array(elSize);
-
-    while (elSize >= 0) {
-        let len = elements[elSize].getTotalLength();
-        length[elSize] = len;
-        elements[elSize].style.strokeDasharray = len + " " + len;
-        elements[elSize].style.strokeDashoffset = len;
-        elSize--;
+    let i = elSize; 
+    while (i >= 0) {
+        let len = elements[i].getTotalLength();
+        length[i] = len;
+        elements[i].style.strokeDasharray = len + " " + len;
+        elements[i].style.strokeDashoffset = len;
+        i--;
     }
 
     let animate = (progress) => {
-        let i = elements.length - 1;
-        while(i >= 0) {
-            let value = Math.ceil(length[i] * (1 - progress));
-            let strokeDashoffset = value < 0 ? 0 : Math.abs(value);
+        let j = elSize;
+        while(j >= 0) {
             let strokeOpacity = 1 - progress;
-            elements[i].style.strokeDashoffset = strokeDashoffset;
-            elements[i].style.fillOpacity = progress;
-            elements[i].style.strokeOpacity = strokeOpacity;
-            i--;
+            let value = Math.ceil(length[j] * (strokeOpacity));
+            let strokeDashoffset = value <= 0 ? 0 : value;
+            elements[j].style.fillOpacity = progress;
+            elements[j].style.strokeDashoffset = strokeDashoffset;
+            elements[j].style.strokeOpacity = strokeOpacity;
+            j--;
         }
     };
 
@@ -80,7 +80,7 @@ let SvgAnimation = (elements, duration = 3000, easing, callback) => {
     };
 
     update();
-    // window.requestAnimationFrame(update);
+    //window.requestAnimationFrame(update);
 };
 
 export default SvgAnimation;

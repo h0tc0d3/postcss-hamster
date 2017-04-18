@@ -2,6 +2,7 @@ import Styles from "../css/style.css";
 import Rhythm from "./rhythm.es6";
 import "./prism.js";
 
+
 import SvgAnimation from "./svganimation.es6";
 
 let rhytmSettings = {
@@ -18,7 +19,7 @@ irhythm.load(() => {
     
     let fix = () => {
         //Fix relative rounding bugs.
-        irhythm.fix(".button-blue, .button-gray, .button-green, h1, h2, h3, h4, h5, h6, p, ul, .block-code, .block-command, .block-info, .ellipsis");
+        irhythm.fix("h1, h2, h3, h4, h5, h6, .block-code, .block-command, .block-info, .ellipsis");
         // Fix Vertical Rhythm
         irhythm.rhythm("#content img, #content iframe");
     };
@@ -44,6 +45,6 @@ irhythm.ready(() => {
         }, completeCallback);
     };
 
-    window.setTimeout(animation, 200);
+    window.setTimeout(animation, 10);
 
 });

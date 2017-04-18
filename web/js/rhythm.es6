@@ -84,21 +84,10 @@ class Rhythm {
         this.style.rel = "stylesheet";
         this.head.appendChild(this.style);
 
-        this.view = this.context.defaultView ?
-            this.context.defaultView :
-            null;
+        this.view = this.context.defaultView ? this.context.defaultView : null;
 
         this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ? Array : Uint8Array;
 
-        this.UNIT = {
-            PX: 1,
-            EM: 2,
-            REM: 3,
-            PERCENT: 4,
-            EX: 5,
-            PT: 6,
-            IN: 7
-        };
     }
 
     /**
@@ -194,35 +183,6 @@ class Rhythm {
 
     }
 
-
-    /**
-     * Get element single style for old browsers.
-     * @param element 
-     * @param styles 
-     * @param property 
-     */
-    oldCss(element, property) {
-
-        let ret = null;
-
-        let size = element.currentStyle[property];
-
-        if (size) {
-            let unit = this.getUnit(size);
-
-            size = parseFloat(size);
-
-            let fontSize = (unit === this.UNIT.EM | unit === this.UNIT.PERCENT) && element.parentElement ? this.oldCss(element.parentElement, "fontSize") : 16;
-
-            let rootSize = (this.scmpStr(property, "fontSize")) ? fontSize : (this.scmpStr(property, "width")) ? element.clientWidth : element.clientHeight;
-
-            ret = (unit === this.UNIT.EM) ? size * fontSize : (unit === this.UNIT.PERCENT) ? size / 100 * rootSize : (unit === this.UNIT.IN) ? size * 96 : (unit === this.UNIT.PT) ? size * 96 / 72 : size;
-        }
-
-        return ret;
-    }
-
-
     /**
      * Get and Set Style for element.
      * @param element 
@@ -240,37 +200,27 @@ class Rhythm {
 
             }
 
-            // } else if (property.constructor === String && (property.split(";").length - 1) > 1) {
-            //     // Fast Add styles with string like margin: 10px; padding: 20px; 
-            //     element.style.cssText += "; " + property;
-
         } else if (value) {
 
             element.style[this.toCamelCase(property)] = value;
 
         } else {
 
-            let styles = this.view.getComputedStyle(element, null);
             let ret = null;
+
+            let styles = this.view.getComputedStyle(element, null);
 
             if (property.constructor === Array) {
                 // Fast get array styles for element
                 ret = {};
                 for (let i = 0, len = property.length; i < len; i++) {
                     let prop = this.toCamelCase(property[i]);
-                    let value = styles[prop];
-                    if (!value && element.currentStyle) {
-                        value = this.oldCss(element, prop);
-                    }
-                    ret[prop] = value;
+                    ret[prop] = styles[prop];
                 }
             } else {
                 // Get Sinle style
                 let prop = this.toCamelCase(property);
                 ret = styles[prop];
-                if (!ret && element.currentStyle) {
-                    ret = this.oldCss(element, prop);
-                }
             }
 
             return ret;
@@ -648,43 +598,6 @@ class Rhythm {
         return true;
     }
 
-    /**
-     * Return Unit to value.
-     * @param {string} value - input value.
-     */
-    getUnit(value) {
-        let len = value.length;
-        let code1 = value.charCodeAt(len - 1);
-        let code2 = value.charCodeAt(len - 2);
-        // p 80 112
-        // x 88 120
-        // t 84 116
-        // e 69 101
-        // m 77 109
-        // r 82 114
-        // i 73 105
-        // n 78 110
-        // % 37
-        if (code1 === 37) {
-            return this.UNIT.PERCENT;
-        } else if (code2 === 80 || code2 === 112) {
-            if (code1 === 88 || code1 === 120) {
-                return this.UNIT.PX;
-            } else if (code1 === 84 || code1 === 116) {
-                return this.UNIT.PT;
-            }
-        } else if ((code1 === 77 || code1 === 109) && (code2 === 69 || code2 === 101)) {
-            let code3 = value.charCodeAt(len - 3);
-            if ((code3 === 82 || code3 === 114)) {
-                return this.UNIT.REM;
-            }
-            return this.UNIT.EM;
-        } else if ((code1 === 78 || code1 === 110) && (code2 === 73 || code2 === 105)) {
-            this.UNIT.IN;
-        }
-
-        return 0;
-    }
 
     /**
      * Extend object1 with object2.
