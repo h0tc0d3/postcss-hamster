@@ -44,6 +44,6 @@ irhythm.ready(() => {
         }, completeCallback);
     };
 
-    window.setTimeout(animation, 10);
+    window.setTimeout(animation, 200);
 
 });

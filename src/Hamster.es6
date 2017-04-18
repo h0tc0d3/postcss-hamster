@@ -36,7 +36,7 @@ import path from "path";
 
 import postcss from "postcss";
 
-const hamster = (options = null) => {
+const hamster = (options) => {
 
     //Default Global Settings
     let globalSettings = {
@@ -118,7 +118,7 @@ const hamster = (options = null) => {
     // Space split regexp
     const spaceSplitRegexp = /\s+/;
 
-    if (options != null) {
+    if (options) {
         extend(globalSettings, options);
     }
 

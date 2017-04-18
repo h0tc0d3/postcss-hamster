@@ -103,7 +103,7 @@ $block-font-size: xlarge@d2;
 #hamsterLogo .a,
 #hamsterLogo .b {
 	fill-opacity: 0;
-	stroke-opacity: 1;
+	stroke-opacity: 0;
 }
 
 #hamsterLogo.finished .a,

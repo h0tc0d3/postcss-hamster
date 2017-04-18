@@ -84,7 +84,11 @@ class Rhythm {
         this.style.rel = "stylesheet";
         this.head.appendChild(this.style);
 
-        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ?  Array : Uint8Array;
+        this.view = this.context.defaultView ?
+            this.context.defaultView :
+            null;
+
+        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ? Array : Uint8Array;
 
         this.UNIT = {
             PX: 1,
@@ -201,21 +205,18 @@ class Rhythm {
 
         let ret = null;
 
-        if (element.currentStyle) {
+        let size = element.currentStyle[property];
 
-            let size = element.currentStyle[property];
+        if (size) {
+            let unit = this.getUnit(size);
 
-            if (size) {
-                let unit = this.getUnit(size);
+            size = parseFloat(size);
 
-                size = parseFloat(size);
+            let fontSize = (unit === this.UNIT.EM | unit === this.UNIT.PERCENT) && element.parentElement ? this.oldCss(element.parentElement, "fontSize") : 16;
 
-                let fontSize = (unit === this.UNIT.EM | unit === this.UNIT.PERCENT) && element.parentElement ? this.oldCss(element.parentElement, "fontSize") : 16;
+            let rootSize = (this.scmpStr(property, "fontSize")) ? fontSize : (this.scmpStr(property, "width")) ? element.clientWidth : element.clientHeight;
 
-                let rootSize = (this.scmpStr(property, "fontSize")) ? fontSize : (this.scmpStr(property, "width")) ? element.clientWidth : element.clientHeight;
-
-                ret = (unit === this.UNIT.EM) ? size * fontSize : (unit === this.UNIT.PERCENT) ? size / 100 * rootSize : (unit === this.UNIT.IN) ? size * 96 : (unit === this.UNIT.PT) ? size * 96 / 72 : size;
-            }
+            ret = (unit === this.UNIT.EM) ? size * fontSize : (unit === this.UNIT.PERCENT) ? size / 100 * rootSize : (unit === this.UNIT.IN) ? size * 96 : (unit === this.UNIT.PT) ? size * 96 / 72 : size;
         }
 
         return ret;
@@ -249,11 +250,7 @@ class Rhythm {
 
         } else {
 
-            let view = (element && element.ownerDocument) ?
-                element.ownerDocument.defaultView :
-                (!view || !view.opener) ? this.window : null;
-
-            let styles = view.getComputedStyle(element, null);
+            let styles = this.view.getComputedStyle(element, null);
             let ret = null;
 
             if (property.constructor === Array) {
@@ -262,7 +259,7 @@ class Rhythm {
                 for (let i = 0, len = property.length; i < len; i++) {
                     let prop = this.toCamelCase(property[i]);
                     let value = styles[prop];
-                    if (!value) {
+                    if (!value && element.currentStyle) {
                         value = this.oldCss(element, prop);
                     }
                     ret[prop] = value;
@@ -271,7 +268,7 @@ class Rhythm {
                 // Get Sinle style
                 let prop = this.toCamelCase(property);
                 ret = styles[prop];
-                if (!ret) {
+                if (!ret && element.currentStyle) {
                     ret = this.oldCss(element, prop);
                 }
             }
@@ -303,7 +300,7 @@ class Rhythm {
         if (element.classList) {
             element.classList.remove(className);
         } else {
-            element.className =  element.className.replace(className, "");
+            element.className = element.className.replace(className, "");
         }
     }
 
@@ -335,7 +332,7 @@ class Rhythm {
             selector = selector.selector;
 
         } else {
-            
+
             if (!property) {
                 property = this.settings.property;
             }
@@ -368,7 +365,7 @@ class Rhythm {
             let parentWidth = Math.floor(parseFloat(this.css(element.parentElement, "width")));
             let elClass = this.class(element);
             let id = (elClass) ? elClass.match(this.classRegexp) : null;
-            
+
             if (id) {
                 id = id[1];
             } else {
@@ -431,15 +428,15 @@ class Rhythm {
                     if (spacing % 2 == 0) {
                         elCss += "\n" + property + "-top: " + indent + "px;\n" + property + "-bottom: " + indent + "px;";
                     } else {
-                        elCss += "\n" + property + "-top: " + indent + "px;\n" + property + "-bottom: " +  (indent + 1) + "px;";
+                        elCss += "\n" + property + "-top: " + indent + "px;\n" + property + "-bottom: " + (indent + 1) + "px;";
                     }
 
                 }
             }
-            
+
             // It's hack to delete spacing after element.
             elCss = "display: block;\nwidth: " + width + "px;\height:" + height + "px;" + elCss;
-                
+
             if (elCss.length !== 0) {
                 css += elSel + " {" + elCss + "}\n";
             }
