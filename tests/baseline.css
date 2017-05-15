@@ -1,22 +1,22 @@
 /* htest html, font-size: 14px; line-height: 1.5; unit: px; */
-
+@hamster reset;
 @hamster {
-	font-size: 14px;
-	line-height: 1.5;
-	font-weight: 400;
-	font-color: #303030;
-	font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-	unit: px;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 400;
+    font-color: #303030;
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    unit: px;
 }
 
 @baseline html;
 
 /* htest html and local settings, font-size: 32px; unit: px; legacy-browsers: false; */
 
-@!hamster {
-	font-size: 32px;
-	unit: px;
-  legacy-browsers: false;
+@ihamster {
+    font-size: 32px;
+    unit: px;
+    legacy-browsers: false;
 }
 
 @baseline html;
@@ -26,7 +26,7 @@
 @hamster end;
 
 @hamster {
-	px-fallback: false;
+    px-fallback: false;
 }
 
 @baseline html;
@@ -34,108 +34,108 @@
 /* htest selector .test1, font-size: 14px; line-height: 1.5; unit: px; */
 
 .test1 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
 /* htest selector .test2, font-size: 21px; line-height: 28px; */
 
-@!hamster {
-	font-size: 21px;
-	line-height: 28px;
+@ihamster {
+    font-size: 21px;
+    line-height: 28px;
 }
 
 .test2 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
 /* htest selector .test3, font-size: 14px; line-height: 3; */
 
-@!hamster {
-	font-size: 14px;
-	line-height: 3;
+@ihamster {
+    font-size: 14px;
+    line-height: 3;
 }
 
 .test3 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
-/* htest selector .test4,	font-size: 14px; line-height: 3; unit: em; */
+/* htest selector .test4,    font-size: 14px; line-height: 3; unit: em; */
 
-@!hamster {
-	font-size: 14px;
-	line-height: 3;
-	unit: em;
+@ihamster {
+    font-size: 14px;
+    line-height: 3;
+    unit: em;
 }
 
 .test4 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
-/* htest selector .test5, font-size: 14px; line-height: 3; unit: rem; px-fallback: true; */
+/* htest selector .test5, font-size: 14px; line-height: 3; unit: rem; rem-fallback: true; */
 
-@!hamster {
-	font-size: 14px;
-	line-height: 3;
-	unit: rem;
-	px-fallback: true;
-	legacy-browsers: false;
+@ihamster {
+    font-size: 14px;
+    line-height: 3;
+    unit: rem;
+    rem-fallback: true;
+    legacy-browsers: false;
 }
 
 .test5 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
-/* htest html, font-size, 14px; line-height: 3; unit: rem; px-fallback: true; */
+/* htest html, font-size, 14px; line-height: 3; unit: rem; rem-fallback: true; */
 
 @baseline html;
 
 /* htest selector .test6, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; */
 
-@!hamster {
-	font-size: 14px;
-	line-height: 1.5;
-	unit: rem;
-	px-fallback: false;
+@ihamster {
+    font-size: 14px;
+    line-height: 1.5;
+    unit: rem;
+    rem-fallback: false;
 }
 
 .test6 {
-	font-family: @font-family;
-	color: @font-color;
-	font-weight: @font-weight;
-	@baseline;
+    font-family: @font-family;
+    color: @font-color;
+    font-weight: @font-weight;
+    @baseline;
 }
 
-/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; */
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; rem-fallback: false; */
 
 @baseline html;
 
-/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: false; px-baseline: true; */
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; rem-fallback: false; px-baseline: true; */
 
-@!hamster {
-	px-baseline: true;
+@ihamster {
+    px-baseline: true;
 }
 
 @baseline html;
 
-/* htest html, font-size: 14px; line-height: 1.5; unit: rem; px-fallback: true; px-baseline: true; */
+/* htest html, font-size: 14px; line-height: 1.5; unit: rem; rem-fallback: true; px-baseline: true; */
 
-@!hamster {
-	px-fallback: true;
+@ihamster {
+    rem-fallback: true;
 }
 
 @baseline html;

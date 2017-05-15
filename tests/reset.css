@@ -1,13 +1,10 @@
 /* htest @reset; */
-
-@!hamster {
+@hamster reset;
+@hamster {
     font-size: 16px;
     line-height: 1.5;
     unit: px;
     px-fallback: false;
-    remove-comments: true;
 }
 
 @reset;
-
-@hamster end;

@@ -4,9 +4,10 @@ const config = require("./webpack.config.js");
 
 const compiler = webpack(config);
 const server = new devServer(compiler, {
-    "hot": true,
+    "hot": false,
     "filename": config.output.filename,
     "publicPath": config.output.publicPath,
+    "disableHostCheck": true,
     "stats": {
         "colors": true
     }

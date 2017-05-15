@@ -1,3 +1,15 @@
+/**
+ * @module FontSizes
+ *
+ * @description Font size collection manager and generator proportional fonts sizes with aliases.
+ *
+ * @version 1.0
+ * @author Grigory Vasilyev <postcss.hamster@gmail.com> https://github.com/h0tc0d3
+ * @copyright Copyright (c) 2017, Grigory Vasilyev
+ * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+
 import {
     isHas,
     toCamelCase,
@@ -5,17 +17,6 @@ import {
     UNIT
 } from "./Helpers";
 
-/**
- * @module FontSizes
- * 
- * @description Font size collection manager and generator proportional fonts sizes with aliases.
- *
- * @version 1.0
- * @author Grigory Vasilyev <postcss.hamster@gmail.com> https://github.com/h0tc0d3
- * @copyright Copyright (c) 2017, Grigory Vasilyev
- * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0 
- * 
- */
 class FontSizes {
     /**
      * Constructor for font size collection manager.
@@ -153,19 +154,19 @@ class FontSizes {
             "xxxl2": "52"
         };
 
-        if(hasNumber(settings.fontRatio)){
-            this.ratio = parseFloat(settings.fontRatio);
-            this.desc = "Custom font ratio";
-        } else {
-            let fr = toCamelCase(settings.fontRatio);
-            this.ratio = fontRatio[fr].value;
-            this.desc = fontRatio[fr].desc;
+        if (settings.fontRatio) {
+            if (hasNumber(settings.fontRatio)) {
+                this.ratio = parseFloat(settings.fontRatio);
+                this.desc = "Custom font ratio";
+            } else {
+                let fr = toCamelCase(settings.fontRatio);
+                this.ratio = fontRatio[fr].value;
+                this.desc = fontRatio[fr].desc;
+            }
         }
-
 
         // BaseFontSize
         this.baseSize = settings.fontSize;
-
         // making fontsize collection
         if (this.ratio > 0 && this.baseSize > 0) {
             // font Collection
@@ -179,7 +180,8 @@ class FontSizes {
                 this.fontSizes[i + "2"] = this.genSize(i, 0.5);
             }
         }
-        //console.log(JSON.stringify(this.fontSizes, null, 2));
+        // console.log(this.baseSize + " " + this.ratio);
+        // console.log(JSON.stringify(this.fontSizes, null, 2));
     }
 
     /**
@@ -246,12 +248,12 @@ class FontSizes {
             size = this.aliases[size];
         }
 
-        let result = 0;
+        let result;
 
         if (size in this.fontSizes) {
             result = this.fontSizes[size];
         } else {
-            if (size.match(/^\-*[0-9]+$/)) {
+            if (size.match(/^[-0-9]+$/)) {
                 result = this.genSize(size);
             }
         }
@@ -289,13 +291,15 @@ class FontSizes {
      */
     addFontSizes(sizes, rhythmCalculator) {
 
-        let fontSizes = sizes.split(/\s*\,\s*/);
+        let fontSizes = sizes.split(/\s*,\s*/);
         for(let i = 0, len = fontSizes.length; i < len; i++){
             let fontSizeInfo = fontSizes[i].split(/\s+/);
             if (fontSizeInfo.length >= 2) {
                 let fontSize = {px: 0, rel: 0};
                 if (isHas(fontSizeInfo[1], "px")) {
-                    fontSize.rel = (fontSizeInfo.length == 2) ? rhythmCalculator.convert(fontSizeInfo[1], UNIT.EM) : fontSizeInfo[2];
+                    fontSize.rel = (fontSizeInfo.length === 2)
+                        ? rhythmCalculator.convert(fontSizeInfo[1], UNIT.EM)
+                        : fontSizeInfo[2];
                     fontSize.px = parseInt(fontSizeInfo[1]);
                 } else {
                     fontSize.rel = parseFloat(fontSizeInfo[1]);

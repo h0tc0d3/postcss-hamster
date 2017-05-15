@@ -1,7 +1,111 @@
 @import "variables.css";
 @import "fonts.css";
-@import "reset.css";
+@import "base.css";
+
+@copy full {
 @import "typography.css";
-@import "helper.css";
 @import "layouts.css";
 @import "modules.css";
+}
+
+@paste full;
+
+/*
+@media screen and (max-width: 479px) {
+    @ihamster {
+        --font-size: 14px;
+        --line-height: 1.25;
+    }
+    @baseline html;
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@media screen and (min-width: 480px) and (max-width: 599px) {
+    @ihamster {
+       --font-size: 15px;
+       --line-height: 1.3;
+    }
+    @baseline html;
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@media screen and (min-width: 800px) and (max-width: 1279px) {
+    @ihamster {
+        --font-size: 18px;
+        --line-height: 1.4;
+    }
+    @baseline html;
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1599px) {
+    @ihamster {
+        --font-size: 19px;
+        --line-height: 1.5;
+    }
+    @baseline html;
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@media screen and (min-width: 1600px) and (max-width: 1919px){
+    @ihamster {
+        --font-size: 20px;
+        --line-height: 1.55;
+    }
+    @baseline html;
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+*/
+@media screen and (max-width: 799px) {
+    @ihamster {
+        --font-size: 14px;
+        --line-height: 1.25;
+        --to-font-size: 18px;
+        --to-line-height: 1.4;
+        --viewport: 320px 800px;
+        --unit: vw;
+    }
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@media screen and (min-width: 800px) and (max-width: 1919px){
+    @ihamster {
+        --font-size: 18px;
+        --line-height: 1.4;
+        --to-font-size: 21px;
+        --to-line-height: 1.5;
+        --viewport: 800px 1920px;
+        --unit: vw;
+    }
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+@media screen and (min-width: 1920px){
+    @ihamster {
+        --font-size: 21px;
+        --line-height: 1.5;
+        --to-font-size: 42px;
+        --to-line-height: 1.6;
+        --viewport: 1920px 3840px;
+        --unit: vw;
+    }
+    @ruler;
+    @paste full;
+    @hamster end;
+}
+
+@import "icons.css";
+@import "helpers.css";

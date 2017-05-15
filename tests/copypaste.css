@@ -1,0 +1,46 @@
+/* htest @copy; @paste; */
+@hamster reset;
+@hamster {
+    font-size: 16px;
+    line-height: 1.5;
+    unit: px;
+}
+
+@copy name1 {
+    h1 {
+        text-align: center;
+        font-weight: 700;
+        adjust-font-size: fontSize xxl;
+        margin-top: spacing(4);
+        margin-bottom: spacing(1);
+    }
+
+    h2 {
+        font-weight: 700;
+        adjust-font-size: fontSize xl;
+        margin-top: spacing(3);
+        margin-bottom: spacing(1);
+    }
+}
+
+@copy name2 {
+    h3 {
+        text-align: center;
+        font-weight: 700;
+        adjust-font-size: fontSize medium;
+        margin-top: spacing(3);
+        margin-bottom: spacing(1);
+    }
+}
+
+@paste name1;
+
+@media screen and (min-width: 480px){
+    @paste name1;
+}
+
+@paste name2;
+
+@media screen and (min-width: 480px){
+    @paste name2;
+}

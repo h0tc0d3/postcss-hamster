@@ -9,7 +9,6 @@
  * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0 
  */
 
-
 function dotPos(value) {
     let len = value.length;
     do {
@@ -21,13 +20,13 @@ function dotPos(value) {
     return -1;
 }
 
+
 /**
  * Fast Format Float Values.
  * @param {number} value - input value.
  */
-
-// . - 46 0 - 48
 function formatValue(value) {
+    // . - 46 0 - 48
     value = value.toFixed(4);
     let pos = dotPos(value);
     if (pos > -1) {
@@ -51,11 +50,11 @@ function formatValue(value) {
     return value;
 }
 
+
 /**
  * Format Number to Int.
  * @param {number} value - input value.
  */
-
 function formatInt(value) {
     return value.toFixed(0);
 }
@@ -67,13 +66,15 @@ const UNIT = {
     PX: 1,
     EM: 2,
     REM: 3,
-    PERCENT: 4,
-    EX: 5,
-    PT: 6,
-    IN: 7
+    VW: 4,
+    VH: 5,
+    PERCENT: 6,
+    EX: 7,
+    PT: 8,
+    IN: 9
 };
 
-const unitName = ["", "px", "em", "rem", "%", "ex", "pt", "in"];
+const unitName = ["", "px", "em", "rem", "vw", "vh", "%", "ex", "pt", "in"];
 
 
 /**
@@ -90,6 +91,9 @@ function getUnit(value) {
     // e 69 101
     // m 77 109
     // r 82 114
+    // v 86 118
+    // w 87 119
+    // h 72 104
     // i 73 105
     // n 78 110
     // % 37
@@ -101,6 +105,12 @@ function getUnit(value) {
         } else if (code1 === 84 || code1 === 116) {
             return UNIT.PT;
         }
+    } else if (code2 === 86 || code2 === 118) {
+        if (code1 === 87 || code1 === 119) {
+            return UNIT.VW;
+        } else if (code1 === 72 || code1 === 104) {
+            return UNIT.VH;
+        }
     } else if ((code1 === 77 || code1 === 109) && (code2 === 69 || code2 === 101)) {
         let code3 = value.charCodeAt(len - 3);
         if ((code3 === 82 || code3 === 114)) {
@@ -108,22 +118,22 @@ function getUnit(value) {
         }
         return UNIT.EM;
     } else if ((code1 === 78 || code1 === 110) && (code2 === 73 || code2 === 105)) {
-        UNIT.IN;
+        return UNIT.IN;
     }
-
 
     return 0;
 }
 
+
 /**
  * Regexp for rem value.
  */
-
-const remRegexp = /([0-9\.]+)rem/i;
+const remRegexp = /([0-9.]+)rem/i;
 
 /**
  * Check value contains string;
- * @param {number} value - input value.
+ * @param {string} value - input value.
+ * @param string
  */
 
 function isHas(value, string) {
@@ -134,23 +144,24 @@ function isHas(value, string) {
 /**
  * Copy Values from object 2 to object 1.
  * @param object1 
- * @param object2 
- * 
+ * @param object2
+ * @param ret - return object1 true or false
  * @return object1
  */
-function extend(object1, object2) {
+function extend(object1, object2, ret = true) {
 
     for (let key in object2) {
-        // if(object2.hasOwnProperty(key)){
-        object1[key] = object2[key];
-        // }
+        if(object2.hasOwnProperty(key)){
+            object1[key] = object2[key];
+        }
     }
-
-    return object1;
-
+    if(ret) {
+        return object1;
+    }
 }
 
-var safeUint8Array = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
+const safeUint8Array = scmpStr(typeof Uint8Array, "undefined") ? Array : Uint8Array;
+
 
 /**
  * To Camel Case string.
@@ -166,36 +177,48 @@ function toCamelCase(value) {
     // Code: 97-122 Chars: a-z
 
     let prev = value.charCodeAt(0); // previous char
-    let first = true; //is first char
+    let firstWas = false; //is first letter was
     let count = 0;
     for (let i = 0; i < len; i++) {
 
         let code = value.charCodeAt(i);
 
-        // Check code is not contain special characters
-        if (!(code < 48 || (code > 90 && code < 97) || code > 122)) {
-
-            // Check code is not number
-            if (!(code >= 48 && code <= 57)) {
-                // Is lowercase
-                if (code >= 97 && code <= 122) {
-
-                    if (prev < 48 || (prev > 90 && prev < 97) || prev > 122) {
-                        code = code & (1 + 2 + 4 + 8 + 16 + 0 + 64 + 128); // toUpperCase
-                    }
-
-                } else {
-                    if (!(prev >= 65 && prev <= 90) || first) {
-                        code = code | 32; // toLowerCase
-                        if (first) {
-                            first = false;
-                        }
-                    }
-                }
-            }
+        // It's Number
+        if(code > 47 && code < 58) {
+            // Add Number
             buffer[count] = code;
             count++;
+
+        } else if (code > 96 && code < 123) { // It's lower case letter
+
+            //If previous char is't letter or number,
+            if (firstWas && !((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91))) {
+                code = code & (1 + 2 + 4 + 8 + 16 + 64 + 128); // toUpperCase
+            }
+
+            buffer[count] = code;
+            count++;
+
+            if (!firstWas) {
+                firstWas = true;
+            }
+
+        } else if (code > 64 && code < 91) { // It's upper case letter
+
+            // If previous char is letter or number,
+            if ((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91)){
+                code = code | 32; // toLowerCase
+            }
+
+            buffer[count] = code;
+            count++;
+
+            if (!firstWas) {
+                firstWas = true;
+            }
+
         }
+
         prev = code;
     }
     let ret = new safeUint8Array(count);
@@ -205,11 +228,11 @@ function toCamelCase(value) {
     return String.fromCharCode.apply(null, ret);
 }
 
+
 /**
  * To Kebab Case string.
  * @param {string} value  - input string.
  */
-
 function toKebabCase(value) {
     let len = value.length;
     let count = 0;
@@ -235,9 +258,10 @@ function toKebabCase(value) {
     return String.fromCharCode.apply(null, buffer);
 }
 
+
 /**
  * Check string contains number.
- * @param value - inputt string.
+ * @param value - input string.
  */
 function hasNumber(value) {
     let len = value.length;
@@ -249,6 +273,8 @@ function hasNumber(value) {
     }
     return false;
 }
+
+
 /**
  * Compare input string with reference string.
  * @param str - input string
@@ -263,9 +289,9 @@ function cmpStr(str, refStr) {
         return false;
     }
 
-    for (var i = 0; i < len; i++) {
-        var code = str.charCodeAt(i);
-        var refCode = refStr.charCodeAt(i);
+    for (let i = 0; i < len; i++) {
+        let code = str.charCodeAt(i);
+        let refCode = refStr.charCodeAt(i);
 
         if (code >= 65 && code <= 90) {
             code = code | 32;
@@ -278,6 +304,7 @@ function cmpStr(str, refStr) {
 
     return true;
 }
+
 
 /**
  * Case sensitive compare strings
@@ -292,7 +319,7 @@ function scmpStr(str, refStr) {
         return false;
     }
 
-    for (var i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
 
         if (str.charCodeAt(i) !== refStr.charCodeAt(i)) {
             return false;
@@ -301,6 +328,7 @@ function scmpStr(str, refStr) {
 
     return true;
 }
+
 
 /**
  * Export helpers

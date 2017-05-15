@@ -1,48 +1,41 @@
-$fonts: ../fonts;
-$images: ../images;
-$icons: ../icons;
-
 @hamster {
 
     /*  Base Font settings */
-    font-size: 16px;
+    --font-size: 16px;
     /* line height in pixels like 24px or relative value like 1.5 without em, rem! */
-    line-height: 1.5;
-    font-ratio: minor-third;
-    remove-comments: true;
+    --line-height: 1.35;
 
-    /*  Vertical Rythm settings */
+    --font-ratio: 1.2;
+    --remove-comments: true;
+    /*  Vertical Rhythm settings */
     
-    unit: em;
-    px-fallback: true;
-    properties: extend;
-    ruler-style: switch ruler-debug;
-    ruler-color: rgba(19, 134, 191, .8);
-    /*ruler-icon-colors: #F0FAFF #ACFF0D;*/
-    ruler-icon-colors: #cccccc #394959;
-    ruler-icon-position: "position:fixed;top: 1.5em;left: 1.5em;";
-    /*ruler-color: #21BF13;*/
-    ruler-background: png;
-    /*ruler-output: images/ruler.png;*/
-    /*ruler-output: ../../ruler.png;*/
-    ruler-pattern: 1 0 0 0;
-    ruler-scale: 4;
-    ruler-thickness: 1;
+    --unit: rem;
+    --px-fallback: true;
+    --rem-fallback: false;
+    --properties: extend;
+    --ruler-style: switch ruler-debug;
+    --ruler-color: rgba(2, 179, 228, .7);
+    --ruler-icon-colors: #fff #02b3e4;
+    --ruler-icon-position: "position:fixed;top: spacing(.5);left: spacing(.5);";
+    --ruler-icon-size: spacing(1);
+    --ruler-pattern: 1 0 0 0;
+    --ruler-scale: 4;
+    --ruler-thickness: 1;
 
-    round-to-nearest-half-line: false;
-    min-line-padding: 2px;
+    --round-to-nearest-half-line: false;
+    --min-line-padding: 1px;
 
-    /*  Custom Typography contants */
+    /*  Custom Typography constants */
 
-    font-weight: 400;
-    font-color: #44576a;
-    header-color: #1386BF;
-    background-color: #FAFDFF;
-    block-color: #F0FAFF;
-    hover-color: #1BBA13;
-    /*footer-color: #1B2633;*/
-    footer-color: #2C3845;
-    code-color: #2C3845;
-    font-family: Roboto, "Open Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
-
+    --font-weight: 400;
+    --font-color: #304458;
+    --header-color: #02b3e4;
+    --sheader-color: #DA083D;
+    --background-color: #f5f5f5;
+    --block-color: #F2FBFF;
+    --hover-color: #1bba13;
+    --footer-color: #1C2733;
+    --wrapper-background: #fff;
+    --code-color: #faf9fa;
+    --font-family: Roboto, "Open Sans", "PT Sans", "Segoe UI", "Helvetica Neue", Helvetica, Verdana, Tahoma, Arial, sans-serif;
 }

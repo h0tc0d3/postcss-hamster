@@ -6,7 +6,7 @@ test1 {
 
 test2 {
   white-space: nowrap;
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* htest properties: inline; @forcewrap; */
@@ -23,7 +23,7 @@ test4 {
   white-space: pre-line;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* htest properties: inline; @ellipsis; */
@@ -36,24 +36,22 @@ test5 {
 test6 {
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* htest properties: extend; @nowrap; */
 
-test7,
-test8 {
+test7, test8 {
   white-space: nowrap;
 }
 
 test8 {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* htest properties: extend; @forcewrap; */
 
-test9,
-test10 {
+test9, test10 {
   white-space: pre;
   white-space: pre-line;
   white-space: pre-wrap;
@@ -62,21 +60,20 @@ test10 {
 
 /* htest properties: extend; @ellipsis; */
 
-test11,
-test12 {
+test11, test12 {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 test12 {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 test13 {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* htest properties: extend; @hyphens; */
