@@ -2,27 +2,30 @@
 import uSelector from "./uSelector.es6";
 /**
  * @module Rhythm
- * 
+ *
  * @description Web Page Vertical Rhythm Fixer.
  *
  * @version 1.0
  * @author Grigory Vasilyev <postcss.hamster@gmail.com> https://github.com/h0tc0d3
  * @copyright Copyright (c) 2017, Grigory Vasilyev
- * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0
+ *
  */
 
 class Rhythm {
 
     constructor(settings) {
 
-        this.defaults = {
+        let defaults = {
             // Property for compensation. height-up, height-down, margin, padding, margin-bottom, margin-top, padding-bottom, padding-top
             "property": "padding",
             // Rhythm base font size, without "px".
             "base": 16,
             // Rhythm Line height. Relative or pixel size.
-            "lineHeight": 1.5,
+            "line": 1.5,
+            // Dynamic detect font-size and line-height;
+            "dynamic": false,
+            "dynamicSelector": "p",
             // Resize if screen width changed.
             "resize": true,
             // Allow resize width of element
@@ -41,41 +44,48 @@ class Rhythm {
                 "margin-left",
                 "margin-right",
             ],
+            // Responsive brakePoints {min: 480, max: 600, base: 14, line: 1.2}
+            "brakePoints":[],
+            // Set dom context
             "context": document
         };
 
-        settings = this.extend(this.defaults, settings);
-        this.settings = settings || {};
+        settings = this.extend(defaults, settings);
         // Array that contain elements original width and height.
         this.originalSizes = [];
         // uniqId Counter.
         this.countUniqId = 0;
-        // Convert relative lineHeight to pixels.
-
-        if (this.settings.lineHeight < this.settings.base) {
-            this.settings.lineHeight = this.settings.lineHeight * this.settings.base;
-        }
-
+        this.selector = new uSelector();
         // Set context
-        this.context = this.settings.context;
+        this.context = settings.context;
         this.window = window;
-
         this.classRegexp = new RegExp(settings.classPrefix + "([0-9]+)", "");
+        this.view = this.context.defaultView ? this.context.defaultView : null;
+        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ? Array : Uint8Array;
+        this.dynEl = this.find(settings.dynamicSelector)[0];
 
-        this.fresize = [];
+        this.width = 0;
+        this.line = settings.line;
+        this.base = settings.base;
+        this.property = settings.property;
+        this.dynamic = settings.dynamic;
+        this.isResize = settings.resize;
+        this.resizeWidth = settings.resizeWidth;
+        this.classPrefix = settings.classPrefix;
+        this.properties = settings.properties;
+        this.brakePoints = settings.brakePoints;
+
+        this.setLineHeight();
         this.rresize = [];
-        if (this.settings.resize) {
+        if (this.isResize) {
             this.resize(() => {
-                for (let i = 0, len = this.fresize.length; i < len; i++) {
-                    this.fix(this.fresize[i]);
-                }
+                this.setLineHeight();
                 for (let i = 0, len = this.rresize.length; i < len; i++) {
                     this.rhythm(this.rresize[i]);
                 }
             });
         }
 
-        this.selector = new uSelector();
 
         this.head = this.context.head || this.context.getElementsByTagName("head")[0];
         // this.style = this.context.createElement("link");
@@ -83,10 +93,6 @@ class Rhythm {
         this.style.type = "text/css";
         this.style.rel = "stylesheet";
         this.head.appendChild(this.style);
-
-        this.view = this.context.defaultView ? this.context.defaultView : null;
-
-        this.safeUint8Array = this.cmpStr(typeof Uint8Array, "undefined") ? Array : Uint8Array;
 
     }
 
@@ -98,8 +104,38 @@ class Rhythm {
     }
 
     /**
+     * set line height
+     */
+    setLineHeight(){
+        let len = this.brakePoints.length;
+        if(len > 0){
+            this.width = Math.max(this.context.documentElement.clientWidth, this.window.innerWidth || 0);
+            for(let i = 0; i < len; i++){
+                let brakePoint = this.brakePoints[i];
+                if(this.width >= brakePoint.min && this.width < brakePoint.max){
+                    if (brakePoint.line < brakePoint.base) {
+                        // Convert relative lineHeight to pixels.
+                        this.line = brakePoint.line * brakePoint.base;
+                    } else {
+                        this.line = brakePoint.line;
+                    }
+                    break;
+                }
+            }
+        } else {
+            if(this.dynamic){
+                this.line = parseFloat(this.css(this.dynEl, "line-height"));
+            } else {
+                // Convert relative lineHeight to pixels.
+                if (this.line < this.base) {
+                    this.line = Math.round(this.line * this.base);
+                }
+            }
+        }
+    }
+    /**
      * Find elements
-     * @param selector 
+     * @param selector
      */
     find(selector) {
         return this.selector.select(selector, this.context);
@@ -171,13 +207,17 @@ class Rhythm {
      */
     resize(callback) {
 
+        let timeOutCallBack = () => {
+            // Need to wait before browser recalculate styles.
+            this.window.setTimeout(callback, 500);
+        };
         if (this.window.addEventListener) {
 
-            this.window.addEventListener("resize", callback, false);
+            this.window.addEventListener("resize", timeOutCallBack, false);
 
         } else if (this.window.attachEvent) {
 
-            this.window.attachEvent("onresize", callback);
+            this.window.attachEvent("onresize", timeOutCallBack);
 
         }
 
@@ -185,7 +225,7 @@ class Rhythm {
 
     /**
      * Get and Set Style for element.
-     * @param element 
+     * @param element
      * @param property - if object then set key - value styles else string will be single property.
      * @param value - If single value then set value for style property.
      */
@@ -218,7 +258,7 @@ class Rhythm {
                     ret[prop] = styles[prop];
                 }
             } else {
-                // Get Sinle style
+                // Get single style
                 let prop = this.toCamelCase(property);
                 ret = styles[prop];
             }
@@ -230,8 +270,8 @@ class Rhythm {
 
     /**
      * Add Class for element.
-     * @param element 
-     * @param className 
+     * @param element
+     * @param className
      */
     addClass(element, className) {
         if (element.classList) {
@@ -243,8 +283,8 @@ class Rhythm {
 
     /**
      * Remove Class from element.
-     * @param element 
-     * @param className 
+     * @param element
+     * @param className
      */
     removeClass(element, className) {
         if (element.classList) {
@@ -256,7 +296,7 @@ class Rhythm {
 
     /**
      * Return element classes.
-     * @param element 
+     * @param element
      */
     class(element) {
         let result = (element.classList) ? element.classList : element.className;
@@ -267,8 +307,7 @@ class Rhythm {
      * Fix rhythm for elemets.
      * @param selector - Selector for elements
      * @param property -  Property for compensation. If not set then will be default from instance settings.
-     * @param wresize - Alow resize width. If not set then will be default from instance settings.
-     * @param find - 
+     * @param wresize - Allow resize width. If not set then will be default from instance settings.
      */
     rhythm(selector, property, wresize) {
 
@@ -277,6 +316,7 @@ class Rhythm {
         if (selector.constructor === Object) {
 
             node = selector.node;
+            node.textContent = "";
             wresize = selector.resize;
             property = selector.property;
             selector = selector.selector;
@@ -284,18 +324,18 @@ class Rhythm {
         } else {
 
             if (!property) {
-                property = this.settings.property;
+                property = this.property;
             }
 
             if (!wresize) {
-                wresize = this.settings.resizeWidth;
+                wresize = this.resizeWidth;
             }
 
             //Create CSS node and append them to style.
             node = this.context.createTextNode("");
             this.style.appendChild(node);
 
-            if (this.settings.resize) {
+            if (this.isResize) {
                 this.rresize.push({
                     "selector": selector,
                     "property": property,
@@ -312,80 +352,118 @@ class Rhythm {
         for (let i = 0, elSize = elements.length; i < elSize; i++) {
 
             let element = elements[i];
-            let parentWidth = Math.floor(parseFloat(this.css(element.parentElement, "width")));
+            let parentStyles = this.css(element.parentElement, ["width", "padding-left", "padding-right", "box-sizing"]);
             let elClass = this.class(element);
             let id = (elClass) ? elClass.match(this.classRegexp) : null;
-
             if (id) {
                 id = id[1];
+                elClass = this.classPrefix + id;
             } else {
-                // generate class to element classPrefix + number like classPrefix0, classPrefix999... Save Original element size. It's will be needed if we resize screen.
+                // generate class to element classPrefix + number like classPrefix0, classPrefix999...
+                // Save Original element size. It's will be needed if we resize screen.
                 id = this.uniqId();
-                this.addClass(element, this.settings.classPrefix + id);
-                let styles = this.css(element, ["width", "height"]);
+                elClass = this.classPrefix + id;
+                this.addClass(element, elClass);
+                let styles = this.css(element, [
+                    "width", "height"
+                    //, "margin-top", "margin-bottom", "padding-top", "padding-bottom"
+                ]);
                 this.originalSizes[id] = {
                     "width": parseFloat(styles["width"]),
-                    "height": parseFloat(styles["height"])
+                    "height": parseFloat(styles["height"]),
                 };
             }
 
-            let elSel = "." + this.settings.classPrefix + id;
+            let elSel = "." + elClass;
             let elCss = "";
             // get Original Size by id
             let width = this.originalSizes[id].width;
             let height = this.originalSizes[id].height;
 
             if (wresize) {
+                let parentWidth = this.cmpStr(parentStyles.boxSizing, "border-box")
+
+                    ? parseFloat(parentStyles.width)
+
+                    - parseFloat(parentStyles.paddingLeft)
+                    - parseFloat(parentStyles.paddingRight)
+                    : parseFloat(parentStyles.width);
 
                 if (width > parentWidth) {
                     let widthRatio = width / parentWidth;
                     width = parentWidth;
-                    height = Math.round(height / widthRatio);
+                    height = height / widthRatio;
                 }
 
             }
 
+            let lines = Math.ceil(height / this.line);
 
-            let lines = Math.ceil(height / this.settings.lineHeight);
+            if (this.cmpStr(property, "height-down") || this.cmpStr(property, "height-up")
+                || this.cmpStr(property, "!height-down") || this.cmpStr(property, "!height-up")) {
 
-            if (this.cmpStr(property, "height-down") || this.cmpStr(property, "height-up") || this.cmpStr(property, "!height-down") || this.cmpStr(property, "!height-up")) {
-
-                if ((this.cmpStr(property, "height-down") || this.cmpStr(property, "!height-down")) && ((lines * this.settings.lineHeight - height) >= this.settings.lineHeight)) {
+                if ((this.cmpStr(property, "height-down") || this.cmpStr(property, "!height-down")) && lines > 2) {
                     lines -= 1;
                 }
 
-                let rhytmHeight = lines * this.settings.lineHeight;
-                height = Math.round(rhytmHeight);
+                let rhythmHeight = lines * this.line;
 
                 if (this.cmpStr(property, "height-down") || this.cmpStr(property, "height-up")) {
-                    let ratio = rhytmHeight / height;
-                    width = Math.round(width * ratio);
+                    let ratio = rhythmHeight / height;
+                    width = width * ratio;
                 }
 
+                height = rhythmHeight;
+                // It's hack to delete white space after image.
+                if(this.cmpStr(element.tagName, "img")){
+                    elCss = "display: block;\nwidth: " + width.toFixed(4) + "px;\nheight:" + height.toFixed(4) + "px;";
+                } else {
+                    elCss = "width: " + width.toFixed(4) + "px;\nheight:" + height.toFixed(4) + "px;";
+                }
 
             } else {
 
-                let spacing = Math.round((lines * this.settings.lineHeight) - height);
+                let spacing = (lines * this.line) - height;
+                // console.log(id + " " + height + " " + this.line + " * " + lines + " = " + (this.line * lines)
+                //     +  " " + spacing);
 
-                if (this.cmpStr(property, "margin-top") || this.cmpStr(property, "margin-bottom") || this.cmpStr(property, "padding-top") || this.cmpStr(property, "padding-bottom")) {
-
-                    elCss += "\n" + property + ": " + spacing + "px;";
+                if (this.cmpStr(property, "margin-top") || this.cmpStr(property, "margin-bottom")
+                    || this.cmpStr(property, "padding-top") || this.cmpStr(property, "padding-bottom")) {
+                    let style = parseInt(this.css(element, property));
+                    if(!style){
+                        style = 0;
+                    }
+                    elCss = "\n" + property + ": " + spacing + style + "px;";
 
                 } else if (this.cmpStr(property, "margin") || this.cmpStr(property, "padding")) {
 
                     let indent = Math.floor(spacing / 2);
-
-                    if (spacing % 2 == 0) {
-                        elCss += "\n" + property + "-top: " + indent + "px;\n" + property + "-bottom: " + indent + "px;";
+                    let style = this.css(element, [property + "-top", property + "-bottom"]);
+                    if(!style[property + "Top"]){
+                        style[property + "Top"] = 0;
                     } else {
-                        elCss += "\n" + property + "-top: " + indent + "px;\n" + property + "-bottom: " + (indent + 1) + "px;";
+                        style[property + "Top"] = parseInt(style[property + "Top"]);
+                    }
+                    if(!style[property + "Bottom"]){
+                        style[property + "Bottom"] = 0;
+                    } else {
+                        style[property + "Bottom"] = parseInt(style[property + "Bottom"]);
+                    }
+
+                    if (spacing % 2 === 0) {
+                        elCss = "\n" + property + "-top: " + style[property + "Top"] + indent + "px;\n"
+                            + property + "-bottom: " + style[property + "Bottom"] + indent + "px;";
+                    } else {
+                        elCss = "\n" + property + "-top: " + style[property + "Top"] + indent + "px;\n"
+                            + property + "-bottom: " + style[property + "Bottom"] + (indent + 1) + "px;";
                     }
 
                 }
+                // It's hack to delete white space after image.
+                if(this.cmpStr(element.tagName, "img")){
+                    elCss = "display: block;\nwidth: " + width + "px;\nheight:" + height + "px;" + elCss;
+                }
             }
-
-            // It's hack to delete spacing after element.
-            elCss = "display: block;\nwidth: " + width + "px;\height:" + height + "px;" + elCss;
 
             if (elCss.length !== 0) {
                 css += elSel + " {" + elCss + "}\n";
@@ -396,104 +474,9 @@ class Rhythm {
         node.textContent = css;
     }
 
-    // round(value) {
-    //     //value = value.toFixed(0); // Round to nearest pixel, best view on all browsers, also half sub pixel rounding works fine too; 
-    //     //Round to near 1/2 of pixel
-    //     let ceil = Math.ceil(value);
-    //     if (ceil > value) {
-    //         ceil = ceil - 1;
-    //     }
-
-    //     let fraction = value - ceil;
-    //     fraction = Math.round(fraction / 0.5) * 0.5;
-    //     value = ceil + fraction;
-    //     return value;
-    // }
-
-    /**
-     * Fix relative size round bug - round to ceil pixels. 
-     * @param selector - css selector string.
-     * @param isStatic - if set true then get size only from first element in selector
-     * and create css style for selector. Else create style class for all elements and add class.
-     */
-    fix(selector, isStatic = true) {
-
-        let node;
-        if (selector.constructor === Object) {
-
-            node = selector.node;
-            isStatic = selector.isStatic;
-            selector = selector.selector;
-
-        } else {
-            node = this.context.createTextNode("");
-            this.style.appendChild(node);
-            //Create CSS node and append them to style.
-            if (this.settings.resize) {
-                this.fresize.push({
-                    "selector": selector,
-                    "isStatic": isStatic,
-                    "node": node
-                });
-
-            }
-
-        }
-
-        let elements = (isStatic) ? selector.split(",") : this.find(selector);
-
-        let css = "";
-
-        for (let i = 0, elLen = elements.length; i < elLen; i++) {
-
-            let element = (isStatic) ? this.find(elements[i])[0] : elements[i];
-
-            if (element) {
-                let elCss = "";
-                let elStyle = this.css(element, this.settings.properties);
-                for (let j = 0, len = this.settings.properties.length; j < len; j++) {
-                    let prop = this.settings.properties[j];
-                    let value = parseFloat(elStyle[this.toCamelCase(prop)]);
-                    if (value > 0) {
-                        elCss += "\n" + prop + ": " + value.toFixed(0) + "px;";
-                    }
-                }
-
-                let elSel;
-
-                if (isStatic) {
-                    elSel = elements[i];
-                } else {
-                    let elClass = this.class(element);
-                    let id = (elClass) ? elClass.match(this.classRegexp) : null;
-
-                    if (id) {
-                        id = id[1];
-                        elSel = "." + this.settings.classPrefix + id;
-                    } else {
-                        // generate class to element classPrefix + number like classPrefix0, classPrefix999... Save Original element size. It's will be needed if we resize screen.
-                        id = this.uniqId();
-                        elSel = this.settings.classPrefix + id;
-                        this.addClass(element, elSel);
-                        elSel = "." + elSel;
-                    }
-                }
-
-                if (elCss.length !== 0) {
-                    css += elSel + " {" + elCss + "}\n";
-                }
-            }
-
-        }
-
-        node.textContent = css;
-
-    }
-
-
     /**
      * To Camel Case string.
-     * @param value 
+     * @param value
      */
     toCamelCase(value) {
 
@@ -501,40 +484,52 @@ class Rhythm {
         let buffer = new this.safeUint8Array(len);
 
         // Code: 48-57 Chars: 0-9
-        // Code: 65-90 Chars: A-Z 
+        // Code: 65-90 Chars: A-Z
         // Code: 97-122 Chars: a-z
 
         let prev = value.charCodeAt(0); // previous char
-        let first = true; //is first char
+        let firstWas = false; //is first letter was
         let count = 0;
         for (let i = 0; i < len; i++) {
 
             let code = value.charCodeAt(i);
 
-            // Check code is not contain special characters
-            if (!(code < 48 || (code > 90 && code < 97) || code > 122)) {
-
-                // Check code is not number
-                if (!(code >= 48 && code <= 57)) {
-                    // Is lowercase
-                    if (code >= 97 && code <= 122) {
-
-                        if (prev < 48 || (prev > 90 && prev < 97) || prev > 122) {
-                            code = code & (1 + 2 + 4 + 8 + 16 + 0 + 64 + 128); // toUpperCase
-                        }
-
-                    } else {
-                        if (!(prev >= 65 && prev <= 90) || first) {
-                            code = code | 32; // toLowerCase
-                            if (first) {
-                                first = false;
-                            }
-                        }
-                    }
-                }
+            // It's Number
+            if(code > 47 && code < 58) {
+                // Add Number
                 buffer[count] = code;
                 count++;
+
+            } else if (code > 96 && code < 123) { // It's lower case letter
+
+                //If previous char is't letter or number,
+                if (firstWas && !((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91))) {
+                    code = code & (1 + 2 + 4 + 8 + 16 + 64 + 128); // toUpperCase
+                }
+
+                buffer[count] = code;
+                count++;
+
+                if (!firstWas) {
+                    firstWas = true;
+                }
+
+            } else if (code > 64 && code < 91) { // It's upper case letter
+
+                // If previous char is letter or number,
+                if ((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91)){
+                    code = code | 32; // toLowerCase
+                }
+
+                buffer[count] = code;
+                count++;
+
+                if (!firstWas) {
+                    firstWas = true;
+                }
+
             }
+
             prev = code;
         }
         let ret = new this.safeUint8Array(count);
@@ -558,9 +553,9 @@ class Rhythm {
             return false;
         }
 
-        for (var i = 0; i < len; i++) {
-            var code = str.charCodeAt(i);
-            var refCode = refStr.charCodeAt(i);
+        for (let i = 0; i < len; i++) {
+            let code = str.charCodeAt(i);
+            let refCode = refStr.charCodeAt(i);
 
             if (code >= 65 && code <= 90) {
                 code = code | 32;
@@ -588,7 +583,7 @@ class Rhythm {
             return false;
         }
 
-        for (var i = 0; i < len; i++) {
+        for (let i = 0; i < len; i++) {
 
             if (str.charCodeAt(i) !== refStr.charCodeAt(i)) {
                 return false;
@@ -601,11 +596,11 @@ class Rhythm {
 
     /**
      * Extend object1 with object2.
-     * 
-     * @param object1 
+     *
+     * @param object1
      * @param object2
-     * 
-     * @return object1 
+     *
+     * @return object1
      */
     extend(object1, object2) {
         for (let key in object2) {

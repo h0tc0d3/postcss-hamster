@@ -1,6 +1,6 @@
 var fs = require("fs"),
     postcss = require("postcss"),
-    stylefmt = require("stylefmt"),
+    // postcss = require("../postcss/build/lib/postcss.js");
     hamster = require("./index.js");
 
 var fileHandle = (src) => {
@@ -11,7 +11,7 @@ var fileHandle = (src) => {
 
         if (err) throw err;
 
-        postcss([hamster, stylefmt]).process(css).then(
+        postcss([hamster]).process(css).then(
 
             result => fs.writeFileSync(dest, result.css),
 

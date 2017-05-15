@@ -12,7 +12,7 @@
 
 import fs from "fs";
 import zlib from "zlib";
-import {safeUint8Array} from "./Helpers";
+import {safeUint8Array, scmpStr} from "./Helpers";
 
 class PngImage {
 
@@ -41,7 +41,7 @@ class PngImage {
         this.colortype = colortype;
         this.transparent = new safeUint8Array([0, 0, 0, 0]); // Transparent color
         this.iend = new safeUint8Array([0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130]); // IEND CHUNK
-        var safeUint32Array = typeof Uint32Array !== "undefined" ? Uint32Array : Array;
+        let safeUint32Array = scmpStr(typeof Uint32Array, "undefined") ? Array : Uint32Array;
         // this.pako = require("pako");
         //// pre calculated crc table for crc32 method
         this.crcTable = new safeUint32Array([
@@ -158,8 +158,10 @@ class PngImage {
      * @memberOf module:PngImage
      * 
      * @param {number} height - image height.
-     * @param {string} color - ruler line color. Support hex color like #454545, web safe hex like #333, rgb(255, 143, 15) - red,  green, blue, rgba(255, 143, 15, 0.6) - red,  green, blue, alpha(transparency).
-     * @param {array} pattern - ruler line pattern array like [1, 0, 0, 0] - value = 1 - write color pixel, values = 0 write transparent pixel.
+     * @param {string} color - ruler line color. Support hex color like #454545, web safe hex like #333,
+     * rgb(255, 143, 15) - red,  green, blue, rgba(255, 143, 15, 0.6) - red,  green, blue, alpha(transparency).
+     * @param {array} pattern - ruler line pattern array like [1, 0, 0, 0] - value = 1 - write color pixel,
+     * values = 0 write transparent pixel.
      * @param {number} thickness - ruler line thickness in pixels.
      * @param {number} scale - image scale ratio.
      * 
@@ -205,11 +207,7 @@ class PngImage {
             pos++;
 
             // Current line include ruler pattern ? // top and bottom
-            if (i < patternHeight || i >= bottom) {
-                pline = true;
-            } else {
-                pline = false;
-            }
+            pline = i < patternHeight || i >= bottom;
 
             // // Current line include ruler pattern ? // bottom
             // if (i >= bottom) {
@@ -301,7 +299,8 @@ class PngImage {
      * @memberOf module:PngImage
      * 
      * @param {string} color - color as string.
-     * Support hex color like #454545, web safe hex like #333, rgb(255, 143, 15) - red,  green, blue, rgba(255, 143, 15, 0.6) - red,  green, blue, alpha(transparency).
+     * Support hex color like #454545, web safe hex like #333, rgb(255, 143, 15) - red,  green, blue,
+     * rgba(255, 143, 15, 0.6) - red,  green, blue, alpha(transparency).
      * 
      * @returns  Uint8Array - color for png image encoded as bytes.
      */
@@ -311,9 +310,9 @@ class PngImage {
         let [red, green, blue, alpha] = [0, 0, 0, 0];
         let found;
         // Hex color like #454545
-        if ((found = color.match(/\#([0-9a-zA-Z]{3, 6})/))) {
+        if ((found = color.match(/#([0-9a-zA-Z]{3, 6})/))) {
             let flen = found[1].length;
-            if (flen == 6) {
+            if (flen === 6) {
 
                 [red, green, blue] = [
                     parseInt(found[1].substr(0, 2), 16),
@@ -322,7 +321,7 @@ class PngImage {
                 ];
 
                 alpha = 255;
-            } else if (flen.length == 3) {
+            } else if (flen.length === 3) {
                 // Hex colors like #333
                 let rc = found[1].substr(0, 1);
                 let gc = found[1].substr(1, 1);
@@ -344,8 +343,8 @@ class PngImage {
             // rgb rgba colors like rgba(255, 255,255, 255)
         } else if ((found = color.match(/rgba*\((.*?)\)/))) {
 
-            [red, green, blue, alpha] = found[1].split(/\s*\,\s*/i);
-            alpha = (alpha != null && alpha > 0) ? Math.round(alpha * 255) : 255;
+            [red, green, blue, alpha] = found[1].split(/\s*,\s*/i);
+            alpha = (alpha && alpha > 0) ? Math.round(alpha * 255) : 255;
 
         }
 
@@ -424,7 +423,7 @@ class PngImage {
         for (let i = 0; i < data.length; i++) {
             s1 += data[i];
             s2 += s1;
-            if ((n -= 1) == 0) {
+            if ((n -= 1) === 0) {
                 s1 %= BASE;
                 s2 %= BASE;
                 n = NMAX;
@@ -445,7 +444,7 @@ class PngImage {
      * @param data - input bytes.
      * @param crc - start crc value, default - 1.
      * 
-     * @returns {number} - crc32 checksum.
+     * @returns byte4 - crc32 checksum.
      */
     crc32(data, crc = -1) {
 

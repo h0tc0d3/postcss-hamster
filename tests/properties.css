@@ -1,9 +1,9 @@
 /* htest properties: inline; @nowrap; */
-
-@!hamster {
+@hamster reset;
+@ihamster {
     font-size: 14px;
-	line-height: 1.5;
-	unit: px;
+    line-height: 1.5;
+    unit: px;
     properties: inline;
     px-fallback: false;
     round-to-half-line: false;
@@ -42,9 +42,9 @@ test6 {
 
 /* htest properties: extend; @nowrap; */
 
-@!hamster {
-    properties: extend;
-}
+@ihamster {
+      properties: extend;
+  }
 
 test7 {
     @nowrap;
@@ -98,5 +98,3 @@ test15 {
 test16 {
     @break-word;
 }
-
-@hamster end;

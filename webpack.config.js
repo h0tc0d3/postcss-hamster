@@ -32,7 +32,14 @@ const plugins = PRODUCTION ? [
     new ExtractTextPlugin("style.css"),
     new CopyWebpackPlugin([{
         from: {
-            glob: path.resolve(__dirname, "web", "images", "*"),
+            glob: path.resolve(__dirname, "web", "images", "\.(png|jpg|jpeg|gif|svg)$"),
+            dot: true
+        },
+        to: path.resolve(__dirname, "build")
+    }]),
+    new CopyWebpackPlugin([{
+        from: {
+            glob: path.resolve(__dirname, "web", "fonts", "\.(eot|ttf|woff|woff2)$"),
             dot: true
         },
         to: path.resolve(__dirname, "build")
@@ -48,10 +55,22 @@ plugins.push(
     new webpack.DefinePlugin({
         PRODUCTION: JSON.stringify(PRODUCTION)
     }),
+    // new HTMLWebpackPlugin({
+    //     chunks: ["app"],
+    //     filename: "index.html",
+    //     template: "./web/index.html",
+    //     minify: {
+    //         collapseWhitespace: true,
+    //         removeComments: true,
+    //         removeRedundantAttributes: true,
+    //         removeScriptTypeAttributes: true,
+    //         removeStyleLinkTypeAttributes: true
+    //     }
+    // }),
     new HTMLWebpackPlugin({
         chunks: ["app"],
-        filename: "postcss-hamster-ru.html",
-        template: "./web/postcss-hamster-ru.html",
+        filename: "hamster-ru.html",
+        template: "./web/hamster-ru.html",
         minify: {
             collapseWhitespace: true,
             removeComments: true,
@@ -60,30 +79,18 @@ plugins.push(
             removeStyleLinkTypeAttributes: true
         }
     }),
-    new HTMLWebpackPlugin({
-        chunks: ["app"],
-        filename: "index.html",
-        template: "./web/index.html",
-        minify: {
-            collapseWhitespace: true,
-            removeComments: true,
-            removeRedundantAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-        }
-    }),
-    new HTMLWebpackPlugin({
-        chunks: ["app"],
-        filename: "postcss-hamster-en.html",
-        template: "./web/postcss-hamster-en.html",
-        minify: {
-            collapseWhitespace: true,
-            removeComments: true,
-            removeRedundantAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true
-        }
-    }),
+    // new HTMLWebpackPlugin({
+    //     chunks: ["app"],
+    //     filename: "hamster-en.html",
+    //     template: "./web/hamster-en.html",
+    //     minify: {
+    //         collapseWhitespace: true,
+    //         removeComments: true,
+    //         removeRedundantAttributes: true,
+    //         removeScriptTypeAttributes: true,
+    //         removeStyleLinkTypeAttributes: true
+    //     }
+    // }),
     new HappyPack({
         id: "babel",
         threadPool: happyThreadPool,
@@ -124,9 +131,13 @@ const config = {
             exclude: [/node_modules/],
             use: "happypack/loader?id=html"
         }, {
-            test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+            test: /\.(png|jpg|jpeg|gif|svg)$/,
             exclude: [/node_modules/],
             use: "url-loader?limit=5000&name=images/[name].[ext]"
+        }, {
+            test: /\.(eot|ttf|woff|woff2)$/,
+            exclude: [/node_modules/],
+            use: "url-loader?limit=5000&name=fonts/[name].[ext]"
         }
         ]
     },

@@ -1,169 +1,100 @@
-%text-ultrastrong {
-	font-weight: 900;
+%strong {
+    font-weight: 500;
 }
 
-%text-strong {
-	font-weight: 700
-}
-
-%text-regular {
-	font-weight: 400;
-}
-
-%text-light {
-	font-weight: 300;
-}
-
-%text-ultralight {
-	font-weight: 200;
-}
-
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: @header-color;
-	/*font-family: "Varela Round";*/
+%hlight {
+    color: @sheader-color;
 }
 
 h1 {
-	/*font-family: "Varela Round";*/
-	text-align: center;
-	@extend %text-strong;
-	adjust-font-size: fontSize xxl;
-	margin-top: spacing(4);
-	margin-bottom: spacing(1);
+    text-align: center;
+    font-weight: 600;
+    adjust-font-size: fs xxl;
+    color: #fff;
+    margin-top: spacing(1);
+    margin-bottom: spacing(1);
 }
 
 h2 {
-	@extend %text-strong;
-	adjust-font-size: fontSize xl;
-	margin-top: spacing(3);
-	margin-bottom: spacing(1);
+    @extend %strong;
+    color: @header-color;
+    adjust-font-size: fs xl;
+    margin-top: spacing(2);
+    margin-bottom: spacing(1);
+    padding-left: spacing(1);
+    padding-right: spacing(1);
+    border-left: spacing(.2) solid @header-color;
+    background: @code-color;
 }
 
 h3 {
-	@extend %text-strong;
-	adjust-font-size: fontSize l;
-	margin-top: spacing(2);
-	margin-bottom: spacing(1);
+    @extend %hlight;
+    adjust-font-size: fs l;
+    margin-top: spacing(2);
+    margin-bottom: spacing(1);
 }
 
 h4 {
-	@extend %text-strong;
-	adjust-font-size: fontSize m;
-	margin-top: spacing(1);
-	margin-bottom: spacing(1);
+    @extend %hlight;
+    adjust-font-size: fs m;
+    margin-top: spacing(1);
 }
 
 h5 {
-	@extend %text-strong;
-	adjust-font-size: fontSize b;
-	margin-top: spacing(1);
-	margin-bottom: spacing(1);
+    @extend %hlight;
+    adjust-font-size: fs b;
+    margin-top: spacing(1);
 }
 
 h6 {
-	@extend %text-strong;
-	adjust-font-size: fontSize s;
-	margin-top: spacing(1);
-	margin-bottom: spacing(1);
+    @extend %hlight;
+    adjust-font-size: fs s;
+    margin-top: spacing(1);
 }
 
 strong {
-	@extend %text-strong;
+    @extend %strong;
 }
 
 p {
-	adjust-font-size: fontSize base;
-	/*text-align: justify;*/
-	@hyphens;
-	margin-top: spacing(1);
-	margin-bottom: spacing(1);
+    adjust-font-size: fs b;
+    @hyphens;
+    margin-bottom: spacing(1);
 }
 
 a {
-	font-weight: 500;
-	color: @header-color;
-	&:hover {
-		color: @hover-color;
-	}
+    color: @header-color;
+    &:hover {
+        color: @font-color;
+    }
 }
 
 ul,
 ol {
-	adjust-font-size: fontSize base;
-	list-style-position: inside;
-	margin-bottom: spacing(1);
+    adjust-font-size: fs b;
+    list-style-position: inside;
+    margin-bottom: spacing(1);
 }
 
 ul {
-	list-style: disc;
-	list-style-position: inside;
+    list-style: disc inside;
 }
 
 ol {
-	list-style: decimal;
-	list-style-position: inside;
+    list-style: decimal inside;
 }
 
-img, iframe {
-	border: 0;
+ul a, ol a {
+    text-decoration: none;
 }
-/*img,
-iframe {
-	margin-left: spacing(1);
-	margin-right: spacing(1);
-	margin-bottom: spacing(1);
-}*/
-
-/*
-reset table styles if using normalize
-table, th, td, tr {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}*/
-
-table {
-	font: inherit;
-	display: inline;
-	border-collapse: collapse;
-	border-spacing: 0;
-	margin: spacing(1);
-}
-
-td {
-	padding-left: spacing(1);
-	padding-right: spacing(1);
-	text-align: center;
-}
-
-tr:nth-child(2n+1){
-	background: @block-color;
-}
-
-tr:first-child {
-	color: @header-color;
-	font-weight: 600;
-	line-height: lineheight(2);
-}
-
-/*tr:not(:first-child) {
-	adjust-font-size: fontsize small;
-}*/
 
 code,
 pre {
-	font-family: Inconsolata, monospace;
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	tab-size: 4;
-	hyphens: none;
-	@forcewrap;
+    font-family: "Roboto Mono", Inconsolata, monospace;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    tab-size: 4;
+    hyphens: none;
+    @forcewrap;
 }

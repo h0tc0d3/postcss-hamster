@@ -1,22 +1,22 @@
+/**
+ * @module VerticalRhythm
+ *
+ * @description VerticalRhythm Class for calculate rhythm sizes ans convert units.
+ *
+ * @version 1.0
+ * @author Grigory Vasilyev <postcss.hamster@gmail.com> https://github.com/h0tc0d3
+ * @copyright Copyright (c) 2017, Grigory Vasilyev
+ * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 import {
     formatInt,
     formatValue,
     remRegexp,
     getUnit,
-    isHas,
-    UNIT
+    UNIT,
+    unitName
 } from "./Helpers";
-
-/**
- * @module VerticalRhythm
- * 
- * @description VerticalRhythm Class for calculate rhythm sizes ans convert units.
- * 
- * @version 1.0
- * @author Grigory Vasilyev <postcss.hamster@gmail.com> https://github.com/h0tc0d3
- * @copyright Copyright (c) 2017, Grigory Vasilyev
- * @license Apache License, Version 2.0, http://www.apache.org/licenses/LICENSE-2.0 
- */
 
 class VerticalRhythm {
 
@@ -30,24 +30,15 @@ class VerticalRhythm {
      * <p>
      * Use:
      * settings.fontSize - base font size in pixels.
-     * settings.pxFallback - boolean pixel fallback. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
-     * If rhythm unit px and option will be set then in line height will be pixels like 24px, else relative size like 1.45(without em or rem)
+     * settings.pxFallback - boolean pixel fallback. Convert relative sizes to pixels.
+     * If rhythm unit rem then rem value doubled with pixels values.
+     * If rhythm unit px and option will be set then in line height will be pixels like 24px,
+     * else relative size like 1.45(without em or rem)
      * settings.lineHeight - base line height in pixels or relative value(without em or rem).
      * </p>
      */
     constructor(settings) {
-        this.baseFontSize = settings.fontSize;
-        this.rhythmUnit = settings.unit;
-        this.pxFallback = settings.pxFallback;
-        this.minLinePadding = settings.minLinePadding;
-        this.roundToHalfLine = settings.roundToHalfLine;
-
-        // Base Line Height in Pixels
-        this.baseLineHeight = settings.lineHeight >= settings.fontSize ?
-            settings.lineHeight :
-            (settings.lineHeight * settings.fontSize);
-        this.baseLineHeightRatio = settings.lineHeight >= settings.fontSize ? settings.lineHeight / this.baseFontSize : settings.lineHeight;
-        this.baseLeading = this.convert(this.baseLineHeight - this.baseFontSize, UNIT.PX, this.rhythmUnit);
+        this.settings = settings;
     }
 
     /**
@@ -63,25 +54,25 @@ class VerticalRhythm {
      * 
      * @return {number} - output value.
      */
-    convert(value, valueUnit, format = null, fromContext = null, toContext = null) {
+    convert(value, valueUnit, format, fromContext, toContext) {
 
         value = parseFloat(value);
 
-        if (format === null) {
-            format = this.rhythmUnit;
+        if (!format) {
+            format = this.settings.unit;
         }
 
         if (valueUnit === format) {
             return value;
         }
 
-        if (fromContext === null) {
-            fromContext = this.baseFontSize;
+        if (!fromContext) {
+            fromContext = this.settings.fontSize;
         } else {
             fromContext = parseFloat(fromContext);
         }
 
-        if (toContext === null) {
+        if (!toContext) {
             toContext = fromContext;
         } else {
             toContext = parseFloat(toContext);
@@ -92,7 +83,7 @@ class VerticalRhythm {
         if (valueUnit === UNIT.EM) {
             pxValue = value * fromContext;
         } else if (valueUnit === UNIT.REM) {
-            pxValue = value * this.baseFontSize;
+            pxValue = value * this.settings.fontSize;
         } else if (valueUnit === UNIT.PERCENT) {
             pxValue = value * fromContext / 100;
         } else if (valueUnit === UNIT.EX) {
@@ -101,12 +92,16 @@ class VerticalRhythm {
             pxValue = value;
         }
 
+        if(this.settings.unit === UNIT.PX && this.settings.pxFallback){
+            pxValue = Math.round(pxValue);
+        }
+
         let result = pxValue;
 
         if (format === UNIT.EM) {
             result = pxValue / toContext;
         } else if (format === UNIT.REM) {
-            result = pxValue / this.baseFontSize;
+            result = pxValue / this.settings.fontSize;
         } else if (format === UNIT.PERCENT) {
             result = pxValue * 100 / toContext;
         } else if (format === UNIT.EX) {
@@ -117,30 +112,38 @@ class VerticalRhythm {
     }
 
     /**
-     * Calculate the minimum multiple rhythm units(lines) needed to contain the font-size. 1 rhythm unit = base line height in pixels.
+     * Calculate the minimum multiple rhythm units(lines) needed to contain the font-size.
+     * 1 rhythm unit = base line height in pixels.
      * 
      * @memberOf module:VerticalRhythm
      * 
      * @param fontSize - font size in pixels, em, rem like 1.5em.
      * 
+     * @param unit - input value unit.
+     *
      * @return {number} - number of lines.
      */
-    lines(fontSize) {
+    lines(fontSize, unit = this.settings.unit) {
 
         let lines = 0;
 
-        if (this.rhythmUnit === UNIT.PX) {
+        if (unit === UNIT.PX) {
 
-            lines = (this.roundToHalfLine) ? Math.ceil(2 * fontSize / this.baseLineHeight) / 2 : Math.ceil(fontSize / this.baseLineHeight);
+            lines = (this.settings.roundToHalfLine)
+                ? Math.ceil(2 * fontSize / this.settings.lineHeightPx) / 2
+                : Math.ceil(fontSize / this.settings.lineHeightPx);
 
-        } else if (this.rhythmUnit === UNIT.EM || this.rhythmUnit === UNIT.REM) {
+        } else if (unit === UNIT.EM || unit === UNIT.REM || unit === UNIT.VW) {
 
-            lines = (this.roundToHalfLine) ? Math.ceil(2 * fontSize / this.baseLineHeightRatio) / 2 : Math.ceil(fontSize / this.baseLineHeightRatio);
+            lines = (this.settings.roundToHalfLine)
+                ? Math.ceil(2 * fontSize / this.settings.lineHeightRel) / 2
+                : Math.ceil(fontSize / this.settings.lineHeightRel);
 
         }
+
         //If lines are cramped include some extra lead.
-        if ((lines * this.baseLineHeight - fontSize) < (this.minLinePadding * 2)) {
-            lines = (this.roundToHalfLine) ? lines + 0.5 : lines + 1;
+        if ((lines * this.settings.lineHeightPx - fontSize) < (this.settings.minLinePadding * 2)) {
+            lines = (this.settings.roundToHalfLine) ? lines + 0.5 : lines + 1;
         }
 
         return lines;
@@ -154,48 +157,54 @@ class VerticalRhythm {
      * @param fontSize - font size in pixels, em, rem like 1.5em.
      * @param value - input lines, before output 1 line height will be multiply with value.
      * @param baseFontSize - base font size for calculation relative sizes for px or em.
-     * @param pxFallback - boolean pixel fallback option. Ignore settings.pxFallback option. Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
-     * If rhythm unit px and option will be set then in line height will be pixels like 24px, else relative size like 1.45(without em or rem).
+     * @param pxFallback - boolean pixel fallback option. Ignore settings.pxFallback option.
+     * Convert relative sizes to pixels. If rhythm unit rem then rem value doubled with pixels values.
+     * If rhythm unit px and option will be set then in line height will be pixels like 24px,
+     * else relative size like 1.45(without em or rem).
      * 
      * @return {number} - line height in rhythm unit.
      */
     lineHeight(fontSize, value, baseFontSize, pxFallback = false) {
 
         if (!fontSize) {
-            fontSize = this.baseFontSize + "px";
+            fontSize = this.settings.fontSize + "px";
         }
 
-        if (fontSize && (this.rhythmUnit === UNIT.EM || !value)) {
+        if (fontSize && (this.settings.unit === UNIT.EM || !value)) {
 
             let fontSizeUnit = getUnit(fontSize);
 
-            if (fontSizeUnit != this.rhythmUnit || baseFontSize) {
+            if (this.settings.unit !== UNIT.VW && (fontSizeUnit !== this.settings.unit || baseFontSize)) {
 
-                fontSize = (baseFontSize) ? this.convert(fontSize, fontSizeUnit, this.rhythmUnit, baseFontSize) : this.convert(fontSize, fontSizeUnit, this.rhythmUnit);
+                fontSize = baseFontSize
+                    ? this.convert(fontSize, fontSizeUnit, this.settings.unit, baseFontSize)
+                    : this.convert(fontSize, fontSizeUnit, this.settings.unit);
 
-            } else {
-
-                fontSize = parseFloat(fontSize);
             }
 
         }
+
+        fontSize = parseFloat(fontSize);
 
         value = (value) ? parseFloat(value) : this.lines(fontSize);
 
         let result = 0;
 
-        if (this.rhythmUnit === UNIT.PX) {
+        if (this.settings.unit === UNIT.PX) {
+            result = (fontSize && !this.settings.pxFallback && !pxFallback)
+                ? formatValue(this.settings.lineHeightPx * value / fontSize)
+                : formatInt(this.settings.lineHeightPx * value) + "px";
 
-            result = (fontSize && !this.pxFallback && !pxFallback) ? formatValue(this.baseLineHeight * value / fontSize) : formatInt(this.baseLineHeight * value) + "px";
+        } else if (this.settings.unit === UNIT.EM) {
 
-        } else if (this.rhythmUnit === UNIT.EM) {
+            result = formatValue(value * this.settings.lineHeightRel / fontSize) + "em";
 
-            result = formatValue(value * this.baseLineHeightRatio / fontSize) + "em";
+        } else if (this.settings.unit === UNIT.REM) {
 
-        } else if (this.rhythmUnit === UNIT.REM) {
+            result = formatValue(value * this.settings.lineHeightRel) + "rem";
 
-            result = formatValue(value * this.baseLineHeightRatio) + "rem";
-
+        } else if(this.settings.unit === UNIT.VW){
+            result = value;
         }
 
         return result;
@@ -218,35 +227,36 @@ class VerticalRhythm {
     leading(value, fontSize) {
 
         if (!fontSize) {
-            fontSize = this.baseFontSize + "px";
+            fontSize = this.settings.fontSize + "px";
         }
 
         let fontSizeUnit = getUnit(fontSize);
 
-        if (fontSizeUnit != this.rhythmUnit) {
+        if (this.settings.unit !== UNIT.VW && fontSizeUnit !== this.settings.unit) {
 
-            fontSize = this.convert(fontSize, fontSizeUnit, this.rhythmUnit);
+            fontSize = this.convert(fontSize, fontSizeUnit, this.settings.unit);
 
-        } else {
-
-            fontSize = parseFloat(fontSize);
         }
+
+        fontSize = parseFloat(fontSize);
 
         let lines = this.lines(fontSize),
             result = 0;
 
-        if (this.rhythmUnit === UNIT.PX) {
+        if (this.settings.unit === UNIT.PX) {
 
-            result = formatInt((lines * this.baseLineHeight - fontSize) * value) + "px";
+            result = formatInt((lines * this.settings.lineHeightPx - fontSize) * value) + "px";
 
-        } else if (this.rhythmUnit === UNIT.EM) {
+        } else if (this.settings.unit === UNIT.EM) {
 
-            result = formatValue((this.baseLineHeightRatio * lines - fontSize) * value / fontSize) + "em";
+            result = formatValue((this.settings.lineHeightRel * lines - fontSize) * value / fontSize) + "em";
 
-        } else if (this.rhythmUnit === UNIT.REM) {
+        } else if (this.settings.unit === UNIT.REM) {
 
-            result = formatValue((lines * this.baseLineHeightRatio - fontSize) * value) + "rem";
+            result = formatValue((lines * this.settings.lineHeightRel - fontSize) * value) + "rem";
 
+        }  else if(this.settings.unit === UNIT.VW){
+            result = lines;
         }
 
         return result;
@@ -273,30 +283,28 @@ class VerticalRhythm {
 
     rhythm(value, fontSize, increase = false, outputUnit) {
 
-        if (fontSize == null) {
-            fontSize = this.baseFontSize + "px";
+        if (!fontSize) {
+            fontSize = this.settings.fontSize + "px";
         }
 
-        if (outputUnit == null) {
-            outputUnit = this.rhythmUnit;
+        if (!outputUnit) {
+            outputUnit = this.settings.unit;
         }
 
         let fontSizeUnit = getUnit(fontSize);
 
-        if (fontSizeUnit != this.rhythmUnit) {
+        if (this.settings.unit !== UNIT.VW && fontSizeUnit !== this.settings.unit) {
 
-            fontSize = this.convert(fontSize, fontSizeUnit, this.rhythmUnit);
+            fontSize = this.convert(fontSize, fontSizeUnit, this.settings.unit);
 
-        } else {
-
-            fontSize = parseFloat(fontSize);
         }
 
+        fontSize = parseFloat(fontSize);
         let valueUnit = getUnit(value);
 
-        if (valueUnit != this.rhythmUnit) {
+        if (valueUnit !== this.settings.unit) {
 
-            value = this.convert(value, valueUnit, this.rhythmUnit);
+            value = this.convert(value, valueUnit, this.settings.unit);
 
         } else {
 
@@ -306,22 +314,24 @@ class VerticalRhythm {
         let lines = this.lines(value),
             result = 0;
 
-        if (!increase && (value < (lines * fontSize * this.baseLineHeightRatio))) {
+        if (!increase && (value < (lines * fontSize * this.settings.lineHeightRel))) {
             lines = lines - 1;
         }
 
         if (outputUnit === UNIT.PX) {
 
-            result = formatInt(lines * this.baseLineHeight) + "px";
+            result = formatInt(lines * this.settings.lineHeight) + "px";
 
         } else if (outputUnit === UNIT.EM) {
 
-            result = formatValue(this.baseLineHeightRatio * lines / fontSize) + "em";
+            result = formatValue(this.settings.lineHeightRel * lines / fontSize) + "em";
 
         } else if (outputUnit === UNIT.REM) {
 
-            result = formatValue(this.baseLineHeightRatio * lines) + "rem";
+            result = formatValue(this.settings.lineHeightRel * lines) + "rem";
 
+        } else if(outputUnit === UNIT.VW){
+            result = lines;
         }
 
         return result;
@@ -338,12 +348,37 @@ class VerticalRhythm {
     remFallback(value) {
 
         let result = value;
-        let found = null;
+        let found;
         while ((found = result.match(remRegexp))) {
             let pxValue = this.convert(found[1], UNIT.REM, UNIT.PX);
             result = result.replace(found[0], formatInt(pxValue) + "px");
         }
 
+        return result;
+    }
+
+    base(value, fontSize){
+        let result = parseFloat(value);
+
+        if (!fontSize) {
+            fontSize = this.settings.fontSize + "px";
+        }
+
+        let fontSizeUnit = getUnit(fontSize);
+
+        if (fontSizeUnit !== this.settings.unit) {
+
+            fontSize = this.convert(fontSize, fontSizeUnit, this.settings.unit);
+
+        }
+
+        fontSize = parseFloat(fontSize);
+
+        if(this.settings.unit === UNIT.PX) {
+            result = formatInt(fontSize * result) + "px";
+        } else {
+            result = formatValue(fontSize * result) + unitName[this.settings.unit];
+        }
         return result;
     }
 }
