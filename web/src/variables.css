@@ -16,8 +16,8 @@
     --ruler-style: switch ruler-debug;
     --ruler-color: rgba(2, 179, 228, .7);
     --ruler-icon-colors: #fff #02b3e4;
-    --ruler-icon-position: "position:fixed;top: spacing(.5);left: spacing(.5);";
-    --ruler-icon-size: spacing(1);
+    --ruler-icon-position: "position:fixed;top: spacing(1.125);left: spacing(.625);";
+    --ruler-icon-size: spacing(.75);
     --ruler-pattern: 1 0 0 0;
     --ruler-scale: 4;
     --ruler-thickness: 1;

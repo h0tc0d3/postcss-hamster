@@ -8,7 +8,6 @@
 }
 
 .animation__fadeIn {
-    will-change: opacity;
     animation: fadeIn 1s ease-in;
     animation-fill-mode: forwards;
 }
@@ -23,7 +22,6 @@
 }
 
 .animation__fadeOut {
-    will-change: opacity;
     animation: fadeOut 1s ease-out;
     animation-fill-mode: forwards;
 }
@@ -34,13 +32,15 @@
     font-size: fs base;
     max-width: 52em;
     padding-left: spacing(2);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .content {
     height: 100%;
     overflow: hidden;
     background: @wrapper-background;
-    padding: spacing(1);
+    padding: 0 spacing(1);
 }
 
 .content__section {
@@ -67,6 +67,9 @@
     position: relative;
     height: 100vh;
     width: 100%;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: opacity;
 }
 
 .header__background {
@@ -81,8 +84,9 @@
     background: url("../images/panoram.jpg") center 0;
     background-size: auto 100vh;
     overflow: hidden;
-    will-change: transform;
-    transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: background-position;
     animation: backgroundMove 80s linear;
     animation-direction: alternate;
     animation-iteration-count: infinite;
@@ -111,12 +115,15 @@
     display: block;
     height: spacing(3);
     margin: auto;
-    transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
+
 .header__logo-path_1,
 .header__logo-path_2 {
     stroke-width: 0;
-    transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    backface-visibility: hidden;
     will-change: fill-opacity, stroke-opacity, stroke-dasharray, stroke-dashoffset;
     animation: svgAnimation 3s ease-in;
 }
@@ -211,8 +218,9 @@
     width: spacing(8);
     background: url("../images/airballon.png") no-repeat center center;
     background-size: cover;
+    transform: translateZ(0);
+    backface-visibility: hidden;
     will-change: transform;
-    transform: translateZ(0) scale(1, 1);
     animation: headerAirballon 40s ease-in-out;
     animation-direction: alternate;
     animation-iteration-count: infinite;
@@ -319,7 +327,9 @@
     z-index: 1000;
     overflow: hidden;
     transition: width .3s ease-in-out;
-    transform: translateZ(0) scale(1, 1);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: width;
     background: @footer-color;
 }
 
@@ -329,8 +339,12 @@
     overflow: visible;
 }
 
+.sidebar__navigation.hide {
+    width: spacing(2);
+    overflow: hidden;
+}
 .sidebar__navigation-list {
-    margin-top: spacing(2);
+    margin-top: spacing(3);
     padding: 0 spacing(.5);
 }
 
@@ -351,9 +365,9 @@
     border-right: spacing(.25) solid #FFCF00;
 }
 
-.sidebar__navigation-item_link:hover .sidebar__navigation-item_icon path,
-.sidebar__navigation-item_link:active .sidebar__navigation-item_icon path{
-    fill: @header-color;
+.sidebar__navigation-item_link:hover .sidebar__navigation-item_icon,
+.sidebar__navigation-item_link:active .sidebar__navigation-item_icon {
+    filter: invert(80%);
 }
 .sidebar__navigation-item_link {
     display: block;
@@ -375,17 +389,21 @@
 }
 
 .footer {
+    display: none;
     overflow: hidden;
-    padding: spacing(2, 1);
+    padding: spacing(1.5, 1);
     background: @footer-color;
     width: 100%;
     color: #fff;
     text-align: center;
 }
+
 .footer-link {
-     color: #fff;
-     text-decoration: none;
- }
+    adjust-font-size: fs base;
+    color: #fff;
+    text-decoration: none;
+}
+
 .footer-link:hover {
      color: @header-color;
      text-decoration: underline;

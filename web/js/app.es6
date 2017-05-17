@@ -5,15 +5,6 @@ import "./prism.js";
 let settings = {
     "property": "height-down",
     "dynamic": true
-    // "brakePoints": [
-    //     {min: 0, max: 480, base: 14, line: 1.25},
-    //     {min: 480, max: 600, base: 15, line: 1.3},
-    //     {min: 600, max: 800, base: 16, line: 1.35},
-    //     {min: 800, max: 1280, base: 18, line: 1.4},
-    //     {min: 1280, max: 1600, base: 19, line: 1.5},
-    //     {min: 1600, max: 1920, base: 20, line: 1.55},
-    //     {min: 1920, max: 9999, base: 21, line: 1.6}
-    // ]
 };
 
 let irhythm = new Rhythm(settings);
@@ -21,6 +12,22 @@ let irhythm = new Rhythm(settings);
 let header = irhythm.find(".header")[0];
 let loading = irhythm.find(".loading")[0];
 let wrapper = irhythm.find(".wrapper")[0];
+let navigation = irhythm.find(".sidebar__navigation")[0];
+let footer = irhythm.find(".footer")[0];
+
+if (navigation.addEventListener) {
+    navigation.addEventListener("touchstart", () => {
+        if(irhythm.class(navigation).match(/expanded/i)){
+            irhythm.removeClass(navigation, "expanded");
+            irhythm.addClass(navigation, "hide");
+        } else {
+            if(irhythm.class(navigation).match(/hide/i)) {
+                irhythm.removeClass(navigation, "hide");
+            }
+            irhythm.addClass(navigation, "expanded");
+        }
+    });
+}
 
 let fix = () => {
     // Fix images vertical rhythm
@@ -44,6 +51,7 @@ let show = () => {
         irhythm.css(header, "display", "none");
     };
     irhythm.css(wrapper, "display", "block");
+    irhythm.css(footer, "display", "block");
     irhythm.addClass(header, "animation__fadeOut");
     window.setTimeout(hideIntro, 1000);
     // Need to wait before browser calculate styles and can return getComputeredStyle.
@@ -75,6 +83,7 @@ irhythm.load(() => {
         };
         if(window.location.href.indexOf("#") !== -1){
             irhythm.css(wrapper, "display", "block");
+            irhythm.css(footer, "display", "block");
             window.setTimeout(fix, 500);
         }
         irhythm.addClass(loading, "animation__fadeOut");

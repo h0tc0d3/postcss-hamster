@@ -18,6 +18,11 @@
         <span class="loading__wrapper-circle_5"></span>
     </div>
 </div>
+<div>
+    <input type="checkbox" id="ruler-debug"/>
+    <label for="ruler-debug"></label>
+    <div class="ruler-debug"></div>
+</div>
 <header class="header">
     <div class="header__background">
         <div class="header__background-image"></div>
@@ -99,7 +104,7 @@
     <ul class="sidebar__navigation-list">
         <li class="sidebar__navigation-item">
             <a class="sidebar__navigation-item_link" href="#introduction">
-                <span class="sidebar__navigation-item_icon icon-home"></span>
+                <svg class="sidebar__navigation-item_icon icon-home"></svg>
                 <span class="sidebar__navigation-item_text">Введение</span>
             </a>
         </li>
@@ -141,13 +146,8 @@
         </li>
     </ul>
 </nav>
-<main class="wrapper">
-    <div>
-        <input type="checkbox" id="ruler-debug"/>
-        <label for="ruler-debug"></label>
-        <div class="ruler-debug"></div>
-    </div>
-    <div class="content">
+<div class="wrapper">
+    <main class="content">
         <section class="content__section" id="introduction">
             <h2>Введение</h2>
             <p>Все из вас держали в руках яркие глянцевые журналы, читали газеты и книги, а может даже некоторые
@@ -854,11 +854,11 @@ body {
 
             <p><strong>@reset;</strong> - Добавляет Eric Meyer's “Reset CSS” 2.0.</p>
             <p><strong>@normalize;</strong> - Добавляет Normalize.css.</p>
-            <p><strong>@sanitize;</strong> - Добавляет sanitize.css(форк normalize)</p>
+            <p><strong>@sanitize;</strong> - Добавляет sanitize.css(форк normalize).</p>
             <p><strong>@box-sizing-reset;</strong> - Добавляет box-sizing reset.</p>
             <p><strong>@copy name1 {}</strong> - Копирует css код в фигурных скобках в переменную name1.(name1 -
                 произвольное имя переменной)</p>
-            <p><strong>@paste name1;</strong> - Вставляет css код из переменную name1.</p>
+            <p><strong>@paste name1;</strong> - Вставляет css код из переменной name1.</p>
             <p><strong>@nowrap;</strong> - Добавляет <strong>white-space: nowrap;</strong> Пробелы не учитываются,
                 переносы строк игнорируются, весь текст отображается одной строкой. Тег &lt;br&gt; переносит текст на
                 новую строку.
@@ -952,11 +952,9 @@ background: @text2svg "My best logo", "fontfile.ttf", fontSize fsize1$px, #fff;<
             </div>
             <h4>Кнопки</h4>
             <div class="block-margin">
-                <a href="#" class="button-blue" title="Button Blue" target="_blank">Get started</a> <a href="#"
-                                                                                                       class="button-gray"
-                                                                                                       title="Button Gray"
-                                                                                                       target="_blank">Get
-                started</a> <a href="#" class="button-violet" title="Button Violet" target="_blank">Get started</a>
+                <a href="#" class="button-blue" title="Button Blue" target="_blank">Get started</a>
+                <a href="#" class="button-gray" title="Button Gray" target="_blank">Get started</a>
+                <a href="#" class="button-violet" title="Button Violet" target="_blank">Get started</a>
             </div>
             <h4>Информационный блок</h4>
             <div class="block-info">Очень важная информация.</div>
@@ -1112,7 +1110,7 @@ $block-font-size: xlarge@d2;
             </p>
             <p><strong>base</strong> - Базовый размер шрифта в пикселях. Без суффикса px.</p>
             <p>
-                <strong>lineHeight</strong> - Высота межстрочного интервала, вертикальный ритм. Можно указать значение в
+                <strong>line</strong> - Высота межстрочного интервала, вертикальный ритм. Можно указать значение в
                 пикселях и относительное значение без единиц измерения.
             </p>
             <p>
@@ -1135,7 +1133,37 @@ $block-font-size: xlarge@d2;
                 чтобы сохранить вертикальный ритм необходимо скомпенсировать ошибки округления. Указывает у каких
                 свойств будет компенсироваться значения. Подробнее это рассмотрим в следующей части.
             </p>
-
+            <p>
+                <strong>brakePoints</strong> - Задает размеры шрифта и межстрочного интервала для разных размеров
+                экрана. min - минимальный размер экрана, max - максимальный размер экрана. Пример:
+            </p>
+            <div class="block-code">
+                    <pre><code class="language-js">let settings = {
+    "property": "height-down",
+    "brakePoints": [
+        {min: 0, max: 480, base: 14, line: 1.25},
+        {min: 480, max: 600, base: 15, line: 1.3},
+        {min: 600, max: 800, base: 16, line: 1.35},
+        {min: 800, max: 1280, base: 18, line: 1.4},
+        {min: 1280, max: 1600, base: 19, line: 1.5},
+        {min: 1600, max: 1920, base: 20, line: 1.55},
+        {min: 1920, max: 9999, base: 21, line: 1.6}
+    ]
+};</code></pre>
+            </div>
+            <p>
+                <strong>dynamic: true</strong> - Автоматически расчитывает высоту линии.
+            </p>
+            <p>
+                <strong>dynamicSelector</strong> - Селектор элемента для которого будет расчитана высота линии.
+            </p>
+            <div class="block-code">
+                    <pre><code class="language-js">let settings = {
+    "property": "height-down",
+    "dynamic": true,
+    "dynamicSelector": "p"
+};</code></pre>
+            </div>
             <p>Настройки по умолчанию представлены ниже. Вам не обязательно указывать все настройки и если какие-то
                 настройки не указаны, то вместо них будут использоваться значение по умолчанию.
             </p>
@@ -1147,7 +1175,7 @@ $block-font-size: xlarge@d2;
     // Rhythm base font size, without "px".
     "base": 16,
     // Rhythm Line height. Relative or pixel size.
-    "lineHeight": 1.5,
+    "line": 1.5,
     // Resize if screen width changed.
     "resize": true,
     // Allow resize width of element
@@ -1197,7 +1225,7 @@ var irhythm = new Rhythm(settings);
                     <pre><code class="language-js">var settings = {
     "property": "height-down",
     "base": 16,
-    "lineHeight": 1.5,
+    "line": 1.5,
     "resize": true,
     "resizeWidth": true
 };
@@ -1279,9 +1307,8 @@ irhythm.load(function() {
                 вам нужны правильные отступы в методе rhythm.
             </div>
         </section>
-    </div>
-</main>
-
+    </main>
+</div>
 <footer class="footer">
     <div id="copyright">
         <a class="footer-link" href="#" title="Copyright © 2017 PostCSS Hamster. All rights reserved.">
@@ -1289,6 +1316,5 @@ irhythm.load(function() {
         </a>
     </div>
 </footer>
-
 </body>
 </html>

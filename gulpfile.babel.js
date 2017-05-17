@@ -6,10 +6,8 @@ var babel = require("gulp-babel");
 var sourcemaps = require("gulp-sourcemaps");
 var postcssgulp = require("gulp-postcss");
 var precss = require("precss");
-var cssnext = require("postcss-cssnext");
+var autoprefixer = require("autoprefixer");
 
-//var lost = require("lost");
-//var cssnano = require("gulp-cssnano");
 
 gulp.task("clean", () => {
     var del = require("del");
@@ -37,11 +35,8 @@ gulp.task("css", function () {
     var hamster = require("./index.js");
     var processors = [precss({
         "lookup": false
-    }), hamster, cssnext({
-        browsers: ["> 0.5%"],
-        features: {
-            "rem": false
-        }
+    }), hamster, autoprefixer({
+        browsers: ["> 0.5%"]
     })];
 
     return gulp.src("./web/src/style.css")

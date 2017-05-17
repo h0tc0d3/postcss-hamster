@@ -104,7 +104,7 @@ plugins.push(
     new HappyPack({
         id: "css",
         threadPool: happyThreadPool,
-        loaders: ["css-loader?minimize=true&localIdentName=" + cssIdentifier]
+        loaders: ["css-loader?localIdentName=" + cssIdentifier+"!csso-loader?-restructure"]
     })
 );
 
