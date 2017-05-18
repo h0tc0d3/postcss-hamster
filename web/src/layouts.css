@@ -126,6 +126,7 @@
     backface-visibility: hidden;
     will-change: fill-opacity, stroke-opacity, stroke-dasharray, stroke-dashoffset;
     animation: svgAnimation 3s ease-in;
+    animation-delay: 1s;
 }
 
 .header__logo-path_1 {
@@ -326,10 +327,9 @@
     width: spacing(2);
     z-index: 1000;
     overflow: hidden;
-    transition: width .3s ease-in-out;
+    transition: width .3s ease-in;
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: width;
     background: @footer-color;
 }
 
@@ -344,7 +344,7 @@
     overflow: hidden;
 }
 .sidebar__navigation-list {
-    margin-top: spacing(3);
+    margin-top: spacing(2.875);
     padding: 0 spacing(.5);
 }
 
@@ -354,7 +354,8 @@
     width: spacing(11);
     /*adjust-font-size: fontsize small;*/
     list-style: none;
-    margin-bottom: spacing(1);
+    line-height: lheight(1.25);
+    margin: spacing(.75) 0;
 }
 
 .sidebar__navigation-item_link:hover,
@@ -374,7 +375,7 @@
     width: spacing(10);
     color: #fff;
     text-decoration: none;
-    transition: all .3s ease-in-out;
+    transition: all .1s ease-in;
     transform: translateZ(0) scale(1, 1);
 }
 

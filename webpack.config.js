@@ -146,7 +146,13 @@ const config = {
         path: path.join(__dirname, "build", "web"),
         publicPath: "",
         filename: PRODUCTION ? "[name].min.js" : "[hash:12].[name].js",
+    },
+
+    performance: {
+        maxEntrypointSize: 2000000,
+        maxAssetSize: 1000000
     }
+
 };
 
 module.exports = config;
