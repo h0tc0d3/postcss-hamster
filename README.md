@@ -3,7 +3,9 @@
 Vertical rhythm, Typogrаphy, Modular scale functions for CSS. Flexible system with high perfomance.
 
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
+
 Documentation: [RU](https://h0tc0d3.github.io/hamster/hamster-ru.html)
+
 Big article with examples how to use Hamster Framework https://habrahabr.ru/post/328812/
 
 # Installation
