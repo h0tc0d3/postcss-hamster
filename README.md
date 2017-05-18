@@ -4,6 +4,7 @@ Vertical rhythm, Typogrаphy, Modular scale functions for CSS. Flexible system w
 
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
 Documentation: [RU](https://h0tc0d3.github.io/hamster/hamster-ru.html)
+Big article with examples how to use Hamster Framework https://habrahabr.ru/post/328812/
 
 # Installation
 
@@ -32,22 +33,27 @@ fs.readFile("filename.css", "utf8", (err, css) => {
 
 ## Gulp
 
+If you are using postcss-gulp then install version 6.4.0. postcss-gulp@7.0.0 + precss have  bug, and @import can't work correctly.
+
+```
+npm install gulp-postcss@6.4.0
+```
+
 ```
 
 var gulp = require("gulp"),
     sourcemaps = require("gulp-sourcemaps"),
     postcssgulp = require("gulp-postcss"),
     precss = require("precss"),
-    cssnext = require("postcss-cssnext"),
+    autoprefixer = require("autoprefixer");
     hamster = require("postcss-hamster");
 
 gulp.task("css", function () {
   
     var processors = [precss({
         "lookup": false
-    }), hamster, cssnext({
-        browsers: ["> 0.5%"],
-        features: {"rem": false}
+    }), hamster, autoprefixer({
+        browsers: ["> 0.5%"]
     })];
 
     return gulp.src("./web/src/style.css")

@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<div class="body__background"></div>
 <div class="loading">
     <div class="loading__wrapper">
         <span class="loading__wrapper-circle_1"></span>
@@ -289,15 +290,14 @@ fs.readFile("filename.css", "utf8", (err, css) => {
         sourcemaps = require("gulp-sourcemaps"),
         postcssgulp = require("gulp-postcss"),
         precss = require("precss"),
-        cssnext = require("postcss-cssnext"),
+        autoprefixer = require("autoprefixer");
         hamster = require("postcss-hamster");
 
 gulp.task("css", function () {
         var processors = [precss({
                 "lookup": false
-        }), hamster, cssnext({
-                browsers: ["> 0.5%"],
-                features: {"rem": false}
+        }), hamster, autoprefixer({
+                browsers: ["> 0.5%"]
         })];
         return gulp.src("./web/src/style.css")
             .pipe(sourcemaps.init())

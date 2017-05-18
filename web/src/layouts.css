@@ -8,6 +8,7 @@
 }
 
 .animation__fadeIn {
+    will-change: opacity;
     animation: fadeIn 1s ease-in;
     animation-fill-mode: forwards;
 }
@@ -22,7 +23,8 @@
 }
 
 .animation__fadeOut {
-    animation: fadeOut 1s ease-out;
+    will-change: opacity;
+    animation: fadeOut 1s ease-in;
     animation-fill-mode: forwards;
 }
 
@@ -69,7 +71,6 @@
     width: 100%;
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: opacity;
 }
 
 .header__background {
@@ -144,31 +145,31 @@
         transform: translate(0, 0);
     }
     6.25% {
-        transform: rotate(5deg) translate(1rem, -0.5rem);
+        transform: rotate(5deg) translate(base(1), -base(0.5));
     }
 
     12.5% {
-        transform: rotate(-2deg) translate(2.5rem, -1.5rem);
+        transform: rotate(-2deg) translate(base(2.5), -base(1.5));
     }
 
     18.75% {
-        transform: rotate(-3deg) translate(4rem, -1rem);
+        transform: rotate(-3deg) translate(base(4), base(-1));
     }
 
     25% {
-        transform: rotate(-3deg) translate(4rem, -0.75rem);
+        transform: rotate(-3deg) translate(base(4), -base(0.75));
     }
 
     31.25% {
-        transform: rotate(-2deg) translate(5rem, -0.5rem);
+        transform: rotate(-2deg) translate(base(5), -base(0.5));
     }
 
     37.5% {
-        transform: rotate(-2deg) translate(2.5rem, -1rem);
+        transform: rotate(-2deg) translate(base(2.5), -base(1));
     }
 
     43.75% {
-        transform: rotate(3deg) translate(1rem, -0.5rem);
+        transform: rotate(3deg) translate(base(1), -base(0.5));
     }
 
     50% {
@@ -176,31 +177,31 @@
     }
 
     56.25% {
-        transform: rotate(-5deg) translate(-1rem, -0.5rem);
+        transform: rotate(-5deg) translate(-base(1), -base(0.5));
     }
 
     62.5% {
-        transform: rotate(2deg) translate(-2.5rem, -1.5rem);
+        transform: rotate(2deg) translate(-base(2.5), -base(1.5));
     }
 
     68.75% {
-        transform: rotate(3deg) translate(-4rem, -0.5rem);
+        transform: rotate(3deg) translate(-base(4), -base(0.5));
     }
 
     75% {
-        transform: rotate(3deg) translate(-4rem, -0.75rem);
+        transform: rotate(3deg) translate(-base(4), -base(0.75));
     }
 
     81.25% {
-        transform: rotate(2deg) translate(-5rem, -0.5rem);
+        transform: rotate(2deg) translate(-base(5), -base(0.5));
     }
 
     87.5% {
-        transform: rotate(2deg) translate(-2.5rem, -1rem);
+        transform: rotate(2deg) translate(-base(2.5), -base(1));
     }
 
     93.75% {
-        transform: rotate(-3deg) translate(-1rem, -0.5rem);
+        transform: rotate(-3deg) translate(-base(1), -base(0.5));
     }
 
     100% {
