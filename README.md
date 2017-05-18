@@ -1,16 +1,18 @@
 # PostCSS Hamster Framework
 
-Vertical rhythm, Typogrаphy, Modular scale functions for CSS. Flexible system with high perfomance.
+Typography, Vertical Rhythm, Modular Scale, Fluid Responsive Typography functions for CSS. Flexible system with high performance.
 
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
 
 Documentation: [RU](https://h0tc0d3.github.io/hamster/hamster-ru.html)
 
-Big article with examples how to use Hamster Framework https://habrahabr.ru/post/328812/
+Big article with examples how to use Hamster Framework [RUSSIAN](https://habrahabr.ru/post/328812/)
+
+CSS Code: [Examples](https://github.com/h0tc0d3/postcss-hamster/tree/master/web/src)
 
 # Installation
 
-Be careful if you use precss and cssnext. You need to disbale "lookup" plugin in precss and "rem" in cssnext.
+Be careful if you use precss and cssnext. You need to disable "lookup" plugin in precss and "rem" in cssnext.
 They interfere and the hamster plug-in expands their functionality.
 
 ```
