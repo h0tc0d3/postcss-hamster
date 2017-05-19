@@ -22,3 +22,8 @@
 - Fix Helpers.toCamelCase() function bug.
 - Split px-fallback to px-fallback for pixels and rem-fallback for rem.
 - Update documentation and web demo.
+
+## 1.2.0 - rc3 
+- Add use-global: true setting. It's calculate ratio = localFontSize / globalFontSize.
+And all value will multiplied with this ration. It's make responsive sizes in em and rem
+ without establish baseline.

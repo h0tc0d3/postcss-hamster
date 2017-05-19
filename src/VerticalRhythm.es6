@@ -197,11 +197,15 @@ class VerticalRhythm {
 
         } else if (this.settings.unit === UNIT.EM) {
 
-            result = formatValue(value * this.settings.lineHeightRel / fontSize) + "em";
+            result = (this.settings.useGlobal)
+                ? formatValue(value * this.settings.globalRatio * this.settings.lineHeightRel / fontSize) + "em"
+                : formatValue(value * this.settings.lineHeightRel / fontSize) + "em";
 
         } else if (this.settings.unit === UNIT.REM) {
 
-            result = formatValue(value * this.settings.lineHeightRel) + "rem";
+            result = (this.settings.useGlobal)
+                ? formatValue(value * this.settings.globalRatio * this.settings.lineHeightRel) + "rem"
+                : formatValue(value * this.settings.lineHeightRel) + "rem";
 
         } else if(this.settings.unit === UNIT.VW){
             result = value;
@@ -249,11 +253,17 @@ class VerticalRhythm {
 
         } else if (this.settings.unit === UNIT.EM) {
 
-            result = formatValue((this.settings.lineHeightRel * lines - fontSize) * value / fontSize) + "em";
+            result = (this.settings.useGlobal)
+                ? formatValue(
+                    (this.settings.lineHeightRel * this.settings.globalRatio * lines - fontSize) * value / fontSize
+                ) + "em"
+                : formatValue((this.settings.lineHeightRel * lines - fontSize) * value / fontSize) + "em";
 
         } else if (this.settings.unit === UNIT.REM) {
 
-            result = formatValue((lines * this.settings.lineHeightRel - fontSize) * value) + "rem";
+            result = (this.settings.useGlobal)
+                ? formatValue((this.settings.lineHeightRel * this.settings.globalRatio * lines - fontSize) * value) + "rem"
+                : formatValue((this.settings.lineHeightRel * lines - fontSize) * value) + "rem";
 
         }  else if(this.settings.unit === UNIT.VW){
             result = lines;
@@ -324,11 +334,15 @@ class VerticalRhythm {
 
         } else if (outputUnit === UNIT.EM) {
 
-            result = formatValue(this.settings.lineHeightRel * lines / fontSize) + "em";
+            result = (this.settings.useGlobal)
+                ? formatValue(this.settings.lineHeightRel * this.settings.globalRatio * lines / fontSize) + "em"
+                : formatValue(this.settings.lineHeightRel * lines / fontSize) + "em";
 
         } else if (outputUnit === UNIT.REM) {
 
-            result = formatValue(this.settings.lineHeightRel * lines) + "rem";
+            result = (this.settings.useGlobal)
+                ? formatValue(this.settings.lineHeightRel * this.settings.globalRatio * lines) + "rem"
+                : formatValue(this.settings.lineHeightRel * lines) + "rem";
 
         } else if(outputUnit === UNIT.VW){
             result = lines;
@@ -351,12 +365,22 @@ class VerticalRhythm {
         let found;
         while ((found = result.match(remRegexp))) {
             let pxValue = this.convert(found[1], UNIT.REM, UNIT.PX);
+            if(this.settings.useGlobal) {
+                pxValue = pxValue / this.settings.globalRatio;
+            }
             result = result.replace(found[0], formatInt(pxValue) + "px");
         }
 
         return result;
     }
 
+    /**
+     * Return fraction of the base font size.
+     *
+     * @param value
+     * @param fontSize
+     * @returns {Number}
+     */
     base(value, fontSize){
         let result = parseFloat(value);
 
@@ -377,6 +401,9 @@ class VerticalRhythm {
         if(this.settings.unit === UNIT.PX) {
             result = formatInt(fontSize * result) + "px";
         } else {
+            if(this.settings.useGlobal && this.settings.unit !== UNIT.VW) {
+                fontSize = fontSize * this.settings.globalRatio;
+            }
             result = formatValue(fontSize * result) + unitName[this.settings.unit];
         }
         return result;

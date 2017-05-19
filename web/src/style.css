@@ -59,13 +59,14 @@
     @ihamster {
         --font-size: 20px;
         --line-height: 1.55;
+        --use-global: true;
     }
-    @baseline html;
     @ruler;
     @paste full;
     @hamster end;
 }
 */
+
 @media screen and (max-width: 799px) {
     @ihamster {
         --font-size: 14px;

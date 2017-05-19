@@ -159,8 +159,10 @@ function hamster(options) {
         toLineHeight: 0,
         toLineHeightPx: 0,
         toLineHeightRel: 0,
-
         viewport: null,
+
+        useGlobal: false,
+        globalRatio: 0,
 
         unit: UNIT.EM,
 
@@ -245,6 +247,10 @@ function hamster(options) {
             }
         }
 
+        // Save font ratio with global settings
+        if(settings.useGlobal){
+            settings.globalRatio = settings.fontSize / globalSettings.fontSize;
+        }
         // relative line-height
         settings.lineHeightRel = settings.lineHeight > settings.fontSize
             ? settings.lineHeight / settings.fontSize : settings.lineHeight;
@@ -647,9 +653,14 @@ function hamster(options) {
                         }
 
                     } else {
-                        fontSize = (sizeUnit === UNIT.PX)
-                            ? formatInt(size.px) + unitName[sizeUnit]
-                            : formatValue(size.rel) + unitName[sizeUnit];
+                        if(settings.useGlobal && (settings.unit === UNIT.EM || settings.unit === UNIT.REM)){
+                            fontSize = formatValue(size.rel * settings.globalRatio) + unitName[sizeUnit];
+                        } else {
+                            fontSize = (sizeUnit === UNIT.PX)
+                                ? formatInt(size.px) + "px"
+                                : formatValue(size.rel) + unitName[sizeUnit];
+                        }
+
                     }
 
 
@@ -685,10 +696,19 @@ function hamster(options) {
 
                     } else {
 
-                        fontSize = rhythm.convert(fontSize, fontSizeUnit, null, baseFontSize)
-                            + unitName[settings.unit];
-                        lineHeight = rhythm.lineHeight(fontSize, lines, baseFontSize);
+                        fontSize = rhythm.convert(fontSize, fontSizeUnit, null, baseFontSize);
 
+                        lineHeight = rhythm.lineHeight(fontSize + unitName[settings.unit], lines, baseFontSize);
+
+                        if(settings.useGlobal && (settings.unit === UNIT.EM || settings.unit === UNIT.REM)){
+                            fontSize = fontSize * settings.globalRatio;
+                        }
+
+                        if(settings.unit === UNIT.PX){
+                            fontSize = formatInt(fontSize) + "px";
+                        } else {
+                            fontSize = formatValue(fontSize) + unitName[settings.unit];
+                        }
                     }
 
                     let lineHeightDecl = postcss.decl({

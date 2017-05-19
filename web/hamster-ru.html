@@ -658,6 +658,12 @@ gulp.task("default", ["css"]);</code></pre>
             <p>
                 <strong>to-line-height</strong> - Задает максимальный размер высоты линии для viewport.
             </p>
+
+            <p>
+                <strong>use-global</strong> - Если опция включена(true), то высчитывается соотношение локального размера
+                шрифта и глобального, ratio = localFontSize / globalFontSize. И все значения будут умножены на это
+                соотношения, что позволяет использовать адаптивные размеры в rem и em без установки базовой линии.
+            </p>
             <div class="block-code">
                         <pre><code class="language-css">
 @media screen and (min-width: 1920px){
