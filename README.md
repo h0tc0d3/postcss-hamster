@@ -2,6 +2,8 @@
 
 Typography, Vertical Rhythm, Modular Scale, Fluid Responsive Typography functions for CSS. Flexible system with high performance.
 
+Hamster Framework - it's the language of macros and functions, which in the future can be easily transformed into css code and any units. Easy adapted to any user browser resolution.
+
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
 
 Documentation: [RU](https://h0tc0d3.github.io/hamster/hamster-ru.html)
