@@ -51,3 +51,8 @@
     @extend %icon;
     background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none slice' viewBox='0 0 8 8'%3E%3Cpath fill%3D%27%23ffffff%27 d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E") no-repeat center center;
 }
+
+.icon-flickr {
+    @extend %icon;
+    background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27 viewBox%3D%270 0 32 32%27%3E%3Ccircle cx%3D%277%27 cy%3D%2714%27 r%3D%277%27 fill%3D%27%230063DB%27%2F%3E%3Ccircle cx%3D%2725%27 cy%3D%2714%27 r%3D%277%27 fill%3D%27%23FF0084%27%2F%3E%3C%2Fsvg%3E") no-repeat center center;
+}
