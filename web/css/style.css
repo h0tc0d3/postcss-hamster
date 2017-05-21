@@ -505,24 +505,6 @@ code, pre {
 	background: #fff;
 }
 
-@-webkit-keyframes backgroundMove {
-	from {
-		background-position: 0 0;
-	}
-	to {
-		background-position: 100% 0;
-	}
-}
-
-@keyframes backgroundMove {
-	from {
-		background-position: 0 0;
-	}
-	to {
-		background-position: 100% 0;
-	}
-}
-
 .header {
 	z-index: 1200;
 	position: relative;
@@ -530,25 +512,45 @@ code, pre {
 	width: 100%;
 }
 
+@-webkit-keyframes panoramMove {
+	from {
+		-webkit-transform: translateX(-12.5%);
+		        transform: translateX(-12.5%);
+	}
+	to {
+		-webkit-transform: translateX(-31.25%);
+		        transform: translateX(-31.25%);
+	}
+}
+
+@keyframes panoramMove {
+	from {
+		-webkit-transform: translateX(-12.5%);
+		        transform: translateX(-12.5%);
+	}
+	to {
+		-webkit-transform: translateX(-31.25%);
+		        transform: translateX(-31.25%);
+	}
+}
+
 .header__background {
-	height: 100%;
-	width: 100%;
+	position: relative;
 	overflow: hidden;
 }
 
 .header__background-image {
-	height: 100%;
-	width: 100%;
+	height: 100vh;
+	width: 200%;
 	background: url("../images/panoram.jpg") center 0;
 	background-size: auto 100vh;
-	overflow: hidden;
 	-webkit-transform: translateZ(0);
 	        transform: translateZ(0);
 	-webkit-backface-visibility: hidden;
 	        backface-visibility: hidden;
-	will-change: background-position;
-	-webkit-animation: backgroundMove 80s linear;
-	        animation: backgroundMove 80s linear;
+	will-change: transform;
+	-webkit-animation: panoramMove 60s linear;
+	        animation: panoramMove 60s linear;
 	-webkit-animation-direction: alternate;
 	        animation-direction: alternate;
 	-webkit-animation-iteration-count: infinite;
@@ -591,10 +593,6 @@ code, pre {
 	display: block;
 	height: 4.05rem;
 	margin: auto;
-	-webkit-transform: translateZ(0);
-	        transform: translateZ(0);
-	-webkit-backface-visibility: hidden;
-	        backface-visibility: hidden;
 }
 
 .header__logo-path_1, .header__logo-path_2 {
@@ -1351,46 +1349,48 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .content__section {
 		background: #fff;
 	}
-    @-webkit-keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
-    @keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
     .header {
 		z-index: 1200;
 		position: relative;
 		height: 100vh;
 		width: 100%;
 	}
+    @-webkit-keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
+    @keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
     .header__background {
-		height: 100%;
-		width: 100%;
+		position: relative;
 		overflow: hidden;
 	}
     .header__background-image {
-		height: 100%;
-		width: 100%;
+		height: 100vh;
+		width: 200%;
 		background: url("../images/panoram.jpg") center 0;
 		background-size: auto 100vh;
-		overflow: hidden;
 		-webkit-transform: translateZ(0);
 		        transform: translateZ(0);
 		-webkit-backface-visibility: hidden;
 		        backface-visibility: hidden;
-		will-change: background-position;
-		-webkit-animation: backgroundMove 80s linear;
-		        animation: backgroundMove 80s linear;
+		will-change: transform;
+		-webkit-animation: panoramMove 60s linear;
+		        animation: panoramMove 60s linear;
 		-webkit-animation-direction: alternate;
 		        animation-direction: alternate;
 		-webkit-animation-iteration-count: infinite;
@@ -1430,10 +1430,6 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
 		display: block;
 		height: calc(4.8125vw + 37.1px);
 		margin: auto;
-		-webkit-transform: translateZ(0);
-		        transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		        backface-visibility: hidden;
 	}
     .header__logo-path_1, .header__logo-path_2 {
 		stroke-width: 0;
@@ -2127,46 +2123,48 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .content__section {
 		background: #fff;
 	}
-    @-webkit-keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
-    @keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
     .header {
 		z-index: 1200;
 		position: relative;
 		height: 100vh;
 		width: 100%;
 	}
+    @-webkit-keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
+    @keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
     .header__background {
-		height: 100%;
-		width: 100%;
+		position: relative;
 		overflow: hidden;
 	}
     .header__background-image {
-		height: 100%;
-		width: 100%;
+		height: 100vh;
+		width: 200%;
 		background: url("../images/panoram.jpg") center 0;
 		background-size: auto 100vh;
-		overflow: hidden;
 		-webkit-transform: translateZ(0);
 		        transform: translateZ(0);
 		-webkit-backface-visibility: hidden;
 		        backface-visibility: hidden;
-		will-change: background-position;
-		-webkit-animation: backgroundMove 80s linear;
-		        animation: backgroundMove 80s linear;
+		will-change: transform;
+		-webkit-animation: panoramMove 60s linear;
+		        animation: panoramMove 60s linear;
 		-webkit-animation-direction: alternate;
 		        animation-direction: alternate;
 		-webkit-animation-iteration-count: infinite;
@@ -2206,10 +2204,6 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
 		display: block;
 		height: calc(1.6875vw + 62.1px);
 		margin: auto;
-		-webkit-transform: translateZ(0);
-		        transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		        backface-visibility: hidden;
 	}
     .header__logo-path_1, .header__logo-path_2 {
 		stroke-width: 0;
@@ -2902,46 +2896,48 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .content__section {
 		background: #fff;
 	}
-    @-webkit-keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
-    @keyframes backgroundMove {
-		from {
-			background-position: 0 0;
-		}
-		to {
-			background-position: 100% 0;
-		}
-	}
     .header {
 		z-index: 1200;
 		position: relative;
 		height: 100vh;
 		width: 100%;
 	}
+    @-webkit-keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
+    @keyframes panoramMove {
+		from {
+			-webkit-transform: translateX(-12.5%);
+			        transform: translateX(-12.5%);
+		}
+		to {
+			-webkit-transform: translateX(-31.25%);
+			        transform: translateX(-31.25%);
+		}
+	}
     .header__background {
-		height: 100%;
-		width: 100%;
+		position: relative;
 		overflow: hidden;
 	}
     .header__background-image {
-		height: 100%;
-		width: 100%;
+		height: 100vh;
+		width: 200%;
 		background: url("../images/panoram.jpg") center 0;
 		background-size: auto 100vh;
-		overflow: hidden;
 		-webkit-transform: translateZ(0);
 		        transform: translateZ(0);
 		-webkit-backface-visibility: hidden;
 		        backface-visibility: hidden;
-		will-change: background-position;
-		-webkit-animation: backgroundMove 80s linear;
-		        animation: backgroundMove 80s linear;
+		will-change: transform;
+		-webkit-animation: panoramMove 60s linear;
+		        animation: panoramMove 60s linear;
 		-webkit-animation-direction: alternate;
 		        animation-direction: alternate;
 		-webkit-animation-iteration-count: infinite;
@@ -2981,10 +2977,6 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
 		display: block;
 		height: calc(5.5781vw - 12.6px);
 		margin: auto;
-		-webkit-transform: translateZ(0);
-		        transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		        backface-visibility: hidden;
 	}
     .header__logo-path_1, .header__logo-path_2 {
 		stroke-width: 0;

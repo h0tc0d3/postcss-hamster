@@ -49,17 +49,6 @@
 }
 
 
-@keyframes backgroundMove {
-    from { background-position: 0 0; }
-    to { background-position: 100% 0; }
-    /*from {*/
-        /*transform: translateX(0);*/
-    /*}*/
-    /*to {*/
-        /*transform: translateX(100%);*/
-    /*}*/
-}
-
 .header {
     z-index: 1200;
     position: relative;
@@ -67,22 +56,29 @@
     width: 100%;
 }
 
+@keyframes panoramMove {
+    from {
+        transform: translateX(-12.5%);
+    }
+    to {
+        transform: translateX(-31.25%);
+    }
+}
+
 .header__background {
-    height: 100%;
-    width: 100%;
+    position: relative;
     overflow: hidden;
 }
 
 .header__background-image {
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 200%;
     background: url("../images/panoram.jpg") center 0;
     background-size: auto 100vh;
-    overflow: hidden;
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: background-position;
-    animation: backgroundMove 80s linear;
+    will-change: transform;
+    animation: panoramMove 60s linear;
     animation-direction: alternate;
     animation-iteration-count: infinite;
 }
@@ -110,8 +106,6 @@
     display: block;
     height: spacing(3);
     margin: auto;
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }
 
 .header__logo-path_1,
