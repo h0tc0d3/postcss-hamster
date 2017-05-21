@@ -33,6 +33,7 @@ let fix = () => {
     // Fix images vertical rhythm
     irhythm.rhythm(".content img");
     // Delayed download youtube content. It's slow down page rendering and svg animation.
+    /*
     let loadYoutube = () => {
         let iframeBlocks = irhythm.find(".block-iframe");
         iframeBlocks[0].innerHTML = "<iframe src=\"https://www.youtube.com/embed/jbYBGKSxyac?rel=0&amp;showinfo=0\"" +
@@ -44,6 +45,7 @@ let fix = () => {
     };
 
     window.setTimeout(loadYoutube, 3000);
+   */
 };
 
 let show = () => {

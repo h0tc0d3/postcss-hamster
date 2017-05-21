@@ -32,20 +32,8 @@ class Rhythm {
             "resizeWidth": true,
             // Uniq class prefix
             "classPrefix": "rhythmHamster",
-            // Fix properties with relative values to round pixels
-            "properties": [
-                "line-height",
-                "padding-top",
-                "padding-bottom",
-                "margin-top",
-                "margin-bottom",
-                "padding-left",
-                "padding-right",
-                "margin-left",
-                "margin-right",
-            ],
             // Responsive brakePoints {min: 480, max: 600, base: 14, line: 1.2}
-            "brakePoints":[],
+            "brakePoints": [],
             // Set dom context
             "context": document
         };
@@ -72,7 +60,6 @@ class Rhythm {
         this.isResize = settings.resize;
         this.resizeWidth = settings.resizeWidth;
         this.classPrefix = settings.classPrefix;
-        this.properties = settings.properties;
         this.brakePoints = settings.brakePoints;
 
         this.setLineHeight();
@@ -106,25 +93,25 @@ class Rhythm {
     /**
      * set line height
      */
-    setLineHeight(){
-        let len = this.brakePoints.length;
-        if(len > 0){
-            this.width = Math.max(this.context.documentElement.clientWidth, this.window.innerWidth || 0);
-            for(let i = 0; i < len; i++){
-                let brakePoint = this.brakePoints[i];
-                if(this.width >= brakePoint.min && this.width < brakePoint.max){
-                    if (brakePoint.line < brakePoint.base) {
-                        // Convert relative lineHeight to pixels.
-                        this.line = brakePoint.line * brakePoint.base;
-                    } else {
-                        this.line = brakePoint.line;
-                    }
-                    break;
-                }
-            }
+    setLineHeight() {
+        if (this.dynamic) {
+            this.line = parseFloat(this.css(this.dynEl, "line-height"));
         } else {
-            if(this.dynamic){
-                this.line = parseFloat(this.css(this.dynEl, "line-height"));
+            let len = this.brakePoints.length;
+            if (len > 0) {
+                this.width = Math.max(this.context.documentElement.clientWidth, this.window.innerWidth || 0);
+                for (let i = 0; i < len; i++) {
+                    let brakePoint = this.brakePoints[i];
+                    if (this.width >= brakePoint.min && this.width < brakePoint.max) {
+                        if (brakePoint.line < brakePoint.base) {
+                            // Convert relative lineHeight to pixels.
+                            this.line = brakePoint.line * brakePoint.base;
+                        } else {
+                            this.line = brakePoint.line;
+                        }
+                        break;
+                    }
+                }
             } else {
                 // Convert relative lineHeight to pixels.
                 if (this.line < this.base) {
@@ -133,6 +120,7 @@ class Rhythm {
             }
         }
     }
+
     /**
      * Find elements
      * @param selector
@@ -211,6 +199,7 @@ class Rhythm {
             // Need to wait before browser recalculate styles.
             this.window.setTimeout(callback, 500);
         };
+
         if (this.window.addEventListener) {
 
             this.window.addEventListener("resize", timeOutCallBack, false);
@@ -415,7 +404,7 @@ class Rhythm {
 
                 height = rhythmHeight;
                 // It's hack to delete white space after image.
-                if(this.cmpStr(element.tagName, "img")){
+                if (this.cmpStr(element.tagName, "img")) {
                     elCss = "display: block;\nwidth: " + width.toFixed(4) + "px;\nheight:" + height.toFixed(4) + "px;";
                 } else {
                     elCss = "width: " + width.toFixed(4) + "px;\nheight:" + height.toFixed(4) + "px;";
@@ -430,7 +419,7 @@ class Rhythm {
                 if (this.cmpStr(property, "margin-top") || this.cmpStr(property, "margin-bottom")
                     || this.cmpStr(property, "padding-top") || this.cmpStr(property, "padding-bottom")) {
                     let style = parseInt(this.css(element, property));
-                    if(!style){
+                    if (!style) {
                         style = 0;
                     }
                     elCss = "\n" + property + ": " + spacing + style + "px;";
@@ -439,12 +428,12 @@ class Rhythm {
 
                     let indent = Math.floor(spacing / 2);
                     let style = this.css(element, [property + "-top", property + "-bottom"]);
-                    if(!style[property + "Top"]){
+                    if (!style[property + "Top"]) {
                         style[property + "Top"] = 0;
                     } else {
                         style[property + "Top"] = parseInt(style[property + "Top"]);
                     }
-                    if(!style[property + "Bottom"]){
+                    if (!style[property + "Bottom"]) {
                         style[property + "Bottom"] = 0;
                     } else {
                         style[property + "Bottom"] = parseInt(style[property + "Bottom"]);
@@ -460,7 +449,7 @@ class Rhythm {
 
                 }
                 // It's hack to delete white space after image.
-                if(this.cmpStr(element.tagName, "img")){
+                if (this.cmpStr(element.tagName, "img")) {
                     elCss = "display: block;\nwidth: " + width + "px;\nheight:" + height + "px;" + elCss;
                 }
             }
@@ -495,7 +484,7 @@ class Rhythm {
             let code = value.charCodeAt(i);
 
             // It's Number
-            if(code > 47 && code < 58) {
+            if (code > 47 && code < 58) {
                 // Add Number
                 buffer[count] = code;
                 count++;
@@ -517,7 +506,7 @@ class Rhythm {
             } else if (code > 64 && code < 91) { // It's upper case letter
 
                 // If previous char is letter or number,
-                if ((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91)){
+                if ((prev > 47 && prev < 58) || (prev > 96 && prev < 123) || (prev > 64 && prev < 91)) {
                     code = code | 32; // toLowerCase
                 }
 
@@ -568,7 +557,6 @@ class Rhythm {
 
         return true;
     }
-
 
 
     /**
