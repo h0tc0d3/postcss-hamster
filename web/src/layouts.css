@@ -31,7 +31,7 @@
 .wrapper {
     margin: auto;
     font-size: fs base;
-    max-width: 52em;
+    max-width: 51em;
     padding-left: spacing(2);
 }
 
@@ -279,14 +279,15 @@
     /*background-color: rgba(0, 0, 1, 0.4);*/
     /*border-radius: spacing(.2);*/
 }
+
 .header__social-list {
-     display: inline-block;
-     margin: 0 0 0 spacing(.5);
-     padding: 0;
-     vertical-align: middle;
-     text-align: center;
+    display: inline-block;
+    margin: 0 0 0 spacing(.5);
+    padding: 0;
+    vertical-align: middle;
+    text-align: center;
     list-style: none;
- }
+}
 .header__social-item {
      display: inline-block;
      margin-right: spacing(.5);

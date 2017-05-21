@@ -490,7 +490,7 @@ code, pre {
 .wrapper {
 	margin: auto;
 	font-size: 1rem;
-	max-width: 52em;
+	max-width: 51em;
 	padding-left: 2.7rem;
 }
 
@@ -1337,7 +1337,7 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .wrapper {
 		margin: auto;
 		font-size: calc(0.8333vw + 11.3333px);
-		max-width: 52em;
+		max-width: 51em;
 		padding-left: calc(3.2083vw + 24.7333px);
 	}
     .content {
@@ -2111,7 +2111,7 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .wrapper {
 		margin: auto;
 		font-size: calc(0.2679vw + 15.8571px);
-		max-width: 52em;
+		max-width: 51em;
 		padding-left: calc(1.125vw + 41.4px);
 	}
     .content {
@@ -2884,7 +2884,7 @@ input[id="ruler-debug"]:checked ~ .ruler-debug{
     .wrapper {
 		margin: auto;
 		font-size: calc(1.0938vw);
-		max-width: 52em;
+		max-width: 51em;
 		padding-left: calc(3.7188vw - 8.4px);
 	}
     .content {
