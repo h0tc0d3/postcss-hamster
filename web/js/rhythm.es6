@@ -337,7 +337,6 @@ class Rhythm {
         let css = "";
 
         let elements = this.find(selector);
-
         for (let i = 0, elSize = elements.length; i < elSize; i++) {
 
             let element = elements[i];

@@ -55,18 +55,18 @@ plugins.push(
     new webpack.DefinePlugin({
         PRODUCTION: JSON.stringify(PRODUCTION)
     }),
-    // new HTMLWebpackPlugin({
-    //     chunks: ["app"],
-    //     filename: "index.html",
-    //     template: "./web/index.html",
-    //     minify: {
-    //         collapseWhitespace: true,
-    //         removeComments: true,
-    //         removeRedundantAttributes: true,
-    //         removeScriptTypeAttributes: true,
-    //         removeStyleLinkTypeAttributes: true
-    //     }
-    // }),
+    new HTMLWebpackPlugin({
+        chunks: ["app"],
+        filename: "index.html",
+        template: "./web/index.html",
+        minify: {
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true
+        }
+    }),
     new HTMLWebpackPlugin({
         chunks: ["app"],
         filename: "hamster-ru.html",
