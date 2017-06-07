@@ -7,6 +7,7 @@
     font-color: #303030;
     font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     unit: px;
+    legacy-browsers: true;
 }
 
 @baseline html;
@@ -27,6 +28,7 @@
 
 @hamster {
     px-fallback: false;
+    legacy-browsers: true;
 }
 
 @baseline html;

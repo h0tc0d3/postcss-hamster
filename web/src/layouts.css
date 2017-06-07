@@ -29,6 +29,7 @@
 }
 
 .wrapper {
+    box-sizing: border-box;
     max-width: spacing(30);
     margin: auto;
     overflow: hidden;
@@ -40,11 +41,13 @@
         padding-left: spacing(2);
         margin: auto;
         overflow: hidden;
+        box-sizing: border-box;
     }
 }
 
 .content {
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .content__section {
@@ -52,6 +55,7 @@
     padding: spacing(1);
     margin-bottom: spacing(1);
     border-radius: spacing(.25);
+    box-sizing: border-box;
 }
 
 .sidebar__navigation {
@@ -59,25 +63,26 @@
     top: 0;
     left: 0;
     height: 100vh;
-    width: spacing(2);
+    max-width: spacing(2);
+    box-sizing: border-box;
     overflow: hidden;
     z-index: 999;
     background: @footer-color;
     transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: overflow, width, display;
+    will-change: overflow, max-width, display;
 }
 
 .sidebar__navigation:hover,
 .sidebar__navigation.expanded {
-    width: spacing(11);
+    max-width: spacing(11);
     overflow: visible;
-    transition: width .1s ease-in;
+    transition: max-width .1s ease-in;
 }
 .sidebar__navigation.hide {
-    width: spacing(2);
+    max-width: spacing(2);
     overflow: hidden;
-    transition: width .1s ease-in;
+    transition: max-width .1s ease-in;
 }
 .sidebar__navigation-list {
     margin-top: spacing(2.875);
@@ -90,6 +95,7 @@
     line-height: lheight(1.25);
     margin: spacing(.75) 0;
     @ellipsis true;
+    box-sizing: border-box;
 }
 
 .sidebar__navigation-item_link {
@@ -97,6 +103,7 @@
     color: #fff;
     text-decoration: none;
     transition: background-color .1s ease-in, color .1s ease-in;
+    box-sizing: border-box;
 }
 
 .sidebar__navigation-item_link:hover,
@@ -115,10 +122,12 @@
 .sidebar__navigation-item_text {
     color: inherit;
     padding-left: spacing(.5);
+    box-sizing: border-box;
 }
 
 .sidebar__navigation-item_icon {
     padding-right: spacing(1);
+    box-sizing: border-box;
 }
 
 .header {
@@ -382,6 +391,7 @@
 
 .footer {
     overflow: hidden;
+    box-sizing: border-box;
     padding: spacing(1.5, 1);
     background: @footer-color;
     width: 100%;
