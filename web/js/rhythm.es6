@@ -305,7 +305,7 @@ class Rhythm {
         if (selector.constructor === Object) {
 
             node = selector.node;
-            node.textContent = "";
+            //node.textContent = "";
             wresize = selector.resize;
             property = selector.property;
             selector = selector.selector;

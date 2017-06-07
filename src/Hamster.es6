@@ -223,7 +223,7 @@ function hamster(options) {
         rulerScale: 1,
 
         browserFontSize: 16,
-        legacyBrowsers: true,
+        legacyBrowsers: false,
         removeComments: false,
         fontSizes: null
     };
