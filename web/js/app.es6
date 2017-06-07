@@ -1,6 +1,6 @@
 import Styles from "../css/style.css";
 import Rhythm from "./rhythm.es6";
-import "./prism.js";
+import "./prism.js";//
 
 let settings = {
     "property": "height-down",
@@ -12,9 +12,8 @@ let irhythm = new Rhythm(settings);
 let loading = irhythm.find(".loading")[0];
 let navigation = irhythm.find(".sidebar__navigation")[0];
 
-
 if (navigation && navigation.addEventListener) {
-    navigation.addEventListener("touchstart", () => {
+    navigation.addEventListener("touchend", () => {
         if(irhythm.class(navigation).match(/expanded/i)){
             irhythm.removeClass(navigation, "expanded");
             irhythm.addClass(navigation, "hide");

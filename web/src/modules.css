@@ -13,7 +13,7 @@
     text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 leading(.1, .25) rgba(0, 0, 0, 0.25);
-    transition: all .1s ease-in-out;
+    transition: background-color .1s ease-in-out, color .1s ease-in-out;
 }
 
 @define-mixin button $name, $color {
@@ -21,13 +21,10 @@
         @extend %button;
         background-color: $color;
         color: #fff;
-
-    /*border: leading(.1) solid $color;*/
     }
     .button-$name:hover {
          background-color: @background-color;
          color: $color;
-         transition: all .3s ease-in-out;
     }
 }
 
@@ -49,7 +46,6 @@
     adjust-font-size: fs small;
     margin-bottom: spacing(1 fs small);
     @hyphens;
-    /*font-style: italic;*/
     padding: spacing(1 fs small);
     background-color: @block-color;
     box-shadow: inset 0 0 0 1px #EAF6FB;
@@ -58,7 +54,7 @@
 @media screen and (min-width: 480px) {
     .block-info {
         padding-left: spacing(3.5 fs small);
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none slice' viewBox='0 0 8 8'%3E%3Cpath fill='%2302b3e4' d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%2302b3e4' d='M4.4 5.324h-.8v-2.46h.8zm0 1.42h-.8V5.89h.8zM3.76.63L.04 7.075c-.115.2.016.425.26.426h7.397c.242 0 .372-.226.258-.426C6.726 4.924 5.47 2.79 4.253.63c-.113-.174-.39-.174-.494 0z'/%3E%3C/svg%3E");
         background-size: spacing(1.5 fs small, 1.5 fs small);
         background-repeat: no-repeat;
         background-position: spacing(1 fs small) center;
@@ -87,8 +83,6 @@
     background: @code-color;
     color: @font-color;
     box-shadow: inset 0 0 0 1px #f5f5f5;
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }
 
 .block-margin {
@@ -142,11 +136,10 @@
 }
 
 .content__table {
-    font: inherit;
     display: inline-block;
     border-collapse: collapse;
     border-spacing: 0;
-    margin: spacing(1);
+    margin: spacing(1, .5);
     vertical-align: top;
 }
 
@@ -168,6 +161,18 @@
     color: @header-color;
 }
 
+.content__split {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.content__split-item_title {
+    adjust-font-size: fs base;
+    @extend %strong;
+}
+
 %icon {
      display: inline-block;
      vertical-align: middle;
@@ -181,9 +186,4 @@
     @extend %icon;
     background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27 viewBox%3D%270 0 24 24%27%3E%3Cpath fill%3D%27%2302b3e4%27 d%3D%27M18 24c-0.3 0-0.548-0.246-0.548-0.546V18c0-0.3 0.248-0.546 0.548-0.546h5.452  C23.754 17.454 24 17.7 24 18v5.454c0 0.3-0.246 0.546-0.548 0.546H18z M9.271 24c-0.298 0-0.543-0.246-0.543-0.546V18  c0-0.3 0.245-0.546 0.543-0.546h5.457c0.3 0 0.543 0.246 0.543 0.546v5.454c0 0.3-0.243 0.546-0.543 0.546H9.271z M0.548 24  C0.246 24 0 23.754 0 23.454V18c0-0.3 0.246-0.546 0.548-0.546H6c0.302 0 0.548 0.246 0.548 0.546v5.454C6.548 23.754 6.302 24 6 24  H0.548z M18 15.271c-0.3 0-0.548-0.244-0.548-0.542V9.272c0-0.299 0.248-0.545 0.548-0.545h5.452C23.754 8.727 24 8.973 24 9.272  v5.457c0 0.298-0.246 0.542-0.548 0.542H18z M9.271 15.271c-0.298 0-0.543-0.244-0.543-0.542V9.272c0-0.299 0.245-0.545 0.543-0.545  h5.457c0.3 0 0.543 0.246 0.543 0.545v5.457c0 0.298-0.243 0.542-0.543 0.542H9.271z M0.548 15.271C0.246 15.271 0 15.026 0 14.729  V9.272c0-0.299 0.246-0.545 0.548-0.545H6c0.302 0 0.548 0.246 0.548 0.545v5.457c0 0.298-0.246 0.542-0.548 0.542H0.548z M18 6.545  c-0.3 0-0.548-0.245-0.548-0.545V0.545C17.452 0.245 17.7 0 18 0h5.452C23.754 0 24 0.245 24 0.545V6c0 0.3-0.246 0.545-0.548 0.545  H18z M9.271 6.545C8.974 6.545 8.729 6.3 8.729 6V0.545C8.729 0.245 8.974 0 9.271 0h5.457c0.3 0 0.543 0.245 0.543 0.545V6  c0 0.3-0.243 0.545-0.543 0.545H9.271z M0.548 6.545C0.246 6.545 0 6.3 0 6V0.545C0 0.245 0.246 0 0.548 0H6  c0.302 0 0.548 0.245 0.548 0.545V6c0 0.3-0.246 0.545-0.548 0.545H0.548z%27%2F%3E%3C%2Fsvg%3E") no-repeat center center;
     background-size: spacing(.5, .5);
-}
-
-.content img {
-    transform: translateZ(0);
-    backface-visibility: hidden;
 }

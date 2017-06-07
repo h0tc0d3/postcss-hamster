@@ -9,7 +9,7 @@
     --remove-comments: true;
     /*  Vertical Rhythm settings */
     
-    --unit: rem;
+    --unit: px;
     --px-fallback: true;
     --rem-fallback: false;
     --properties: extend;

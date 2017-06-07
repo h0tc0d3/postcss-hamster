@@ -9,7 +9,6 @@
 }
 
 @paste full;
-
 /*
 @media screen and (max-width: 479px) {
     @ihamster {
@@ -47,7 +46,7 @@
 @media screen and (min-width: 1280px) and (max-width: 1599px) {
     @ihamster {
         --font-size: 19px;
-        --line-height: 1.5;
+        --line-height: 1.45;
     }
     @baseline html;
     @ruler;
@@ -58,7 +57,7 @@
 @media screen and (min-width: 1600px) and (max-width: 1919px){
     @ihamster {
         --font-size: 20px;
-        --line-height: 1.55;
+        --line-height: 1.5;
         --use-global: true;
     }
     @ruler;
@@ -66,7 +65,6 @@
     @hamster end;
 }
 */
-
 @media screen and (max-width: 799px) {
     @ihamster {
         --font-size: 14px;
@@ -85,7 +83,7 @@
     @ihamster {
         --font-size: 18px;
         --line-height: 1.4;
-        --to-font-size: 21px;
+        --to-font-size: 20px;
         --to-line-height: 1.5;
         --viewport: 800px 1920px;
         --unit: vw;
@@ -96,10 +94,10 @@
 }
 @media screen and (min-width: 1920px){
     @ihamster {
-        --font-size: 21px;
+        --font-size: 20px;
         --line-height: 1.5;
-        --to-font-size: 42px;
-        --to-line-height: 1.6;
+        --to-font-size: 40px;
+        --to-line-height: 1.55;
         --viewport: 1920px 3840px;
         --unit: vw;
     }

@@ -4,6 +4,7 @@
 
 %hlight {
     color: @sheader-color;
+    font-weight: 500;
 }
 
 h1 {
@@ -11,15 +12,14 @@ h1 {
     font-weight: 600;
     adjust-font-size: fs xxl;
     color: #fff;
-    margin-top: spacing(1);
-    margin-bottom: spacing(1);
+    margin: spacing(1) 0;
 }
 
 h2 {
     @extend %strong;
     color: @header-color;
     adjust-font-size: fs xl;
-    margin-top: spacing(2);
+    margin-top: 0;
     margin-bottom: spacing(1);
     padding-left: spacing(1);
     padding-right: spacing(1);
@@ -30,7 +30,7 @@ h2 {
 h3 {
     @extend %hlight;
     adjust-font-size: fs l;
-    margin-top: spacing(2);
+    margin-top: spacing(1);
     margin-bottom: spacing(1);
 }
 
@@ -38,18 +38,21 @@ h4 {
     @extend %hlight;
     adjust-font-size: fs m;
     margin-top: spacing(1);
+    margin-bottom: 0;
 }
 
 h5 {
     @extend %hlight;
     adjust-font-size: fs b;
     margin-top: spacing(1);
+    margin-bottom: 0;
 }
 
 h6 {
     @extend %hlight;
     adjust-font-size: fs s;
     margin-top: spacing(1);
+    margin-bottom: 0;
 }
 
 strong {
@@ -59,6 +62,7 @@ strong {
 p {
     adjust-font-size: fs b;
     @hyphens;
+    margin-top: 0;
     margin-bottom: spacing(1);
 }
 

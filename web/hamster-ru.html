@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ru-RU">
+<html lang="ru">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Hamster Framework</title>
+    <meta name="description"
+          content="Инструмент, упрощающий поддержу вертикального ритма, адаптивной и отзывчивой типографики на вашем сайте.">
 </head>
 
 <body>
-<div class="body__background"></div>
+<div class="body__background">
 <div class="loading">
     <div class="loading__wrapper">
         <span class="loading__wrapper-circle_1"></span>
@@ -236,15 +238,6 @@ gulp.task("default", ["css"]);</code></pre>
         <section class="content__section" id="tuning">
             <h2>Настройка</h2>
 
-            <div class="block-iframe">
-                <!--<iframe src="https://www.youtube.com/embed/jbYBGKSxyac?rel=0&amp;showinfo=0" width="640" height="360"-->
-                <!--class="block-center"-->
-                <!--allowfullscreen></iframe>-->
-            </div>
-
-            <h3>Настройка PostCSS Hamster</h3>
-
-
             <p>Для настройки проекта вам необходимо внести блок <strong>@hamster {}</strong> в ваш CSS файл.</p>
 
             <div class="block-info">Будьте внимательны, блок настроек <strong>@hamster {}</strong> должен находится
@@ -351,147 +344,145 @@ gulp.task("default", ["css"]);</code></pre>
                 предопределенный список алиасов.
             </p>
             <div class="tblock-center">
-                <div class="content__table">
-                    <table>
-                        <tr class="content__table-line_first">
-                            <td class="content__table-column">Name</td>
-                            <td class="content__table-column">Ratio</td>
-                            <td class="content__table-column">Value</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">golden</td>
-                            <td class="content__table-column">1:1.618</td>
-                            <td class="content__table-column">1.618</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">double-octave</td>
-                            <td class="content__table-column">1:4</td>
-                            <td class="content__table-column">4</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">major-twelfth</td>
-                            <td class="content__table-column">1:3</td>
-                            <td class="content__table-column">3</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">major-eleventh</td>
-                            <td class="content__table-column">3:8</td>
-                            <td class="content__table-column">2.667</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">major-tenth</td>
-                            <td class="content__table-column">2:5</td>
-                            <td class="content__table-column">2.5</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">octave</td>
-                            <td class="content__table-column">1:2</td>
-                            <td class="content__table-column">2</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">major-seventh</td>
-                            <td class="content__table-column">8:15</td>
-                            <td class="content__table-column">1.875</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">minor-seventh</td>
-                            <td class="content__table-column">9:16</td>
-                            <td class="content__table-column">1.778</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">major-sixth</td>
-                            <td class="content__table-column">3:5</td>
-                            <td class="content__table-column">1.667</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">minor-sixth</td>
-                            <td class="content__table-column">5:8</td>
-                            <td class="content__table-column">1.6</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">fifth</td>
-                            <td class="content__table-column">2:3</td>
-                            <td class="content__table-column">1.5</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">augmented-fourth</td>
-                            <td class="content__table-column">1:√2</td>
-                            <td class="content__table-column">1.414</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">fourth</td>
-                            <td class="content__table-column">3:4</td>
-                            <td class="content__table-column">1.333</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">major-third</td>
-                            <td class="content__table-column">4:5</td>
-                            <td class="content__table-column">1.25</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">minor-third</td>
-                            <td class="content__table-column">5:6</td>
-                            <td class="content__table-column">1.2</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">major-second</td>
-                            <td class="content__table-column">8:9</td>
-                            <td class="content__table-column">1.125</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">minor-second</td>
-                            <td class="content__table-column">15:16</td>
-                            <td class="content__table-column">1.067</td>
-                        </tr>
-                    </table>
-                    <table>
-                        <tr class="content__table-line_first">
-                            <td class="content__table-column">Alias</td>
-                            <td class="content__table-column">Short Alias</td>
-                            <td class="content__table-column">Size</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">tiny</td>
-                            <td class="content__table-column">t</td>
-                            <td class="content__table-column">-2</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">small</td>
-                            <td class="content__table-column">s</td>
-                            <td class="content__table-column">-1</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">base</td>
-                            <td class="content__table-column">b</td>
-                            <td class="content__table-column">0</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">medium</td>
-                            <td class="content__table-column">m</td>
-                            <td class="content__table-column">1</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">large</td>
-                            <td class="content__table-column">l</td>
-                            <td class="content__table-column">2</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">xlarge</td>
-                            <td class="content__table-column">xl</td>
-                            <td class="content__table-column">3</td>
-                        </tr>
-                        <tr>
-                            <td class="content__table-column">xxlarge</td>
-                            <td class="content__table-column">xxl</td>
-                            <td class="content__table-column">4</td>
-                        </tr>
-                        <tr class="content__table-line">
-                            <td class="content__table-column">xxxlarge</td>
-                            <td class="content__table-column">xxxl</td>
-                            <td class="content__table-column">5</td>
-                        </tr>
-                    </table>
-                </div>
+                <table class="content__table">
+                    <tr class="content__table-line_first">
+                        <td class="content__table-column">Name</td>
+                        <td class="content__table-column">Ratio</td>
+                        <td class="content__table-column">Value</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">golden</td>
+                        <td class="content__table-column">1:1.618</td>
+                        <td class="content__table-column">1.618</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">double-octave</td>
+                        <td class="content__table-column">1:4</td>
+                        <td class="content__table-column">4</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">major-twelfth</td>
+                        <td class="content__table-column">1:3</td>
+                        <td class="content__table-column">3</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">major-eleventh</td>
+                        <td class="content__table-column">3:8</td>
+                        <td class="content__table-column">2.667</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">major-tenth</td>
+                        <td class="content__table-column">2:5</td>
+                        <td class="content__table-column">2.5</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">octave</td>
+                        <td class="content__table-column">1:2</td>
+                        <td class="content__table-column">2</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">major-seventh</td>
+                        <td class="content__table-column">8:15</td>
+                        <td class="content__table-column">1.875</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">minor-seventh</td>
+                        <td class="content__table-column">9:16</td>
+                        <td class="content__table-column">1.778</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">major-sixth</td>
+                        <td class="content__table-column">3:5</td>
+                        <td class="content__table-column">1.667</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">minor-sixth</td>
+                        <td class="content__table-column">5:8</td>
+                        <td class="content__table-column">1.6</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">fifth</td>
+                        <td class="content__table-column">2:3</td>
+                        <td class="content__table-column">1.5</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">augmented-fourth</td>
+                        <td class="content__table-column">1:√2</td>
+                        <td class="content__table-column">1.414</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">fourth</td>
+                        <td class="content__table-column">3:4</td>
+                        <td class="content__table-column">1.333</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">major-third</td>
+                        <td class="content__table-column">4:5</td>
+                        <td class="content__table-column">1.25</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">minor-third</td>
+                        <td class="content__table-column">5:6</td>
+                        <td class="content__table-column">1.2</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">major-second</td>
+                        <td class="content__table-column">8:9</td>
+                        <td class="content__table-column">1.125</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">minor-second</td>
+                        <td class="content__table-column">15:16</td>
+                        <td class="content__table-column">1.067</td>
+                    </tr>
+                </table>
+                <table class="content__table">
+                    <tr class="content__table-line_first">
+                        <td class="content__table-column">Alias</td>
+                        <td class="content__table-column">Short Alias</td>
+                        <td class="content__table-column">Size</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">tiny</td>
+                        <td class="content__table-column">t</td>
+                        <td class="content__table-column">-2</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">small</td>
+                        <td class="content__table-column">s</td>
+                        <td class="content__table-column">-1</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">base</td>
+                        <td class="content__table-column">b</td>
+                        <td class="content__table-column">0</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">medium</td>
+                        <td class="content__table-column">m</td>
+                        <td class="content__table-column">1</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">large</td>
+                        <td class="content__table-column">l</td>
+                        <td class="content__table-column">2</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">xlarge</td>
+                        <td class="content__table-column">xl</td>
+                        <td class="content__table-column">3</td>
+                    </tr>
+                    <tr>
+                        <td class="content__table-column">xxlarge</td>
+                        <td class="content__table-column">xxl</td>
+                        <td class="content__table-column">4</td>
+                    </tr>
+                    <tr class="content__table-line">
+                        <td class="content__table-column">xxxlarge</td>
+                        <td class="content__table-column">xxxl</td>
+                        <td class="content__table-column">5</td>
+                    </tr>
+                </table>
             </div>
 
             <p>
@@ -804,15 +795,31 @@ body {
                 контейнера. Смотрите пример ниже.
             <p><strong>@ellipsis true;</strong> - То же самое, что @ellipsis; и @nowrap; одновременно.</p>
             <div class="ellipsis">Длинный текст, который будет вписан в прямоугольник контейнера.</div>
-            <p><strong>@hyphens;</strong> - Добавляет <strong>word-wrap: break-word; hyphens: auto;</strong>. Включает
+            <p><strong>@hyphens;</strong> - Добавляет <strong>word-wrap: break-word; overflow-wrap: break-word; hyphens: auto;</strong>. Включает
                 автоматический перенос слов в тексте, что делает текст более читаемым чем с text-align: left; или
                 text-align: justify;
             </p>
 
-            <p><strong>@break-word;</strong> - Добавляет <strong>word-break: break-word; word-break: break-all;</strong>.
-                Разрешает жесткий перенос слов на следующую строку. Будьте внимательны, @break-word может ломать слова
+            <p><strong>@break-word;</strong> - Разрешает жесткий перенос слов на следующую строку. Будьте внимательны, @break-word может ломать слова
                 где угодно. @hyphens; делает перенос на следующую строку более мягко.
             </p>
+            <div class="content__split">
+                <div class="content__split-item">
+                    <div class="content__split-item_title">Before</div>
+                    <div class="block-code">
+                        <pre><code class="language-css">@break-word;</code></pre>
+                    </div>
+                </div>
+                <div class="content__split-item">
+                    <div class="content__split-item_title">After</div>
+                    <div class="block-code">
+<pre><code class="language-css">word-wrap: break-word;
+overflow-wrap: break-word;
+word-break: break-all;
+</code></pre>
+                    </div>
+                </div>
+            </div>
             <p><strong>@hyphens true;</strong> - То же самое, что @break-word;, а затем @hyphens;.</p>
             <p>
                 <strong>fontsize</strong> или короткая запись <strong>fs</strong> - Записывает размер шрифта в
@@ -1226,19 +1233,16 @@ irhythm.load(function() {
                 переживаете за производительность, то код работает практически мгновенно. Смотрите картинку слева. Код
                 был максимально оптимизирован и такой результат оптимизации многими программистам просто не достижим.
             </p>
-            <div class="block-info">Метод <strong>fix</strong> желательно использовать перед методом
-                <strong>rhythm</strong>. Это необходимо например, если вы их применяете для одного и того же элемента и
-                вам нужны правильные отступы в методе rhythm.
-            </div>
         </section>
     </main>
 </div>
-<footer class="footer">
-    <div id="copyright">
-        <a class="footer-link" href="#" title="Copyright © 2017 PostCSS Hamster. All rights reserved.">
-            Copyright © 2017 PostCSS Hamster. All rights reserved.
-        </a>
-    </div>
-</footer>
+    <footer class="footer">
+        <div id="copyright">
+            <a class="footer-link" href="#" title="Copyright © 2017 Hamster Hamster. All rights reserved.">
+                Copyright © 2017 Hamster Framework. All rights reserved.
+            </a>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

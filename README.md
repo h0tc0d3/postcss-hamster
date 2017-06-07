@@ -4,11 +4,11 @@ Typography, Vertical Rhythm, Modular Scale, Fluid Responsive Typography function
 
 Hamster Framework - it's the language of macros and functions, which in the future can be easily transformed into css code and any units. Easy adapted to any user browser resolution.
 
-If your company uses the plugin, then you can contact me and I can attach for free your company logo in main page https://h0tc0d3.github.io/hamster/.
+If your company uses the plugin, then you can contact me and I can attach for free your company logo in main page https://hamster.im.
 
 Support / Discussion: [Gitter](https://gitter.im/postcss-hamster/hamster).
 
-Documentation: [RU](https://h0tc0d3.github.io/hamster/hamster-ru.html)
+Documentation: [RU](https://hamster.im/hamster-ru.html)
 
 Big article with examples how to use Hamster Framework [RUSSIAN](https://habrahabr.ru/post/328812/)
 

@@ -288,8 +288,8 @@ class Rhythm {
      * @param element
      */
     class(element) {
-        let result = (element.classList) ? element.classList : element.className;
-        return (result) ? result.toString() : "";
+        let result = (element.classList) ? element.classList.toString() : element.className;
+        return (result) ? result : "";
     }
 
     /**

@@ -7,7 +7,7 @@
 ## 1.1.0
 - Performance optimization and refactoring.
 
-## 1.2.0
+## 1.2.0 - beta
 - Add postcss 6 support.
 - Add @sanitize - add sanitize.css(fork normalize)
 - Update Normalize to v7
@@ -27,3 +27,8 @@
 - Add use-global: true setting. It's calculate ratio = localFontSize / globalFontSize.
 And all value will multiplied with this ration. It's make responsive sizes in em and rem
  without establish baseline.
+ 
+## 1.3.0
+- Fix PX rhythm grid.
+- Add macros @center; @center flex; @center transform;
+- Add macros @hide; @hide text;

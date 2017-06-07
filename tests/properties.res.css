@@ -80,21 +80,68 @@ test13 {
 
 test14 {
   word-wrap: break-word;
+  overflow-wrap: break-word;
   hyphens: auto;
 }
 
 /* htest properties: extend; @hyphens true; */
 
 test15 {
-  word-break: break-word;
-  word-break: break-all;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
   hyphens: auto;
 }
 
 /* htest properties: extend; @break-word; */
 
 test16 {
-  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: break-all;
+}
+
+/* htest properties: extend; @center; */
+
+test17 {
+  display: block;
+  margin: auto;
+}
+
+/* htest properties: extend; @center flex; */
+
+test18 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* htest properties: extend; @center transform; */
+
+test19 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* htest properties: extend; @hide; */
+
+test20 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* htest properties: extend; @hide text; */
+
+test21 {
+  overflow: hidden;
+  text-indent: 101%;
+  white-space: nowrap;
 }

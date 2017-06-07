@@ -248,14 +248,12 @@ class FontSizes {
             size = this.aliases[size];
         }
 
-        let result;
+        let result = null;
 
         if (size in this.fontSizes) {
             result = this.fontSizes[size];
-        } else {
-            if (size.match(/^[-0-9]+$/)) {
-                result = this.genSize(size);
-            }
+        } else if (size.match(/^[-0-9]+$/)) {
+            result = this.genSize(parseInt(size));
         }
         //console.log(size + ": " + JSON.stringify(result, null , 2) + " " + (size in this.fontSizes).toString());
         return result;

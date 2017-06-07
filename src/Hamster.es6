@@ -62,13 +62,47 @@ const helpers = {
     ellipsis: "\n  overflow: hidden;" +
     "\n  text-overflow: ellipsis;\n",
 
+    ellipsisTrue: "\n  white-space: nowrap;" +
+    "\n  overflow: hidden;" +
+    "\n  text-overflow: ellipsis;\n",
+
     hyphens: "\n  word-wrap: break-word;" +
+    "\n  overflow-wrap: break-word;" +
     "\n  hyphens: auto;\n",
 
-    breakWord: /* Non standard for webkit */
-    "\n  word-break: break-word;" +
-    /* Warning: Needed for oldIE support, but words are broken up letter-by-letter */
-    "\n  word-break: break-all;\n"
+    hyphensTrue: "\n  word-wrap: break-word;" +
+    "\n  overflow-wrap: break-word;" +
+    "\n  word-break: break-all;" +
+    "\n  hyphens: auto;\n",
+
+    breakWord: "\n  word-wrap: break-word;" +
+    "\n  overflow-wrap: break-word;" +
+    "\n  word-break: break-all;\n",
+
+    center: "\n  display: block;" +
+    "\n  margin: auto;\n",
+
+    centerTransform: "\n  position: absolute;" +
+    "\n  top: 50%;" +
+    "\n  left: 50%;" +
+    "\n  transform: translate(-50%, -50%);\n",
+
+    centerFlex: "\n  display: flex;" +
+    "\n  align-items: center;" +
+    "\n  justify-content: center;\n",
+
+    hide: "\n  position: absolute;" +
+    "\n  width: 1px;" +
+    "\n  height: 1px;" +
+    "\n  padding: 0;" +
+    "\n  margin: -1px;" +
+    "\n  overflow: hidden;" +
+    "\n  clip: rect(0, 0, 0, 0);" +
+    "\n  border: 0;\n",
+
+    hideText: "\n  overflow: hidden;" +
+    "\n  text-indent: 101%;" +
+    "\n  white-space: nowrap;\n"
 };
 
 // fontSize property Regexp
@@ -300,7 +334,7 @@ function hamster(options) {
         settingsRegexp = new RegExp("\\@(" + settingsKeysString + ")", "i");
     };
 
-    const walkAtRule = (rule) => {
+    const walkAtRule = (rule, result) => {
 
         if (cmpStr(rule.name, "hamster")) {
 
@@ -332,50 +366,46 @@ function hamster(options) {
             rule.remove();
 
         } else if (cmpStr(rule.name, "ellipsis") || cmpStr(rule.name, "nowrap") ||
-            cmpStr(rule.name, "forcewrap") || cmpStr(rule.name, "hyphens") || cmpStr(rule.name, "break-word")) {
+            cmpStr(rule.name, "forcewrap") || cmpStr(rule.name, "hyphens") || cmpStr(rule.name, "break-word")
+            || cmpStr(rule.name, "hide") || cmpStr(rule.name, "center")) {
 
-            let property = toCamelCase(rule.name);
+            let property = toCamelCase(rule.name + "-" + rule.params);
+            if(helpers.hasOwnProperty(property)) {
+                let decls = helpers[property];
+                if (cmpStr(settings.properties, "inline")) {
 
-            let decls = helpers[property];
-
-            if (cmpStr(property, "hyphens") && cmpStr(rule.params, "true")) {
-                decls = helpers.breakWord + decls;
-            } else if (cmpStr(property, "ellipsis") && cmpStr(rule.params, "true")) {
-                decls = helpers.nowrap + decls;
-            }
-
-            if (cmpStr(settings.properties, "inline")) {
-
-                let idecls = postcss.parse(decls);
-                rule.parent.insertBefore(rule, idecls);
-
-            } else {
-
-                let extendName = toCamelCase(property + rule.params);
-
-                if (!extendNodes.hasOwnProperty(extendName)) {
-
-                    // Save extend info
-                    extendNodes[extendName] = {
-                        selector: rule.parent.selector,
-                        decls: decls,
-                        parents: [rule.parent],
-                        prev: rule.prev(),
-                        source: rule.source,
-                        count: 1
-                    };
+                    let idecls = postcss.parse(decls);
+                    rule.parent.insertBefore(rule, idecls);
 
                 } else {
 
-                    //Append selector and update counter
-                    extendNodes[extendName].selector = extendNodes[extendName].selector + ", " + rule.parent.selector;
-                    extendNodes[extendName].parents.push(rule.parent);
-                    extendNodes[extendName].count++;
+                    if (!extendNodes.hasOwnProperty(property)) {
 
+                        // Save extend info
+                        extendNodes[property] = {
+                            selector: rule.parent.selector,
+                            decls: decls,
+                            parents: [rule.parent],
+                            prev: rule.prev(),
+                            source: rule.source,
+                            count: 1
+                        };
+
+                    } else {
+
+                        //Append selector and update counter
+                        extendNodes[property].selector = extendNodes[property].selector + ", " + rule.parent.selector;
+                        extendNodes[property].parents.push(rule.parent);
+                        extendNodes[property].count++;
+
+                    }
                 }
-            }
 
-            rule.remove();
+                rule.remove();
+            } else {
+                rule.warn(result, "Hamster Framework: property " + rule.name + " parameters: " + rule.params + "not" +
+                " found!");
+            }
 
         } else if (cmpStr(rule.name, "reset") || cmpStr(rule.name, "normalize")
             || cmpStr(rule.name, "sanitize") || cmpStr(rule.name, "box-sizing-reset")) {
@@ -507,8 +537,8 @@ function hamster(options) {
                 gthickness = gthickness * 2;
                 let lineHeight = (settings.unit === UNIT.VW)
                     ? vwValue(settings.lineHeightM, settings.lineHeightB, 1)
-                    : (settings.lineHeight >= settings.fontSize)
-                        ? settings.lineHeight + unitName[UNIT.PX]
+                    : (settings.unit === UNIT.PX)
+                        ? settings.lineHeightPx + unitName[UNIT.PX]
                         : settings.lineHeight + unitName[settings.unit];
 
                 background = "\n  background-image: linear-gradient(to top, " +
@@ -587,7 +617,7 @@ function hamster(options) {
 
             if (rulerRule) {
                 rulerRule.source = rule.source;
-                walkDecls(rulerRule);
+                walkDecls(rulerRule, result);
                 rule.parent.insertBefore(rule, rulerRule);
             }
 
@@ -596,16 +626,16 @@ function hamster(options) {
         // Walk in media queries
         rule.walk(child => {
             if(cmpStr(child.type, "atrule")){
-                walkAtRule(child);
+                walkAtRule(child, result);
             } else if (cmpStr(child.type, "rule")) {
                 // Walk decls in atrule
-                walkDecls(child);
+                walkDecls(child, result);
             }
 
         });
     };
 
-    const walkDecls = (node) => {
+    const walkDecls = (node, result) => {
 
         let ruleFontSize;
 
@@ -628,7 +658,11 @@ function hamster(options) {
                 // Replace Variables with values
                 while ((found = decl.value.match(settingsRegexp))) {
                     let variable = toCamelCase(found[1]);
-                    decl.value = decl.value.replace(found[0], settings[variable]);
+                    if(settings.hasOwnProperty(variable)){
+                        decl.value = decl.value.replace(found[0], settings[variable]);
+                    } else {
+                        decl.warn(result, "Hamster Framework: Variable @" + found[0] + " not defined!");
+                    }
 
                 }
 
@@ -641,30 +675,33 @@ function hamster(options) {
 
                     let size = fontSizes.getSize(fontSize);
                     // Write font size
-                    if(sizeUnit === UNIT.VW) {
-                        if(decl.value.match(rhythmRegexp)){
-                            fontSize = size.rel + "rem";
+                    if(size){
+                        if(sizeUnit === UNIT.VW) {
+                            if(decl.value.match(rhythmRegexp)){
+                                fontSize = size.rel + "rem";
+                            } else {
+                                fontSize = vwValue(settings.fontSizeM, settings.fontSizeB, size.rel);
+                            }
+                            // Save relative font-size in current rule
+                            if(cmpStr(decl.prop, "font-size") || cmpStr(decl.prop, "adjust-font-size")){
+                                ruleFontSize = size.rel + "rem";
+                            }
+
                         } else {
-                            fontSize = vwValue(settings.fontSizeM, settings.fontSizeB, size.rel);
-                        }
-                        // Save relative font-size in current rule
-                        if(cmpStr(decl.prop, "font-size") || cmpStr(decl.prop, "adjust-font-size")){
-                            ruleFontSize = size.rel + "rem";
+                            if(settings.useGlobal && (settings.unit === UNIT.EM || settings.unit === UNIT.REM)){
+                                fontSize = formatValue(size.rel * settings.globalRatio) + unitName[sizeUnit];
+                            } else {
+                                fontSize = (sizeUnit === UNIT.PX)
+                                    ? formatInt(size.px) + "px"
+                                    : formatValue(size.rel) + unitName[sizeUnit];
+                            }
+
                         }
 
+                        decl.value = decl.value.replace(found[0], fontSize);
                     } else {
-                        if(settings.useGlobal && (settings.unit === UNIT.EM || settings.unit === UNIT.REM)){
-                            fontSize = formatValue(size.rel * settings.globalRatio) + unitName[sizeUnit];
-                        } else {
-                            fontSize = (sizeUnit === UNIT.PX)
-                                ? formatInt(size.px) + "px"
-                                : formatValue(size.rel) + unitName[sizeUnit];
-                        }
-
+                        decl.warn(result, "Hamster Framework: fontsize " + found[0] + " not found!");
                     }
-
-
-                    decl.value = decl.value.replace(found[0], fontSize);
 
                 }
 
@@ -821,7 +858,7 @@ function hamster(options) {
         });
     };
 
-    return (css) => {
+    return (css, result) => {
 
         // @copy and @paste nodes;
         let copyPasteNode = {};
@@ -860,12 +897,12 @@ function hamster(options) {
 
             if (cmpStr(node.type, "atrule")) {
 
-                walkAtRule(node);
+                walkAtRule(node, result);
 
             } else if (cmpStr(node.type, "rule")) {
 
                 // Walk decls in rule
-                walkDecls(node);
+                walkDecls(node, result);
 
             } else if (settings.removeComments && cmpStr(node.type, "comment")) {
                 node.remove();

@@ -29,31 +29,102 @@
 }
 
 .wrapper {
+    max-width: spacing(30);
     margin: auto;
-    font-size: fs base;
-    max-width: 51em;
-    padding-left: spacing(2);
+    overflow: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+    .wrapper {
+        max-width: spacing(32);
+        padding-left: spacing(2);
+        margin: auto;
+        overflow: hidden;
+    }
 }
 
 .content {
-    height: 100%;
     overflow: hidden;
-    background: @wrapper-background;
-    padding: 0 spacing(1);
 }
 
 .content__section {
-    /*box-shadow: 0 0 spacing(1) 3px rgba(0,0,0, 0.1);*/
     background: @wrapper-background;
-    /*border-radius: spacing(.25);*/
+    padding: spacing(1);
+    margin-bottom: spacing(1);
+    border-radius: spacing(.25);
 }
 
+.sidebar__navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: spacing(2);
+    overflow: hidden;
+    z-index: 999;
+    background: @footer-color;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: overflow, width, display;
+}
+
+.sidebar__navigation:hover,
+.sidebar__navigation.expanded {
+    width: spacing(11);
+    overflow: visible;
+    transition: width .1s ease-in;
+}
+.sidebar__navigation.hide {
+    width: spacing(2);
+    overflow: hidden;
+    transition: width .1s ease-in;
+}
+.sidebar__navigation-list {
+    margin-top: spacing(2.875);
+    padding: 0 spacing(.5);
+}
+
+.sidebar__navigation-item {
+    position: relative;
+    list-style: none;
+    line-height: lheight(1.25);
+    margin: spacing(.75) 0;
+    @ellipsis true;
+}
+
+.sidebar__navigation-item_link {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color .1s ease-in, color .1s ease-in;
+}
+
+.sidebar__navigation-item_link:hover,
+.sidebar__navigation-item_link:active
+{
+    background-color: #fff;
+    color: @header-color;
+    border-right: spacing(.25) solid #FFCF00;
+}
+
+.sidebar__navigation-item_link:hover .sidebar__navigation-item_icon,
+.sidebar__navigation-item_link:active .sidebar__navigation-item_icon {
+    filter: invert(80%);
+}
+
+.sidebar__navigation-item_text {
+    color: inherit;
+    padding-left: spacing(.5);
+}
+
+.sidebar__navigation-item_icon {
+    padding-right: spacing(1);
+}
 
 .header {
-    z-index: 1200;
     position: relative;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
 }
 
 @keyframes panoramMove {
@@ -295,7 +366,7 @@
      height: spacing(1);
      width: spacing(1);
      border-radius: 50%;
-     transition: all .3s ease-in-out;
+     transition: box-shadow .3s ease-in-out;
      list-style: none;
  }
 .header__social-item:hover {
@@ -308,76 +379,6 @@
 .header__social-link:hover{
      color: @sheader-color;
  }
-
-.sidebar__navigation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: spacing(2);
-    z-index: 1000;
-    overflow: hidden;
-    transition: width .3s ease-in;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    background: @footer-color;
-}
-
-.sidebar__navigation:hover,
-.sidebar__navigation.expanded {
-    width: spacing(11);
-    overflow: visible;
-}
-
-.sidebar__navigation.hide {
-    width: spacing(2);
-    overflow: hidden;
-}
-.sidebar__navigation-list {
-    margin-top: spacing(2.875);
-    padding: 0 spacing(.5);
-}
-
-.sidebar__navigation-item {
-    position: relative;
-    display: block;
-    width: spacing(11);
-    /*adjust-font-size: fontsize small;*/
-    list-style: none;
-    line-height: lheight(1.25);
-    margin: spacing(.75) 0;
-}
-
-.sidebar__navigation-item_link:hover,
-.sidebar__navigation-item_link:active
-{
-    background-color: #fff;
-    color: @header-color;
-    border-right: spacing(.25) solid #FFCF00;
-}
-
-.sidebar__navigation-item_link:hover .sidebar__navigation-item_icon,
-.sidebar__navigation-item_link:active .sidebar__navigation-item_icon {
-    filter: invert(80%);
-}
-.sidebar__navigation-item_link {
-    display: block;
-    width: spacing(10);
-    color: #fff;
-    text-decoration: none;
-    transition: all .1s ease-in;
-    transform: translateZ(0) scale(1, 1);
-}
-
-.sidebar__navigation-item_text {
-    color: inherit;
-    width: 100%;
-    padding-left: spacing(.5);
-}
-
-.sidebar__navigation-item_icon {
-    padding-right: spacing(1);
-}
 
 .footer {
     overflow: hidden;

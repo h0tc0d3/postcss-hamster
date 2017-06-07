@@ -43,8 +43,8 @@ test6 {
 /* htest properties: extend; @nowrap; */
 
 @ihamster {
-      properties: extend;
-  }
+    properties: extend;
+}
 
 test7 {
     @nowrap;
@@ -97,4 +97,34 @@ test15 {
 
 test16 {
     @break-word;
+}
+
+/* htest properties: extend; @center; */
+
+test17 {
+    @center;
+}
+
+/* htest properties: extend; @center flex; */
+
+test18 {
+    @center flex;
+}
+
+/* htest properties: extend; @center transform; */
+
+test19 {
+    @center transform;
+}
+
+/* htest properties: extend; @hide; */
+
+test20 {
+    @hide;
+}
+
+/* htest properties: extend; @hide text; */
+
+test21 {
+    @hide text;
 }
